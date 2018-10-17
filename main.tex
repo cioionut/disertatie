@@ -1,0 +1,134 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[romanian]{babel}
+\usepackage{graphicx}
+\usepackage[a4paper,left=30mm,right=20mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage[nottoc]{tocbibind}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0,7em}
+\renewcommand{\baselinestretch}{1.5}
+
+\usepackage{fancyhdr}
+\fancyhead{}
+\fancyhead[RO,LE]{\leftmark}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+%\fancyfoot[LO,CE]{Capitolul \thechapter}
+%\fancyfoot[CO,RE]{Ionut N. Ciocoiu}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+\graphicspath{ {imagini/} }
+
+
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=false, %set true if you want colored links
+	linktoc=all,     %set to all if you want both sections and subsections linked
+	linkcolor=black,  %choose some color if you want links to stand out
+}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+%\usepackage{natbib}
+\usepackage[square,numbers]{natbib}
+%\bibliographystyle{abbrvnat}
+\bibliographystyle{unsrtnat}
+%\setcitestyle{numbers, authoryear,open={(},close={)}}
+
+\hyphenation{Numpy}
+
+\newtheorem{teo}{Teorema}[chapter]
+\newtheorem{lema}[teo]{Lema}
+\newtheorem{dfn}[teo]{Definiția}
+\newtheorem{cor}[teo]{Corolar}
+\newtheorem{prop}[teo]{Propoziția}
+\newtheorem{obs}[teo]{Observația} 
+\newtheorem{exm}[teo]{Exemplu}
+
+\usepackage{listings}
+
+\definecolor{cred}{RGB}{230,25,60}
+\definecolor{cgreen}{RGB}{41,163,41}
+\definecolor{cmagenta}{RGB}{230,25,195}
+\definecolor{cviolet}{RGB}{173,43,238}
+\definecolor{corange}{RGB}{135,113,29}
+\definecolor{cyellow}{RGB}{152,152,27}
+\definecolor{cblue}{RGB}{61,98,245}
+\definecolor{backcolour}{RGB}{244, 251, 244}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{cgreen},
+	keywordstyle=\color{cblue},
+	numberstyle=\tiny\color{corange},
+	stringstyle=\color{cmagenta},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=10pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\renewcommand{\lstlistlistingname}{Lista porțiunilor de cod}
+\begin{document}
+	\include{titlepage}
+	%\chapter*{Abstract}
+	%Abstract goes here
+	
+	%\chapter*{Dedication}
+	%To mum and dad
+	
+	%\chapter*{Declaration}
+	%I declare that..
+	
+	%\chapter*{Acknowledgements}
+	%I want to thank...
+	
+	\tableofcontents
+	
+	\listoffigures
+
+	%\listoftables
+	
+	\lstlistoflistings
+	
+	\include{capitole/capitolul01}
+	
+	
+	\include{capitole/capitolul02}
+	
+	
+	\include{capitole/capitolul03}
+	
+	
+	\include{capitole/capitolul04}
+
+	
+	\include{capitole/concluzii}
+	
+	\bibliography{bibliografie}
+	
+	\fancyhf{}
+	
+	\rfoot{\thepage}
+	
+	\renewcommand{\thesection}{} % nu numeroteaza anexele
+	\addcontentsline{toc}{section}{Anexe} % adauga Anexe in Cuprins
+	\include{capitole/anexe} % afiseaza anexele
+
+\end{document}
