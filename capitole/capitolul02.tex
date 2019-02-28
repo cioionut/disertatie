@@ -22,7 +22,7 @@ Componenta cheie a rețelelor neuronale din PyTorch este pachetul \textit{autogr
 \textit{torch.Tensor} este clasa centrală a pachetului. Dacă se setează atributul \texttt{.requires\_grad} ca  \texttt{True}, se va începe urmărirea tuturor operațiilor în care acesta intervine. După ce se termină calculul, se poate apela \texttt{ backward()} pentru a calcula automat toate derivatele, iar gradientul pentru acest tensor va fi acumulat în atributul \texttt{.grad}.
 
 Pentru a opri tensorul din istoricul de urmărire, se apelează \texttt{.detach()} care detașează tensorul de istoricul de calcul și care împiedica urmărirea viitoarelor calcule.
-
+ 
 Mai există încă o clasă care este foarte importantă pentru implementarea autodiferențierii - și anume \textit{Function}.
 
-Tensorul și funcția sunt interconectate și construiesc un graf aciclic, care codifică un istoric complet al calculelor. Fiecare tensor are un atribut  \texttt{.grad\_fn} care se referă la o funcție care a creat tensorul (cu excepția tensorurilor creați de utilizator - \texttt{.grad\_fn = None}).
+Tensorul și funcția sunt interconectate și construiesc un graf aciclic, care codifică un istoric complet al calculelor. Fiecare tensor are un atribut  \texttt{.grad\_fn} care se referă la o funcție care a creat tensorul (cu excepția tensorurilor creați de utilizator unde - \texttt{.grad\_fn = None}).
