@@ -7,8 +7,8 @@ Rețelele neuronale recurente (RNN - Recurent Neural Networks), sunt o arhitectu
 Figura \ref{fig:rnn_arch} prezintă arhitectura unei rețele recurente, unde fiecare dreptunghi ține locul stratului ascuns de la pasul, $t$. Fiecare strat ascuns este format din perceptroni care execută operația de inmulțire intre parametrii și input, urmată de o operație nonlineară (ex.$ tanh$). La fiecare pas din timp, ieșirea de la pasul anterior, împreună cu vectorul următorului cuvânt, $x_t$, sunt intrări în stratul ascuns care produce pentru pasul următor, iețirea $y$, și vectorul de caracteristici al stratului ascuns, $h$.
 
 
-$$h_t = \sigma{(W^{(hh)} h_{t-1} + W^{(hx)} x_{[t]})}$$
-$$y = softmax(W^{(S)} h_t)$$
+$$ h_t = \sigma{(W^{(hh)} h_{t-1} + W^{(hx)} x_{[t]})} $$
+$$ y_t = softmax(W^{(S)} h_t) $$
 
 
 \begin{figure}[h]
@@ -25,11 +25,29 @@ Descrierea parametrilor din rețea:
 	\item $h_t = \sigma{(W^{(hh)} h_{t-1} + W^{(hx)} x_{[t]})}$: formula care descrie calculul vectorului de caracteristici, $h_t$, la fiecare pas $t$:
 	
 	\begin{itemize}
-		\item $x_t \in {\rm I\!R}^d$ vectorul cuvântului $t$
-		 
+		\item $ x_t \in {\rm I\!R}^d $ vectorul cuvântului $t$
+		\item $ W^{hx} \in {\rm I\!R}^{D_h \times d} $ matricea proderilor utilizată la condiționarea vectorului de intrare, $x_t$
+		\item $ W^{hh} \in {\rm I\!R}^{D_h \times D_h} $ matricea proderilor utilizată la condiționarea ieșirii de la pasul anterior, $h_{t-1}$
+		\item $ h_{t-1} \in  {\rm I\!R}^{D_h} $ ieșirea funcției nonlineare de la pasul anterior, $t-1$, iar $h_0 \in  {\rm I\!R}^{D_h}$ este vectorul de inițializare pentru stratul ascuns, la pasul $t=0$
+		\item $ \sigma() $ funcția nonlineară  (sigmoid in acest exemplu)
 	\end{itemize}
+
+	\item $ y_t = softmax(W^{(S)} h_t) $ ieșirea care reprezintă o distribuție de probabilitate peste vocabular la fiecare pas $t$. În esență, $y_t$ este următorul cuvânt prezis, dându-se contextul de până  acum ($ h_{t-1} $) și ultimul cuvânt observat ($x_t$). Avem  $ W^{S} \in {\rm I\!R}^{|V| \times D_h} $ și $ y \in {\rm I\!R}^{|V|} $, unde $|V|$ reprezintă cardinalitatea mulțimii $V$ adică a vocabularului de cuvinte.
+
 \end{itemize}
 
+Funcția de cost utilizată in rețelele neuronale recurente este de obicei CE (cross entropy error).
+
+Pentru pasul $t$:
+$$
+J_{(t)}(\theta) = - \sum_{j=1}^{|V|}  ytrue_{t, j} \times \log(y_{t, j})
+$$
+
+% todo sa investighez de ce nu dispare minusul, eroare in formula
+Pentru toată secvența de lungime $T$ funcția de cost devine:
+$$
+J = - \frac{T}{1} \sum_{t=1}^{T} J_{(t)}(\theta) = - \frac{T}{1} \sum_{t=1}^{T}  \sum_{j=1}^{|V|}  ytrue_{t, j} \times \log(y_{t, j})
+$$
 
 \cite{cs224d_notes}
 
