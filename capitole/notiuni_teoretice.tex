@@ -7,9 +7,15 @@ Rețelele neuronale recurente (RNN - Recurent Neural Networks), sunt o arhitectu
 Figura \ref{fig:rnn_arch} prezintă arhitectura unei rețele recurente, unde fiecare dreptunghi ține locul stratului ascuns de la pasul, $t$. Fiecare strat ascuns este format din perceptroni care execută operația de inmulțire intre parametrii și input, urmată de o operație nonlineară (ex.$ tanh$). La fiecare pas din timp, ieșirea de la pasul anterior, împreună cu vectorul următorului cuvânt, $x_t$, sunt intrări în stratul ascuns care produce pentru pasul următor, iețirea $y$, și vectorul de caracteristici al stratului ascuns, $h$.
 
 
-$$ h_t = \sigma{(W^{(hh)} h_{t-1} + W^{(hx)} x_{[t]})} $$
-$$ y_t = softmax(W^{(S)} h_t) $$
+\begin{equation}
+	h_t = \sigma{(W^{(hh)} h_{t-1} + W^{(hx)} x_{[t]})}
+	\label{h_t}
+\end{equation}
 
+\begin{equation}
+	y_t = softmax(W^{(S)} h_t) 
+	\label{y_t}
+\end{equation}
 
 \begin{figure}[h]
 	\centering
@@ -46,10 +52,65 @@ $$
 % todo sa investighez de ce nu dispare minusul, eroare in formula
 Pentru toată secvența de lungime $T$ funcția de cost devine:
 $$
-J = - \frac{T}{1} \sum_{t=1}^{T} J_{(t)}(\theta) = - \frac{T}{1} \sum_{t=1}^{T}  \sum_{j=1}^{|V|}  ytrue_{t, j} \times \log(y_{t, j})
+J = - \frac{1}{T} \sum_{t=1}^{T} J_{(t)}(\theta) = - \frac{1}{T} \sum_{t=1}^{T}  \sum_{j=1}^{|V|}  ytrue_{t, j} \times \log(y_{t, j})
 $$
 
 \cite{cs224d_notes}
+
+
+\subsection{Problema dispariției sau a explodării valorilor gradientului}
+O RNN împarte aceeași matrice a parametrilor pentru toată secvența de intrare. Țelul unei astfel de arhitecturi este acela de a capta contextul și în cazul secvențelor de lungimi mai mari.
+
+Considerăm ecuațiile \ref{h_t} și \ref{y_t} de mai sus la pasul $t$. Pentru a calcula eroarea unei RNN, $dE/dW$, vom însuma erorile de la fiecare pas de timp.
+
+\begin{equation}
+	\frac{\partial E}{\partial W} = \sum_{t=1}^{T} \frac{\partial E_t}{\partial W}
+\end{equation}
+
+Eroarea la fiecare pas de timp este calculată prin diferențierea ecuațiilor  \ref{h_t} și \ref{y_t}:
+
+\begin{equation}
+	\frac{\partial E_t}{\partial W} = \sum_{k=1}^{t} \frac{\partial E_t}{\partial y_t} \frac{\partial y_t}{\partial h_t} \frac{\partial h_t}{\partial h_k} \frac{\partial h_k}{\partial W}
+	\label{chain_rule_E}
+\end{equation}
+
+Unde $\frac{dh_t}{dh_k}$ este derivata parțială a stării ascunse $h_t$ în raport cu toți $k$ pași de timp anteriori.
+
+\begin{equation}
+	\frac{\partial h_t}{\partial h_k} = \prod_{j=k+1}^{t} \frac{\partial h_j}{\partial h_{j-1}} = \prod_{j=k+1}^{t} W^T \times diag[f'(j_{j-1})]
+	\label{chain_rule_prod}
+\end{equation}
+
+Deoarece $h \in {\rm I\!R}^{D_n}$, fiecare $\partial h_j / \partial h_{j-1}$ este matricea Jacobian pentru $h$:
+
+\begin{equation}
+	\frac{\partial h_j}{\partial h_{j-1}} = [\frac{\partial h_j}{\partial h_{j-1, 1}} ... \frac{\partial h_j}{\partial h_{j-1,  D_n}}] =\begin{bmatrix}
+		\frac{\partial h_j,1}{\partial h_{j-1, 1}} & \cdots & \frac{\partial h_j,1}{\partial h_{j-1,  D_n}}	\\[0.3em]
+		\vdots           & \ddots &\vdots	\\[0.3em]
+		\frac{\partial h_j,D_n}{\partial h_{j-1, 1}} & \cdots & \frac{\partial h_j,D_n}{\partial h_{j-1, D_n}}
+	\end{bmatrix}
+	\label{jac_mat}
+\end{equation}
+
+Din \ref{chain_rule_E}, \ref{chain_rule_prod}, \ref{jac_mat} avem urmatoarea relatie:
+\begin{equation}
+	\frac{\partial E}{\partial W} = \sum_{t=1}^{T} \sum_{k=1}^{t} \frac{\partial E_t}{\partial y_t} \frac{\partial y_t}{\partial h_t} (\prod_{j=k+1}^{t} \frac{\partial h_j}{\partial h_{j-1}}) \frac{\partial h_k}{\partial W}
+\end{equation}
+
+Inecuația \ref{norm_ineq1} arată norma matricei Jacobian, unde $\beta_w$ și $\beta_h$ reprezintă limitele superioare ale celor doua norme ale matricelor. Norma gradientului de la fiecare pas $t$ este calculată în funcție de inecuația de mai jos.
+
+\begin{equation}
+	|| \frac{\partial h_j}{\partial h_{j-1}}|| \leq || W^T || || diag[f'(h_{j-1})]|| \leq \beta_w\beta_h
+	\label{norm_ineq1}
+\end{equation}
+
+Norma L2 este folosită în aceste inecuații. Iar norma derivatei $f'(h_{j-1})$ nu poate depăși valoarea $1$, deoarece $f=sigmoid$.
+
+\begin{equation}
+	|| \frac{\partial h_j}{\partial h_k}|| = || \prod_{j=k+1}^{t} \frac{\partial h_j}{\partial h_{j-1}} || \leq (\beta_w\beta_h)^{t-k}
+\end{equation}
+
+Termenul $(\beta_w\beta_h)^{t-k}$ poate foarte ușor să devină foarte mic sau foarte mare, atunci când $\beta_w\beta_h$ este mai mare ca $1$ și $t-k$ suficient de mare. Referitor la o valoare mare pentru $t-k$
 
 \subsection{LSTM}
 
