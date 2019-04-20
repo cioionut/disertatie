@@ -92,7 +92,7 @@ Deoarece $h \in {\rm I\!R}^{D_n}$, fiecare $\partial h_j / \partial h_{j-1}$ est
 	\label{jac_mat}
 \end{equation}
 
-Din \ref{chain_rule_E}, \ref{chain_rule_prod}, \ref{jac_mat} avem urmatoarea relatie:
+Din \ref{chain_rule_E}, \ref{chain_rule_prod}, \ref{jac_mat} avem următoarea relație:
 \begin{equation}
 	\frac{\partial E}{\partial W} = \sum_{t=1}^{T} \sum_{k=1}^{t} \frac{\partial E_t}{\partial y_t} \frac{\partial y_t}{\partial h_t} (\prod_{j=k+1}^{t} \frac{\partial h_j}{\partial h_{j-1}}) \frac{\partial h_k}{\partial W}
 \end{equation}
@@ -122,8 +122,89 @@ Pentru a problema explodării gradientului, Thomas Mikolov, introduce pentru pri
 
 Referitor la problema dispariției gradientului, se folosesc de regulă două metode. Una din ele abordează modul de inițializare al parametriilor astfel că în locul unei inițializări aleatoare se folosește matricea identitate. Iar cea de-a doua tehnică propune folosirea funcției de activare ReLu (Rectified Linear Units) în detrimentul celei sigmoid. Motivul este acela că derivata funcției relu este fie 1 fie 0, iar la propagarea erorii înapoi vor fi afectați doar neuronii a căror derivată este 1.
 
+\subsection{Seq2Seq}
+
+Modelul de arhitectură seq2seq se referă la translatarea unei secvențe în alta, de aceea ele sunt cu succes folosite în machine translation.
+Acest model are două componente importante: cea care face codificarea (captează înțelesul secvenței de intrare) și cea de decodificare înțelesului într-o secvență de ieșire. În funcție de specificul problemei, vocabularul de intrare și de ieșire pot să difere.
+
+Ecuația \ref{enc_h_t} descrie operațiile necesare pentru a codifica în $h_t$ înțelesul secvenței de intrare. Apoi decodificare se realizează cu ajutorul ecuațiilor \ref{dec_h_t} și \ref{dec_y_t} pentru a scoate o distribuție de probabilitate peste cuvintele din vocabularul de ieșire la fiecare pas $t$.
+
+
+\begin{equation}
+h_t = \phi(h_{t-1}, x_t) = f(W^{(hh)} h_{t-1} + W^{(hx)} x_t)
+\label{enc_h_t}
+\end{equation}
+
+\begin{equation}
+h_t = \phi(h_{t-1}) = f(W^{(hh)} h_{t-1})
+\label{dec_h_t}
+\end{equation}
+
+\begin{equation}
+y_t = softmax(W^{(S)} h_t) 
+\label{dec_y_t}
+\end{equation}
+
+\begin{equation}
+max_{\theta}\frac{1}{N} \sum_{n=1}^{N}\times log(p_\theta(y^{(n)}|x^{(n)}))
+\label{seq2seq_loss}
+\end{equation}
+
+Pentru ajunge la o performanță crescută, pe lângă funcția de cost \ref{seq2seq_loss} se adaugă mai multe extensii.
+\begin{itemize}
+	\item Extensia 1: se vor folosi ponderi diferite pentru fiecare rețea în parte, adică în ecuația \ref{dec_h_t} în loc de $W^{(hh)}$ vom avea o matrice diferită.
+	\item Extensia 2: fiecare stare ascunsă din rețeaua care decodifică va fi compusă din trei intrări diferite:
+	\begin{itemize}
+		\item starea anterioară $h_{t-1}$
+		\item ultima stare din encoder ($c=h_T$)
+		\item ultima ieșire prezisă, $y_{t-1}$.
+	\end{itemize}
+	\item Extensia 3: creșterea numărului de straturi ascunse din encoder și decoder
+	\item Extensia 4: antrenarea unui encoder bidirecțional
+	\item Extensia 5: antrenarea folosind la secvența de intrare în ordine inversă
+\end{itemize}
+
+
 \subsection{LSTM}
 
 
 
-\subsection{Seq2Seq}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
