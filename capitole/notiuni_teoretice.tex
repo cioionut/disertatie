@@ -134,17 +134,14 @@ Ecuația \ref{enc_h_t} descrie operațiile necesare pentru a codifica în $h_t$ 
 h_t = \phi(h_{t-1}, x_t) = f(W^{(hh)} h_{t-1} + W^{(hx)} x_t)
 \label{enc_h_t}
 \end{equation}
-
 \begin{equation}
 h_t = \phi(h_{t-1}) = f(W^{(hh)} h_{t-1})
 \label{dec_h_t}
 \end{equation}
-
 \begin{equation}
 y_t = softmax(W^{(S)} h_t) 
 \label{dec_y_t}
 \end{equation}
-
 \begin{equation}
 max_{\theta}\frac{1}{N} \sum_{n=1}^{N}\times log(p_\theta(y^{(n)}|x^{(n)}))
 \label{seq2seq_loss}
@@ -165,18 +162,72 @@ Pentru ajunge la o performanță crescută, pe lângă funcția de cost \ref{seq
 \end{itemize}
 
 
+\subsection{GRU}
+
+Pe lângă extensiile aduse arhitecturii de codare-decodare, o îmbunătățire majoră are loc atunci când modelului matematic din interiorul celulei RNN i se adaugă mai multe porți ce simulează comportamentul unei memorii. (numim celulă a unei rețele neuronale recurente, partea recurentă a modelului care folosește aceleași ponderi de-a lungul secvenței).
+
+Bineînțeles în teorie RNN captează dependințele de lungă durată de-a lungul unei secvențe, dar un asemenea model devine foarte greu de antrenat când vine vorba de cazuri practice. Așadar prin introducerea acestor unități recurente cu porți, rețeaua neuronală recurentă va căpăta o memorie mult mai persistentă fiind mult mai ușor de captat dependințele de lungă durată.
+
+Prima arhitectură de acest gen este Gated Recurrent Units (GRU)
+
+\begin{equation}
+	z_t = \sigma(W^{(z)} x_t + U^{(z)} h_{t-1})
+	\label{update_gate}
+\end{equation}
+\begin{equation}
+	r_t = \sigma(W^{(r)} x_t + U^{(r)} h_{t-1})
+	\label{reset_gate}
+\end{equation}
+\begin{equation}
+	\widetilde{h_t} = \tanh(r_t \circ U h_{t-1} + W x_t)
+	\label{new_memory}
+\end{equation}
+\begin{equation}
+	h_t = (1-z_t) \circ \widetilde{h_t} + z_t \circ h_{t-1}
+\end{equation}
+
+\begin{enumerate}
+	\item Generarea unei noi memorii: ecuația \ref{new_memory} surprinde consolidarea intrării $x_t$ cu starea anterioară. Acest pas este răspunzător de îmbogățirea contextului cu noua intrare venită.
+	\item Poarta de resetare: semnalul $r_t$ din \ref{reset_gate} determină cât de important este $h_{t-1}$ pentru a fi luat în calcul de $\widetilde{h_t}$ care calculează noua memorie.
+	\item Poarta de actualizare: semnalul $z_t$ din \ref{update_gate}  este responsabil de propagarea contextului surprins anterior de $h_{t-1}$. De exemplu dacă $ z_t \approx 1$ atunci $h_{t-1}$ este aproape copiat în întregime în $h_t$, altfel dacă $ z_t \approx 0$ noua memorie $\widetilde{h_t}$ este transmisă mai departe în $h_t$
+	\item Starea ascunsă: $h_t$ este generată folosind ca intrare starea de la pasul $t-1$ și noua memorie în concordanță cu semnalul de actualizare.
+\end{enumerate}
+
 \subsection{LSTM}
+Long-Short-Term-Memories este un alt timp de celulă recurentă, care folosește aceeași filosofie a porților, dar într-un mod puțin mai diferit față de GRU.
 
+\begin{equation}
+	i_t = \sigma(W^{(i)}  x_t + U^{(i)} h_{t-1})
+	\label{input_gate}
+\end{equation}
+\begin{equation}
+	f_t = \sigma(W^{(f)} x_t + U^{(f)} h_{t-1})
+	\label{forget_gate}
+\end{equation}
+\begin{equation}
+	o_t = \sigma(W^{(o)} x_t + U^{(o)} h_{t-1})
+	\label{output_gate}
+\end{equation}
+\begin{equation}
+	\widetilde{c_t} = \tanh(W^{(c)} x_t + U^{(c)} h_{t-1})
+	\label{new_memory_cell}
+\end{equation}
+\begin{equation}
+	c_t = f_t \circ c_{t-1} + i_t \circ \widetilde{c_t}
+	\label{final_memory}
+\end{equation}
+\begin{equation}
+	h_t = o_t \circ \tanh(c_t)
+	\label{hidden_state_lstml}
+\end{equation}
 
-
-
-
-
-
-
-
-
-
+\begin{enumerate}
+	\item Generarea unei noi memorii: ecuația \ref{new_memory_cell} captează noi aspecte introduse de intrarea $x_t$
+	\item Poarta de intrare: se asigură că intrarea de la pasul $t$ merită să fie luată în calcul pentru calculul memoriei curente: ecuația \ref{input_gate}
+	\item Poarta de uitare: această poartă este similară cu cea de intrare, diferența este că ea determină utilitatea memoriei precedente în calculul celei curente.
+	\item Generarea memoriei finale: acest pas este descris de ecuația \ref{final_memory} care agregă sub semnul operației de adunare deciziile celor doua porți, de uitare și de intrare cu privire la memoria precedentă $c_{t-1}r$, respectiv noua memorie $\widetilde{c_t}$.
+	\item Poarta de ieșire/expunere: ecuațiile \ref{output_gate}, \ref{hidden_state_lstml}. Rolul acestei porți este de a separa memoria finală $c_{t}$ de starea ascunsă, $h_{t}$. $c_{t}$ conține informații care nu sunt neapărat esențiale pentru calculul stării ascunse. Semnalul produs de această poartă, $o_t$ este folosit la ponderarea utilizării memoriei finale în calculul stării, $h_t$.
+\end{enumerate}
 
 
 
