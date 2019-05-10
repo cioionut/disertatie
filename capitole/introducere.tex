@@ -1,23 +1,8 @@
 \chapter{Introducere}
 
-Dincolo de utilitatea pragmatică de a transmite informații, limbajul intensifică interacțiunea și menține legăturile interumane. Făcând o paralelă cu sintagma "o imagine valorează cât o mie de cuvinte" așa un proverb românesc surprinde esența cu: \textit{"Vorba dulce mult aduce"}. Cum menționează și Jurafski în cartea sa Speach Processing, întreaga literatură abundă în creații ale omului care capătă puterea de a vorbi. Poate că longevitatea acestui curent ne face să il abordăm cu mai multă seriozitate, trecând de le filosofie și încercarea de a înțelege comunicarea la soluții matematice care ne permit cu adevărat să creăm un astfel de agent conversațional.
+Dincolo de utilitatea practică de a transmite informații, limbajul este cel care intensifică interacțiunea și menține legăturile interumane. Făcând o paralelă cu sintagma "o imagine valorează cât o mie de cuvinte" la fel un proverb românesc surprinde esența cu: \textit{"Vorba dulce mult aduce"}, reliefând astfel caracterul artistic și contemplativ, trăsătură pusă într-o antiteză chiar de caracterul pragmatic din debut. Cu alte cuvinte limbajul este uneori paradoxal, iar cuvintele ar putea curge la nesfârșit spre deslușirea acestei capacități,
 
-Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe, în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{Tasc_oriented}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
-
-\section{Abstract}
-Pornind de la dorința de a crea cu scopul de a aduce valoare în societate, am ales ca direcție de studiu sistemul de dialog orientat pe rezolvarea cerințelor. Tot mai des se încearcă metode end-to-end pentru a descoperi un singur model care să țină loc unui astfel de sistem \cite{end-to-end foal oriented}. În industrie lucrurile sunt abordate mai modular, antrenându-se modele diferite pentru fiecare componentă (ASR, SLU/NLU, DM, NLG). Un minimum viabil al acestei arhitecturi modulare îl reprezintă componenta de înțelegerea limbajului natural(NLU) și cea de administrare a dialogului (DM) acestea două făcând obiectul acestei lucrări.
-
-Componenta de înțelegerea limbajului natural se ocupă cu detectarea intenției și a entităților aflate într-o replică venită din partea utilizatorului. De multe ori cele două chestiuni sunt văzute separat, ca o problemă de clasificare respectiv ca o problemă de etichetare a unei secvențe.
-Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}. Iar pentru recunoașterea entităților sunt folosite tehnici de etichetare ca \cite{scipy_numpyeq_labeling}. Dar luând în considerare puterea rețelelor neuronal recurente și a arhitecturii de codificare-decodificare utilizată cu succes în traducere și recunoașterea vorbirii \cite{luoung_bahdanau_maning}. Aceste două probleme sunt tratate de multe ori concomitent, în esență se folosește capacitatea de a capta înțelesul unei secvențe de text cu ajutorul unui encoder iar apoi se folosesc diferite decodere pentru a traduce cuvinte sau întregul înțeles în clase de intenții și entități.
-
-Privind comunicarea ca o nevoie de bază ne ajută sa vedem mai clar de ce procesarea limbajului natural este un element esențial in drumul nostru spre cunoaștere. Datorită actualului progres in acest domeniu ne putem bucura de ușurința cu care informațiile circulă între noi, făcând realizabil acest avânt tehnologic de care nu bucurăm cu toții.
-
-% sa spun despre abordari anterioare si referinte la ele, cum m-am gandit eu si experimentat (pe scurt)
-% problematica
-% contributia mea
-% rezumatul capitolelor
-% baseline rezultate
-% sa scriu despre analiza erorilor cu exemplu, unde greseste
+În cartea sa Speach Proccessing, profesorul Dan Jurafski observă faptul că există numeroase exemple în care omul încearcă să comunice cu creația sa, acest comportament este surprins adesea și în literatură unde personificarea nu se oprește numai la natură. Această remarcă arată de fapt longevitatea și neoboseala dorinței creatoare concretizată chiar în această ramură a lingvisticii matematice care ne permite cu adevărat să dăm naștere unui astfel de agent conversațional.
 
 \section{Motivația}
 
@@ -33,9 +18,25 @@ Lucrarea își propune descoperirea unui model îndeajuns de puternic încât s�
 
 Cum limbajul natural este cel mai la îndemâna instrument de comunicare, consider ca prin intermediul său vom putea satisface nevoia unei interfețe capabile să ușureze interacțiunea dintre noi și tehnologie.
 
-\subsection{Privire de ansamblu}
+\section{Progres precedent}
+Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe, în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{Tasc_oriented}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
 
-Avem nevoie de un modul de NLU și un modul de DM pentru a pune bazele unui sistem de dialog
+Pornind de la dorința de a crea cu scopul de a aduce valoare în societate, am ales ca direcție de studiu sistemul de dialog orientat pe rezolvarea cerințelor. Tot mai des se încearcă metode end-to-end pentru a descoperi un singur model care să țină loc unui astfel de sistem \cite{end-to-end foal oriented}. În industrie lucrurile sunt abordate mai modular, antrenându-se modele diferite pentru fiecare componentă (ASR, SLU/NLU, DM, NLG). Un minimum viabil al acestei arhitecturi modulare îl reprezintă componenta de înțelegerea limbajului natural(NLU) și cea de administrare a dialogului (DM) acestea două făcând obiectul lucrării de față.
+
+Componenta de înțelegerea limbajului natural se ocupă cu detectarea intenției și a entităților aflate într-o replică venită din partea utilizatorului. De multe ori cele două chestiuni sunt văzute separat, ca o problemă de clasificare respectiv ca o problemă de etichetare a unei secvențe.
+Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}. Iar pentru recunoașterea entităților sunt folosite tehnici de etichetare ca \cite{scipy_numpyeq_labeling}. Dar luând în considerare puterea rețelelor neuronal recurente și a arhitecturii de codificare-decodificare utilizată cu succes în traducere și recunoașterea vorbirii \cite{luoung_bahdanau_maning}. Aceste două probleme sunt tratate de multe ori concomitent, în esență se folosește capacitatea de a capta înțelesul unei secvențe de text cu ajutorul unui encoder iar apoi se folosesc diferite decodere pentru a traduce cuvinte sau întregul înțeles în clase de intenții și entități.
+
+Privind comunicarea ca o nevoie de bază ne ajută sa vedem mai clar de ce procesarea limbajului natural este un element esențial in drumul nostru spre cunoaștere. Datorită actualului progres in acest domeniu ne putem bucura de ușurința cu care informațiile circulă între noi, făcând realizabil acest avânt tehnologic de care nu bucurăm cu toții.
+
+% sa spun despre abordari anterioare si referinte la ele, cum m-am gandit eu si experimentat (pe scurt)
+% problematica
+% contributia mea
+% rezumatul capitolelor
+% baseline rezultate
+% sa scriu despre analiza erorilor cu exemplu, unde greseste
+
+
+
 
 \section{Rezumatul capitolelor}
 
