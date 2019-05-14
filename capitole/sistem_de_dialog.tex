@@ -15,7 +15,7 @@ Prin natura sa, lumea academică este întotdeauna mai în față în ceea ce pr
 În cadrul studiului curent accentul este pus pe structura ce îmbină mai multe modele, drept pentru care vor vi detaliate experimentele pentru NLU și DM.
 
 \section{Înțelegerea limbajului natural}
-NLU este un concept destul vast, in terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural exprimat.
+NLU este un concept destul de vast, in terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural exprimat.
 Detecția intenției poate fi tratata ca o problema de clasificare a unei replici din punct de vedere semantic, iar recunoașterea entităților poate fi văzută ca o etichetare de secvențe.
 \subsection{Abordări anterioare}
 
@@ -28,7 +28,20 @@ Pentru recunoașterea entităților se folosesc abordări precum (MEMMs) (McCall
 Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se concentrează pe rezolvarea concomitenta a acestor doua probleme, întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{joint models-attention models}
 
 
-\subsection{Seq2Seq}
+\subsection{Model propus}
+
+Arhitectura matematică ce a devenit foarte populară în procesarea limbajului natural este rețeaua neurală recurentă, datorită formelor sale (LSTM/GRU) optimizate pentru învățarea automată ea se bucură de un succes răsunător. Aceste tipuri de rețele sunt folosite adesea ca structuri de bază pentru a crea alte modele de calcul, un exemplu este rețeaua de codificare-decodificare (seq2seq), formată din două rețele recurente, una pentru captarea (codarea) înțelesului unei secvențe iar cealaltă pentru operația de decodificare într-o secvență de ieșire.
+
+Ambele probleme sunt rezolvate simultan folosind un codificator pentru reprezentarea înțelesului unei propoziții și două decodificatoare câte unul pentru fiecare chestiune.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.5]{seq2seq_x.png}
+	\caption{Seq2Seq-x}
+	\label{fig:enc_module}
+\end{figure}
+
+Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cuvinte $ x= (x_1, ..., X_T)$ într-o altă secvență de nume de entități corespunzătoare $ y=(y_1, ..., y_T) $. Operația de codificare se realizează prin citirea întregii secvențe de către o rețea recurentă bidirecțională, adică
 
 \begin{figure}[h]
 	\centering
@@ -41,16 +54,8 @@ Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se conc
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.35]{decoder_bahdanau.png}
-	\caption{Decoder Bahdanau}
+	\caption{Attention Decoder}
 	\label{fig:dec_bah}
-\end{figure}
-
-\subsection{Production ready NLU}
-\begin{figure}[h]
-	%\centering
-	\includegraphics[scale=0.5]{nlu_architecture.png}
-	\caption{Arhitectura serviciului de NLU}
-	\label{fig:nlu_arch}
 \end{figure}
 
 \section{Administrator de dialog}
