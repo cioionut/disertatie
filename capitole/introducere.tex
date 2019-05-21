@@ -1,7 +1,5 @@
 \chapter{Introducere}
 
-% todo: sa scriu despre contributia mea si rezultate
-
 % sa spun despre abordari anterioare si referinte la ele, cum m-am gandit eu si experimentat (pe scurt)
 % problematica
 % contributia mea
@@ -11,18 +9,11 @@
 
 Dincolo de utilitatea practică de a transmite informații, limbajul este cel care intensifică interacțiunea și menține legăturile interumane. Făcând o paralelă cu sintagma "o imagine valorează cât o mie de cuvinte" la fel un proverb românesc surprinde esența cu: \textit{"Vorba dulce mult aduce"}, reliefând astfel caracterul artistic și contemplativ al limbajului, trăsătură pusă într-o antiteză chiar de caracterul pragmatic din debut. Cu alte cuvinte limbajul este uneori paradoxal, iar cuvintele ar putea curge la nesfârșit spre deslușirea acestei capacități,
 
-În cartea sa Speach Proccessing, profesorul Dan Jurafski observă faptul că există numeroase exemple în care omul încearcă să comunice cu creația sa, acest comportament este surprins adesea și în literatură unde personificarea nu se oprește numai la natură. Această remarcă arată de fapt longevitatea și neoboseala dorinței creatoare concretizată chiar în această ramură a lingvisticii matematice care ne permite cu adevărat să dăm naștere unui astfel de agent conversațional.
+În cartea sa Speach and Language Proccessing \cite{speach__lang_processing}, profesorul Dan Jurafsky observă faptul că există numeroase exemple în care omul încearcă să comunice cu creația sa, acest comportament este surprins adesea și în literatură unde personificarea nu se oprește numai la natură. Această remarcă arată de fapt longevitatea și neoboseala dorinței creatoare concretizată chiar în această ramură a lingvisticii matematice care ne permite cu adevărat să dăm naștere unui astfel de agent conversațional.
 
-\section{Motivația}
 
-Luând contact tot mai des cu mediul de cercetare, încerc să observ modul în care această comunitate reușește să aducă contribuții în societate. Un lucru care m-a făcut sa prețuiesc fiecare efort, este acela că în general o descoperire se bazează pe cercetări anterioare și ca orice gând exprimat în scopul de a descoperi, poate fi valoros și dus mai departe spre cunoaștere.
-
-Dorința de a crea cu scopul de face viața oamenilor mai ușoară este imboldul intrinsec ce ghidează acțiunile mele, așadar evaluând cunoștințele mele, am decis sa îmi aduc contribuția într-un domeniu atât de important în drumul nostru spre o viziune clara.
-
-% todo: de adaugat motivatia pentru abordarea aleasa
-
-\section{Descrierea problemei}
-
+%%%%%%%%%%%%%%%%%%%%
+\section{Nevoia de a comunica}
 Lucrarea își propune cercetarea unui model îndeajuns de puternic încât să înțeleagă limbajul natural exprimat într-un anumit context (general sau specific unui domeniu). Și punerea în aplicare a unui administrator de dialog, suficient de simplu dar care să ducă la bun sfărșit sarcinile dorite spre a fi executate de care agentul virtual rezultat.
 
 În viziunea mea, această chestiune reprezintă mai degrabă o nevoie decât o problemă. O nevoie ce survine în urma stilului nostru de viață dinamic și învelit în straturi de informație.
@@ -31,18 +22,31 @@ Cum limbajul natural este cel mai la îndemâna instrument de comunicare, consid
 
 % todo: descrierea problemei mai punctual
 
-\section{Progres precedent}
-Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe (taskbots), în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{Tasc_oriented}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
+\subsection{Contribuția noastră}
+
+Luând contact tot mai des cu mediul de cercetare, încerc să observ modul în care această comunitate reușește să aducă contribuții în societate. Un lucru care m-a făcut sa prețuiesc fiecare efort, este acela că în general o descoperire se bazează pe cercetări anterioare și ca orice gând exprimat în scopul de a descoperi, poate fi valoros și dus mai departe spre cunoaștere.
+
+Dorința de a crea cu scopul de face viața oamenilor mai ușoară este imboldul intrinsec ce ghidează acțiunile mele, așadar evaluând cunoștințele mele, am decis sa îmi aduc contribuția într-un domeniu atât de important în drumul nostru spre o viziune clara.
+
+Privind comunicarea ca o nevoie de bază ne ajută sa vedem mai clar de ce procesarea limbajului natural este un element esențial in drumul nostru spre cunoaștere. Datorită actualului progres in acest domeniu ne putem bucura de ușurința cu care informațiile circulă între noi, făcând realizabil acest avânt tehnologic de care nu bucurăm cu toții.
+
+% todo: de adaugat motivatia pentru abordarea aleasa
+
+% todo: contribuția adusă, cum m-am gandit eu si experimentat (pe scurt)
+% todo: baseline? rezultate pe scurt
+
+\subsection{Progres precedent}
+Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe (taskbots), în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{joint_online_bing, att_joint_bing}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
 
 Pornind de la dorința de a crea cu scopul de a aduce valoare în societate, am ales ca direcție de studiu sistemul de dialog orientat pe rezolvarea cerințelor. Tot mai des se încearcă metode end-to-end pentru a descoperi un singur model care să țină loc unui astfel de sistem \cite{end-to-end foal oriented}. În industrie lucrurile sunt abordate mai modular, antrenându-se modele diferite pentru fiecare componentă (ASR, SLU/NLU, DM, NLG). Un minimum viabil al acestei arhitecturi modulare îl reprezintă componenta de înțelegerea limbajului natural(NLU) și cea de administrare a dialogului (DM) acestea două făcând obiectul lucrării de față.
 
 Componenta de înțelegerea limbajului natural se ocupă cu detectarea intenției și a entităților aflate într-o replică venită din partea utilizatorului. De multe ori cele două chestiuni sunt văzute separat, ca o problemă de clasificare respectiv ca o problemă de etichetare a unei secvențe.
 Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}. Iar pentru recunoașterea entităților sunt folosite tehnici de etichetare ca \cite{scipy_numpyeq_labeling}. Dar luând în considerare puterea rețelelor neuronal recurente și a arhitecturii de codificare-decodificare utilizată cu succes în traducere și recunoașterea vorbirii \cite{luoung_bahdanau_maning}. Aceste două probleme sunt tratate de multe ori concomitent, în esență se folosește capacitatea de a capta înțelesul unei secvențe de text cu ajutorul unui encoder iar apoi se folosesc diferite decodere pentru a traduce cuvinte sau întregul înțeles în clase de intenții și entități.
 
-Privind comunicarea ca o nevoie de bază ne ajută sa vedem mai clar de ce procesarea limbajului natural este un element esențial in drumul nostru spre cunoaștere. Datorită actualului progres in acest domeniu ne putem bucura de ușurința cu care informațiile circulă între noi, făcând realizabil acest avânt tehnologic de care nu bucurăm cu toții.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rezumatul capitolelor}
-
 \begin{description}
 	\item[Introducere]  - 
 	

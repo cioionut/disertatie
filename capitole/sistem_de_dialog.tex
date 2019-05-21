@@ -12,7 +12,7 @@ Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, 
 
 Prin natura sa, lumea academică este întotdeauna mai în față în ceea ce privește tehnica sa de a concepe aceste sisteme, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru contextul conversației și generarea unor politici de răspuns se folosește învățarea prin recompensă. \cite{rl-seq2seq}
 
-În cadrul studiului curent accentul este pus pe structura ce îmbină mai multe modele, drept pentru care vor vi detaliate experimentele pentru NLU și DM.
+În cadrul studiului curent accentul este pus pe structura ce îmbină mai multe modele, drept pentru care vor fi detaliate experimentele pentru NLU și DM.
 
 \section{Înțelegerea limbajului natural}
 NLU este un concept destul de vast, in terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural exprimat.
@@ -30,18 +30,18 @@ Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se conc
 
 \subsection{Model propus}
 
-Arhitectura matematică ce a devenit foarte populară în procesarea limbajului natural este rețeaua neurală recurentă, datorită formelor sale (LSTM/GRU) optimizate pentru învățarea automată ea se bucură de un succes răsunător. Aceste tipuri de rețele sunt folosite adesea ca structuri de bază pentru a crea alte modele de calcul, un exemplu este rețeaua de codificare-decodificare (seq2seq), formată din două rețele recurente, una pentru captarea (codarea) înțelesului unei secvențe iar cealaltă pentru operația de decodificare într-o secvență de ieșire.
+Rețelele neuronale recurente (RNN) sunt unele dintre cele mai populare modele matematice folosite în procesarea limbajului natural, avantajul pe care acestea îl oferă se datorează într-o mare măsură formelor sale LSTM, GRU, dar și prin caracterul lor de a învăța din date cu caracter secvențial. Aceste tipuri de rețele sunt folosite adesea ca structuri de bază pentru a crea alte modele de calcul, un exemplu este rețeaua de codificare-decodificare (seq2seq), formată din două rețele recurente, una pentru captarea (codarea) înțelesului unei secvențe iar cealaltă pentru operația de decodificare într-o secvență de ieșire.
 
-Ambele probleme sunt rezolvate simultan folosind un codificator pentru reprezentarea înțelesului unei propoziții și două decodificatoare câte unul pentru fiecare chestiune.
+Modelul propus pentru înțelegere a limbajului rezolvă ambele probleme simultan folosind un codificator pentru reprezentarea înțelesului unei propoziții și două decodificatoare câte unul pentru fiecare chestiune. Figura \ref{fig:seq2seq_x} sintetizează procesele implicate în acest model.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.5]{seq2seq_x.png}
 	\caption{Seq2Seq-x}
-	\label{fig:enc_module}
+	\label{fig:seq2seq_x}
 \end{figure}
 
-Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cuvinte $ x= (x_1, ..., X_T)$ într-o altă secvență de nume de entități corespunzătoare $ y=(y_1, ..., y_T) $. Operația de codificare se realizează prin citirea întregii secvențe de către o rețea recurentă bidirecțională, adică
+Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cuvinte $ x= (x_1, ..., x_T)$ într-o altă secvență de nume de entități corespunzătoare $ y=(y_1, ..., y_T) $. Operația de codificare se realizează prin citirea întregii secvențe de către o rețea recurentă bidirecțională, înțelesul secvenței de intrare este reprezentat de suma celor două stări ascunse finale, adică pentru citirea de la stânga la dreapta obținem stările ascunse $(fh_1, ..., fh_T)$ și invers $(bh_T, ..., bh_1)$, apoi suma celor două $h_i = [fh_i + bh_i]$ este folosită drept codificare a înțelesului secvenței de intrare. Alte lucrări \cite{joint_online_bing} folosesc ca stare ascunsă finală $h_i$ o concatenare a celor două stări. Alegerea de a aduna cele două reprezentări în schimbul concatenării, ține de faptul că dimensiunea reprezentării finale crește în cazul concatenării, fiind mai dificil de antrenat, dublând în acest caz și jumătate din parametrii rețelei. Figura \ref{fig:enc_module} descrie procesul de codificare.
 
 \begin{figure}[h]
 	\centering
@@ -50,6 +50,20 @@ Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cu
 	\label{fig:enc_module}
 \end{figure}
 
+Vom folosi reprezentarea captată de codificator pentru a inițializa operația de decodificare, aceasta este produsă de către o rețea recurentă unidirecțională, văzută ca o funcție $s_i=f(s_{i-1}, y_{i-1}, h_i, c_i)$ care la fiecare pas $i$, calculează o nouă stare $s_i$, bazată pe: starea anterioară a decodificatorului $s_{i-1}$, eticheta anterior prezisă, $y_{i-1}$, starea ascunsă din codificator corespunzătoare pasului curent, $h_i$ și un vector de context $c_i$, calculat ca o sumă ponderată peste stările ascunse din codificator.
+Inspirat din \cite{trans_luong_manning} am experimentat mai multe modele de atenție.
+$$ c_i = \sum_{j=1}^{T} \alpha_{i,j} h_j$$
+$$ \alpha_{i,j} = \frac{\exp(score_{i, j})}{\sum_{k=1}^{T} \exp(score_{i, k})}$$
+
+\[ score(i, k) = g(s_{i-1}, h_k) =
+\begin{cases}
+s_{i-1}^\top h_k			&	\quad \text{dot}\\
+s_{i-1}^\top W_a h_k	&	\quad \text{general}\\
+v_a^\top \tanh(W_a [s_{i-1};h_k])	&	\quad \text{concat}\\
+\end{cases}
+\]
+
+Modelul de atenție poate fi văzut ca o rețea de tip feed-forward $g(s_{i-1}, h_k)$, care la fiecare pas din operația de decodare calculează ponderile pentru stările ascunse ale codificatorului, folosindu-se de ultima stare ascunsă din decodor, $s_{i-1}$ și stările ascunse $(h_1, ..., h_T)$. Mai jos în figura \ref{fig:dec_bah} este descris întreg fluxul de date și operații realizate de decodorul responsabil de etichetarea entităților.
 
 \begin{figure}[h]
 	\centering
@@ -58,12 +72,30 @@ Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cu
 	\label{fig:dec_bah}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Mulțimea de antrenare}
+ATIS (Airline Travel Information Systems) \cite{atis_dataset} este o colecție de cereri venite din partea clienților referitor la zborurile aeriene de la începutul anilor 90, atunci când DARPA s-a hotărât să construiască această mulțime de date.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsection{Rezultate}
+
+\begin{center}
+	\begin{tabular}{ c c c } 
+		\hline
+		\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
+		\hline
+		Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Analiza erorilor}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \section{Administrator de dialog}
 
 \subsection{Abordări anterioare}
-
-\subsection{Slot filling}
-
-\section{Metode de evaluare}
-
-\section{Rezultate}
