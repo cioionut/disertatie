@@ -46,6 +46,7 @@ Ideea de a cerceta un model pentru înțelegerea limbajului, vine în egală mă
 Pentru a înțelege limbajul natural s-a folosit o arhitectură de tip encode-decoder, unde codificarea este realizată de o rețea neuronală recurentă, iar decodificarea se realizează în două faze diferite pentru fiecare problemă. Detectarea intenției se realizează cu ajutorul unui decodificator bazat pe o rețea de tip fed-forward, care primește ca intrare secvența codificată și scoate la ieșire o distribuție de probabilitate peste intențiile cunoscute. A doua fază de decodificare este realizată de o a doua rețea recurentă care la fiecare pas prezice eticheta corespunzătoare unei entități. În ajutorul acestei arhitecturi s-au experimentat mai multe modele de atenție așa cum sunt descrise și în \cite{trans_luong_manning}. Un plus adus în puterea de generalizare îl reprezintă însumarea celor două stări ascunse (înainte și anapoi) din codificator.
 
 % todo: baseline? rezultate pe scurt
+\# todo: baseline si rezultate pe scurt
 
 \subsection{Progres precedent}
 Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe (taskbots), în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{joint_online_bing, att_joint_bing}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
@@ -61,17 +62,17 @@ Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}.
 \section{Rezumatul capitolelor}
 \begin{description}
 	\item[Introducere]  - 
-	
-	Capitolul întâi vorbește in principal despre modul în care această lucrare își propune să rezolve nevoia de interacțiune cu tehnologia, dar și despre un capitol istoric privit prin ochii unei motivații îndraznețe.
-	\item
-	Atunci când se rostește "progres" am în minte o  spirală a cunoștintelor care se bazează unele pe altele. Precum această imagine implementarea acestei tehnologi de dialog impune un anumit progres precedent, așa că în capitolul doi vor fi prezentate aceste instrumente care fac posibilă aceasta tehnologie.
-	\item
-	In capitolul al treilea vor fi explicate modelele matematice care stau în spatele modelelor decizionale.
-	\item
-	In partea a patra se prezintă modulul de înțelegerea limbajului natural
-	\item
-	Al cincelea capitol descrie modulul care ține contextul unei conversații.
-	\item
-	Iar in partea de final concluziile referitoare la studiul elaborat in această teză.
+		Capitolul întâi vorbește in principal despre modul în care această lucrare își propune să rezolve nevoia de interacțiune cu tehnologia. Este prezentată problematica, motivația, abordările anterioare și contribuția adusă domeniului.
+	\item[Dialog] -
+		În această parte este vorba despre încercarea noastră de a structura limbajul și de a-l pune într-un cadru științific, ușor de modelat matematic, dar fără a pierde din vedere însemnătatea cuvintelor.
+	\item[Sistem de dialog] - 
+		Capitolul al treilea vorbește despre experimentele noastre și descrie abordările cu cele mai bune rezultate. Aici este prezentată mulțimea de antrenare împreună cu performanța obținută, dar și o analiză privind erorile modelului.
+		
+	\item[Noțiuni teoretice] -
+		In capitolul al treilea vor fi explicate modelele matematice care stau în spatele modelelor decizionale.
+	\item[Expunere tehnologiei] - 
+		Atunci când se rostește "progres" am în minte o  spirală a cunoștințelor care se bazează unele pe altele. Precum această imagine implementarea unui sistem de dialog impune un anumit progres precedent, așa că aici se vor prezenta instrumentele care fac posibilă aceasta tehnologie.
+	\item[Concluzii] -
+		În finalul tezei se găsesc concluziile referitoare la studiul elaborat, împreună cu observațiile privind puterea de scalabilitate a unei astfel de abordări și înțelegerea diferenței dintre abordările din industrie și cele din spațiul academic.
 \end{description}
 
