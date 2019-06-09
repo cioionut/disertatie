@@ -2,7 +2,7 @@
 
 % todo: citari de sericii si lucrari
 
-Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului britanic Allan Turing \ref{test-turing} a fost pană de curând un criteriu în această direcție.
+Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului britanic Alan Turing \ref{test-turing} a fost pană de curând un criteriu în această direcție.
 
 Au fost propuse diferite arhitecturi și moduri de a schița matematic o conversație, printre ele și ELIZA compus dintr-un set de reguli elaborate pe baza mai multor studii având la bază logica. Bineînțeles industria cere și abordări mai modulare, mai robuste dar care să nu iasă din tipare, în această speță făcându-și apariția prima arhitectură bazată pe umplerea de sloturi (GUS), adică pentru fiecare replică din dialog se extrag constituenți semantici specifici domeniului care mai apoi sunt completați într-o structură tabelară (frame) urmând să servească drept parametrii în interogările cu sistemul.
 
@@ -121,6 +121,14 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 		Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
 		\hline
 		Seq2SeqX (general - attn) & 96.6 & 96,5 \\
+		\hline
+		Seq2SeqX (concat - attn) & 97.53 & - \\
+		\hline
+		Seq2SeqX (no - attn) & 97.8 & - \\
+		\hline
+		Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
+		\hline
+		Seq2SeqX (concat - intent attn) & 97.55 & 96.53 \\
 		\hline
 	\end{tabular}
 \end{center}
