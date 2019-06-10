@@ -9,10 +9,20 @@
 
 Privind dincolo de utilitatea practică de a transmite informații, limbajul reprezintă principala noastră unealtă în evoluție și nu numai, el este cel care intensifică interacțiunea și menține legăturile interumane. Sunt rare momentele în care ne gândim la această capacitate de a comunica, totuși o folosim la fel de des și ne este la fel de indispensabilă precum o funcție vitală.
 
-Înțelesul este conceptul ce are ca principala sursă limbajul, această relație scoate în evidență contrastul dintre complexitatea inferenței și simplitatea cuvintelor. Reprezentativ pentru această legătură este proverbul \textit{"Vorba dulce mult aduce"} ce surprinde în esență trăsături definitorii precum puterea cuvântului, capacitatea afectivă și în principal caracterul contemplativ al limbajului. El în sine reprezintă o formă de artă, în detaliu paradoxală și recurentă, poate din cauza faptului ca ne reprezintă ajunge să se confunde cu noi.
+Înțelesul este conceptul ce are ca principală sursă limbajul, această relație scoate în evidență contrastul dintre complexitatea inferenței și simplitatea cuvintelor. Reprezentativ pentru această legătură este proverbul \textit{"Vorba dulce mult aduce"} ce surprinde în esență trăsături definitorii precum puterea cuvântului, capacitatea afectivă și în principal caracterul contemplativ al limbajului. El în sine reprezintă o formă de artă, în detaliu paradoxală și recurentă, poate din cauza faptului ca ne reprezintă ajunge să se confunde cu noi.
 
 În cartea sa Speech and Language Proccessing \cite{speach__lang_processing}, profesorul Dan Jurafsky observă faptul că există numeroase exemple în care omul încearcă să comunice cu creația sa, acest comportament este surprins adesea și în literatură unde personificarea nu se oprește numai la natură. În lumina acestor observații se remarcă longevitatea și neoboseala dorinței creatoare, a cărei împlinire se concretizează în această ramură a lingvisticii matematice unde puterea de a înțelege limbajul este folosită la implementarea unor modele matematice capabile de o conversație.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Progres precedent}
+Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe (taskbots), în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{joint_online_bing, att_joint_bing}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
+
+Ghidat în mare parte de impactul asupra industriei am ales ca direcție de studiu sistemul de dialog orientat pe rezolvarea cerințelor (taskbots). Unde accentul se pune în primul rând pe puterea de a simula determinismul cu care un agent uman ar răspunde. Din această cauză avem o suită de module: recunoaștere vocală (Automatic Speech Recognition - ASR sau Speech To Text - STT), înțelegerea limbajului natural (Natural Language Understanding - NLU), administrarea dialogului (Dialog Manager - DM), generarea de replici (Natural Language Generation) și într-un final conversia textului în voce (Text To Speech, TTS) toate acestea conectate într-un flux de informații ce are ca prim declanșator utilizatorul. La celălalt pol, în cercetare. întâlnim tot mai des abordări în care componente ([STT], NLU, DM, NLG, [TTS]) sunt văzute ca un singur model unde învățarea se realizează de la un capăt la altul (end-to-end)\cite{end-to-end-goal-oriented}, ne mai fiind nevoie de antrenarea separată. Privind dintr-o perspectivă practică aceste modele end-to-end, duc lipsă de mulțimi de antrenare, din cauza faptului că acestea necesită o atenție mai sporită, iar în ceea ce privește antrenarea administratorului de dialog, avem nevoie de simularea unui mediu de utilizatori, cerință impusă de strategia de învățare prin recompensă (Reinforcement Learning). Totuși aceste abordări reușesc să surprindă în aplicațiile de tip conversație deschisă (chatbots), unde nu se pune accent mare pe contextul dialogului.
+
+Revenind la sistemul de dialog orientat pe rezolvarea cerințelor, observăm că minimum viabil al acestei arhitecturi este dat de componenta care înțelege limbajul natural (NLU) și cea care ține contextul conversației (DM). Aceste două module sunt necesare și suficiente pentru a putem avea cel puțin în scris un dialog cu mașina. 
+
+Componenta de înțelegerea limbajului natural se ocupă cu detectarea intenției și a entităților aflate într-o replică venită din partea utilizatorului. De multe ori cele două chestiuni sunt văzute separat, ca o problemă de clasificare respectiv ca o problemă de etichetare a unei secvențe.
+Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}. Iar pentru recunoașterea entităților sunt folosite tehnici de etichetare ca \cite{scipy_numpyeq_labeling}. Dar luând în considerare puterea rețelelor neuronal recurente și a arhitecturii de codificare-decodificare utilizată cu succes în traducere și recunoașterea vorbirii \cite{luoung_bahdanau_maning}. Aceste două probleme sunt tratate de multe ori concomitent, în esență se folosește capacitatea de a capta înțelesul unei secvențe de text cu ajutorul unui encoder iar apoi se folosesc diferite decodere pentru a traduce cuvinte sau întregul înțeles în clase de intenții și entități.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Nevoia de a comunica}
@@ -29,15 +39,14 @@ Lucrarea își propune cercetarea unui model îndeajuns de puternic încât să 
 NLU este un concept care poate îngloba o mulțime de probleme precum analiza de sentiment, clasificarea de text, rezumarea și multe alte chestiuni legate de semantică. În literatura de specialitate a sistemelor de dialog, NLU ține locul componentei ce este responsabilă cu detectarea intenției vorbitorului și recunoașterea entităților, aceste grupuri de cuvinte care au o însemnătate în cadrul unui domeniu.
 De exemplu: "aș dori să îmi resetez parola, numele meu de utilizator este cioionut", avem ca intenție resetarea parolei, iar ca entitate numele de utilizator.
 
-În administratorul de dialog, aceste intenții sunt văzute ca reprezentări ale obiectivelor utilizatorului. Odată ce intenția este stabilită, pentru a duce la bun sfârșit un obiectiv s-ar putea să mai avem nevoie de anumite informații așa cum în exemplu anterior am avut nevoie de numele de utilizator. Ceea ce face ca entitățile să fie văzute drept argumente ale unui obiectiv.
-
+În administratorul de dialog, aceste intenții sunt văzute ca reprezentări ale obiectivelor utilizatorului. Odată ce intenția este stabilită, pentru a duce la bun sfârșit un obiectiv s-ar putea să mai avem nevoie de anumite informații așa cum în exemplu anterior am avut nevoie de numele de utilizator; ceea ce face ca entitățile să fie văzute drept argumente ale unui obiectiv.
 
 \subsection{Contribuția noastră}
 
 Luând contact tot mai des cu mediul de cercetare, încerc să observ modul în care această comunitate reușește să aducă contribuții în societate. Un lucru care m-a făcut sa prețuiesc fiecare efort, este acela că în general o descoperire se bazează pe cercetări anterioare și ca orice gând exprimat în scopul de a descoperi, poate fi valoros și dus mai departe. Dorința de a crea cu scopul de face viața oamenilor mai ușoară este imboldul intrinsec ce ghidează acțiunile mele, așadar evaluând cunoștințele mele, am decis sa îmi aduc contribuția într-un domeniu atât de important.
 
 % todo: de adaugat motivatia pentru abordarea aleasa
-Ideea de a cerceta un model pentru înțelegerea limbajului, vine în egală măsură din curiozitate și din conștientizarea nevoii. Abordarea propusă conține două module, unul pentru NLU și altul pentru DM (dialog manager), decizia care a stat la baza acestei arhitecturi este legată în primul rând de rigoarea impusă de un administrator de dialog separat în favoarea unei soluții end-to-end ce impune mulțimi de antrenare mult mai rafinate și simularea unei mediu de utilizatori. S-a urmărit și posibilitatea de a pune în producție un astfel de sistem, dar și ușurința de a crea noi agenți doar adăugând date specifice domeniului.
+Ideea de a cerceta un model pentru înțelegerea limbajului, vine în egală măsură din curiozitate și din conștientizarea nevoii. Abordarea propusă conține două module, unul pentru NLU și altul pentru DM (dialog manager), decizia care a stat la baza acestei arhitecturi este legată în primul rând de rigoarea impusă de un administrator de dialog separat în favoarea unei soluții end-to-end ce impune mulțimi de antrenare mult mai rafinate și simularea unui mediu de utilizatori. S-a urmărit și posibilitatea de a pune în producție un astfel de sistem, dar și ușurința de a crea noi agenți doar adăugând date specifice domeniului.
 
 
 % todo: contribuția adusă, cum m-am gandit eu si experimentat (pe scurt)
@@ -45,15 +54,6 @@ Pentru a înțelege limbajul natural s-a folosit o arhitectură de tip encode-de
 
 % todo: baseline? rezultate pe scurt
 \# todo: baseline si rezultate pe scurt
-
-\subsection{Progres precedent}
-Mergând pe acest drum al construirii unui sistem de dialog în literatura de specialitate se disting două ramuri: cea a asistenților digitali care rezolvă diferite cerințe (taskbots), în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{joint_online_bing, att_joint_bing}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai de grabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
-
-Pornind de la dorința de a crea cu scopul de a aduce valoare în societate, am ales ca direcție de studiu sistemul de dialog orientat pe rezolvarea cerințelor. Tot mai des se încearcă metode end-to-end pentru a descoperi un singur model care să țină loc unui astfel de sistem \cite{end-to-end foal oriented}. În industrie lucrurile sunt abordate mai modular, antrenându-se modele diferite pentru fiecare componentă (ASR, SLU/NLU, DM, NLG). Un minimum viabil al acestei arhitecturi modulare îl reprezintă componenta de înțelegerea limbajului natural(NLU) și cea de administrare a dialogului (DM) acestea două făcând obiectul lucrării de față.
-
-Componenta de înțelegerea limbajului natural se ocupă cu detectarea intenției și a entităților aflate într-o replică venită din partea utilizatorului. De multe ori cele două chestiuni sunt văzute separat, ca o problemă de clasificare respectiv ca o problemă de etichetare a unei secvențe.
-Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}. Iar pentru recunoașterea entităților sunt folosite tehnici de etichetare ca \cite{scipy_numpyeq_labeling}. Dar luând în considerare puterea rețelelor neuronal recurente și a arhitecturii de codificare-decodificare utilizată cu succes în traducere și recunoașterea vorbirii \cite{luoung_bahdanau_maning}. Aceste două probleme sunt tratate de multe ori concomitent, în esență se folosește capacitatea de a capta înțelesul unei secvențe de text cu ajutorul unui encoder iar apoi se folosesc diferite decodere pentru a traduce cuvinte sau întregul înțeles în clase de intenții și entități.
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,7 +65,6 @@ Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}.
 		În această parte este vorba despre încercarea noastră de a structura limbajul și de a-l pune într-un cadru științific, ușor de modelat matematic, dar fără a pierde din vedere însemnătatea cuvintelor.
 	\item[Sistem de dialog] - 
 		Capitolul al treilea vorbește despre experimentele noastre și descrie abordările cu cele mai bune rezultate. Aici este prezentată mulțimea de antrenare împreună cu performanța obținută, dar și o analiză privind erorile modelului.
-		
 	\item[Noțiuni teoretice] -
 		In capitolul al treilea vor fi explicate modelele matematice care stau în spatele modelelor decizionale.
 	\item[Expunere tehnologiei] - 
