@@ -10,9 +10,9 @@ Dacă privim la scopul final al unei conversații distingem două clase și anum
 
 Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, rezolvarea cerințelor primează în funcționalitatea unei astfel de aplicații, așadar industria se concentrează pe arhitecturi modulare, care să necesite cât mai puține date de antrenare, RASA, SNIPS, WATSON, DialogFlow sunt platforme care pun la dispoziție instrumente pentru a crea genul acesta de agenți.
 
-Prin natura sa, lumea academică este întotdeauna mai în față în ceea ce privește tehnica sa de a concepe aceste sisteme, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru contextul conversației și generarea unor politici de răspuns se folosește învățarea prin recompensă. \cite{rl-seq2seq}
+Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, iar acum cele mai populare abordări se concentrează pe dezvoltarea unui singur model care să descopere strategii de a acționa în diferite situații, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru a reprezenta contextul conversației și a genera politici de decizie se folosește învățarea prin recompensă. \cite{rl-seq2seq}
 
-În cadrul studiului curent accentul este pus pe structura ce îmbină mai multe modele, drept pentru care vor fi detaliate experimentele pentru NLU și DM.
+În cadrul studiului curent accentul este pus pe structura ce îmbină mai multe modele, drept pentru care vor fi detaliate experimentele ce au condus la alegerea unui model care să înțeleagă textul (NLU).
 
 \section{Înțelegerea limbajului natural}
 NLU este un concept destul de vast, in terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural exprimat.
@@ -136,8 +136,6 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 \subsection{Analiza erorilor}
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \section{Administrator de dialog}
 
@@ -151,11 +149,22 @@ De asemenea tot el se ocupă cu situațiile neclare sau cu cazurile aflate în a
 
 De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul.
 
-\textbf{Automat finit determinist - Finite State}
-
+\textbf{Automat finit determinist - Finite State}\\
 Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
 	
-\textbf{Cadru de informații - Frame based/Slot filling}
-
+\textbf{Cadru de informații - Frame based/Slot filling}\\
 Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară. Ea mai este întâlnită și sub denumirea de umplere de sloturi. Un slot este o entitate semantică văzută ca un argument ce va fi umplut de modulul de NLU, iar apoi când au fost umplute suficiente sloturi, are loc acțiunea din partea administratorului de dialog. Altfel spus un cadru de informație este compus din sloturi necesare și un obiectiv al utilizatorului. În mare parte această abordare captează strategia de bază al unui agent, scutind munca depusa pentru a același comportament descris într-un automat finit, ba mai mult dă o flexibilitate dezvoltării datorită structurii tabelare ce poate fi importată. Un alt avantaj este acela că inițiativa la discurs se găsește într-un echilibru, utilizatorul având posibilitatea să ofere mai multe sloturi în acceși replică. Faptul că suntem constrânși la un singur scenariu reprezintă un dezavantaj.
-	
+
+\textbf{Plan}\\
+Abordările bazate pe un plan tratează fiecare replică din dialog ca o acțiune din partea utilizatorului spre a-și atinge obiectivul. Agentul detectează intenția, apoi construiește un plan de comunicare pentru a-l ajuta pe interlocutor să își atingă scopul.
+
+\textbf{Învățare de strategii}\\
+Datorită recentelor descoperiri în procesarea limbajului natural \cite{metode-de-reprezentare} și a progreselor din învățarea automată \cite{rnn}, reprezentarea informației și inferența au devenit din ce în ce mai performante. Ceea ce coincide cu necesitățile unui sistem de dialog unde știm ca avem nevoie de o metodă care să poată reprezenta contextul și încă una de a rezona pe baza acestuia. De aici și numărul mare de lucrări științifice în această direcție.
+
+În abordările de acest gen se pleacă de la aceleași principii și anume o mulțime de stări ale conversației și o altă mulțime de acțiuni pe care agentul le poate efectua. Privind conversația ca un proces parțial observat putem atașa un model statistic (partially observable Markov decision process - POMDP), care să ne permită o tranziție din starea A în starea B pe baza unei probabilități.
+
+Avantajele acestor metode sunt legate de automatizarea dezvoltării unui administrator de dialog. Învățarea politicilor de decizie se realizează doar pe baza interacțiunilor anterioare dintre utilizatori și agent. Îmbunătățiri se observă și în calitatea conversației, deoarece antrenarea recompensează conversațiile încheiate cu succes și care durează mai puțin (ca număr de replici). Un plus este adus și în gestionarea situațiilor neprevăzute, ceea ce nu găsim la metodele deterministe descrise anterior.
+
+Puterea oferită de aceste abordări vine și cu costuri: mulțimi de antrenare mai mari - detaliate la nivel de conversație și antrenarea într-un mediu ce simulează utilizatorul final. Bineînțeles faza de învățare poate avea loc și online, dar iar ne vom lovim de lipsa datelor, mai presus de atât expunerea unui agent neantrenat, riscă să deranjeze majoritatea utilizatorilor care au sosit în sistem pentru o cu totul altă problemă.
+
+\subsection{Model propus}
