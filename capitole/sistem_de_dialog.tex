@@ -144,9 +144,18 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 Într-un sistem de dialog au loc mai multe schimburi de informații între utilizator și agent. Acest flux de date nu poate exista fără context, limbaj comun, intenții, entități și nu în ultimul rând acțiuni de ambele părți. Partea care ne asigură de înțelegerea limbajului natural ne oferă un cadru semantic compus din intenție și entități la fiecare replică a utilizatorului. Administratorul de dialog este unitatea centrală care coordonează activitatea celorlalte componente, el se folosește de anumite politici pentru a știi ce acțiuni să facă mai departe știind contextul actual.
 
 Două procese importante au loc aici și anume reprezentarea contextului și inferența responsabilă de următoarea acțiune luată de agent.
-Ca urmare a acțiunilor sale putem avea interogări ale sistemelor externe, întrebări suplimentare sau notificări privind statusul unui anumit obiectiv.
+Ca urmare a acțiunilor sale putem avea interogări ale sistemelor externe, întrebări suplimentare sau notificări privind starea unui anumit obiectiv.
 De asemenea tot el se ocupă cu situațiile neclare sau cu cazurile aflate în afara competenței sistemului.
 
-De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date, și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă.
-
 \subsection{Abordări anterioare}
+
+De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul.
+
+\textbf{Automat finit determinist - Finite State}
+
+Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
+	
+\textbf{Cadru de informații - Frame based/Slot filling}
+
+Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară. Ea mai este întâlnită și sub denumirea de umplere de sloturi. Un slot este o entitate semantică văzută ca un argument ce va fi umplut de modulul de NLU, iar apoi când au fost umplute suficiente sloturi, are loc acțiunea din partea administratorului de dialog. Altfel spus un cadru de informație este compus din sloturi necesare și un obiectiv al utilizatorului. În mare parte această abordare captează strategia de bază al unui agent, scutind munca depusa pentru a același comportament descris într-un automat finit, ba mai mult dă o flexibilitate dezvoltării datorită structurii tabelare ce poate fi importată. Un alt avantaj este acela că inițiativa la discurs se găsește într-un echilibru, utilizatorul având posibilitatea să ofere mai multe sloturi în acceși replică. Faptul că suntem constrânși la un singur scenariu reprezintă un dezavantaj.
+	
