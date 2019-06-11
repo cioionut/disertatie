@@ -11,28 +11,17 @@
 \section{Tehnologii folosite}
 
 Desemnarea tehnologiilor open source folosite ca dependințe poate fi văzută la prima vedere o alegere ușoară, însă este nevoie de o analiză mult mai amănunțită în ceea ce privește specificul proiectului.
-Pentru această lucrare am luat în considerare următorii factori: complexitatea de a descrie o rețea neuronală să fie cat mai simpla, dar să reflecte cat mai bine tot procesul matematic din spate, flexibilitatea de a putea jongla cu diferite arhitecturi de rețele. Evident viteza și eficiența cu care aceste biblioteci rulează, dar și dispozitivele pe care ele rulează (CPU/GPU).
+Pentru această lucrare am luat în considerare următorii factori: complexitatea de a descrie o rețea neuronală, modul de expunere (la nivel de API) al proceselor matematice din spate și flexibilitatea de a putea jongla cu diferite arhitecturi de rețele. De asemenea eficiența și posibilitatea de a rula pe diferite unități de calcul (CPU/GPU).
 
 \subsection{Python}
 
-Python a fost creat la începutul anilor 1990 de Guido van Rossum la Stichting Mathematisch Centrum (CWI) în Olanda ca un succesor al limbajului, ABC. \cite{pythonhistory}
+Limbajul de programare utilizat în implementarea modelelor propuse este Python. El este folosit de la dezvoltare de servicii web (django, flask) până la biblioteci software de învățare automată (pytorch, tensorflow). Datorită popularității sale el se bucură din plin de licențierea open source, având o comunitate impresionantă de oameni care contribuie la dezvoltarea acestui ecosistem, cel puțin în partea de inteligență artificială el este instrumentul cel mai folosit și are cele mai multe pachete care îi extind funcționalitatea. 
 
-Python este un limbaj de programare puternic și ușor de învățat. El are structuri de date implementate la un nivel înalt și reprezintă o abordare simplă, dar eficientă a programării orientate pe obiecte. Python are o sintaxa elegantă, ce impune o dactilografiere dinamică, împreună cu natura sa de limbaj interpretat, reprezintă un instrument ideal pentru scripting și dezvoltarea rapidă a aplicațiilor în multe domenii, pe majoritatea platformelor.
-
-Interpretorul Python și biblioteca standard extinsă sunt disponibile gratuit în format sursă sau binar pentru toate platformele majore pe site-ul Web Python. În același site sunt conținute, de asemenea, distribuții și indicii pentru mai multe module, programe, instrumente și documentație suplimentară.
-
-Interpretorul Python este ușor de extins cu noi funcții și tipuri de date implementate în C sau C++ (sau alte limbaje apelabile din C). Python este de asemenea potrivit ca o extensie pentru aplicații personalizate.
-\cite{python_tutorial}
+Python a fost creat la începutul anilor 1990 de Guido van Rossum la Stichting Mathematisch Centrum (CWI) în Olanda ca un succesor al limbajului ABC. \cite{pythonhistory}. Este un limbaj orientat pe obiecte ce vine însoțit de structuri de date la nivel înalt (dicționare, mulțimi, liste), uneori împrumutând concepte din programarea funcțională (list comprehention, map/reduce), alteori din programarea paralelă (apeluri asincrone).
 
 \subsection{Numpy}
 
-Numpy este un acronim pentru "Numeric Python" sau "Numerical Python". El este un pachet fundamental pentru calculul științific in Python, ce furnizează funcții precompilate care se execută rapid cu scopul de a efectua operațiile matematice de rutină.  Mai mult decât atât, NumPy îmbogățește limbajul de programare cu structuri puternice de date pentru calculul eficient de vectori si matrice, implementarea sa suportând chiar și dimensiuni uriașe.
-
-SciPy (Scientific Python) este adesea menționat atunci când vine vorba de NumPy. SciPy extinde capabilitățile NumPy cu alte funcții utile pentru minimizare, regresie, transformate Fourier și multe altele.
-
-Atât NumPy și SciPy nu sunt de obicei instalate în mod implicit. NumPy trebuie să fie instalat înainte de a instala SciPy. 
-
-NumPy se bazează pe două module anterioare Python care se ocupă cu matrice. Unul dintre acestea este Numeric. Numeric este ca NumPy un modul Python pentru înaltă performanță de calcul numeric, dar este învechit în zilele noastre. Un alt predecesor al NumPy este Numarray, care este o rescriere completă a modulului Numeric, dar este învechit de asemenea. NumPy este o fuziune a celor două, adică este construit pe codul lui Numeric dar cu caracteristicile lui Numarray.
+Pentru lucrul cu matrice și alte operații ce impun operații algebrice vectoriale se folosește de obicei Numpy. El este un acronim pentru "Numeric Python" sau "Numerical Python". Este un pachet fundamental pentru calculul științific in Python, ce furnizează funcții precompilate care se execută rapid cu scopul de a efectua operațiile matematice de rutină.  Mai mult decât atât, NumPy îmbogățește limbajul de programare cu structuri puternice de date pentru calculul eficient de vectori si matrice, implementarea sa suportând chiar și dimensiuni uriașe.
 
 \subsection{PyTorch}
 
