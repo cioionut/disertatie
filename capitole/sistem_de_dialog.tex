@@ -36,7 +36,7 @@ Modelul propus pentru înțelegere a limbajului rezolvă ambele probleme simulta
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5]{seq2seq_x.png}
+	\includegraphics[scale=0.33]{seq2seq_x.png}
 	\caption{Seq2Seq-x}
 	\label{fig:seq2seq_x}
 \end{figure}
@@ -102,7 +102,7 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 			\hline
 			\textbf{Multime de antrenare} & \#Train & \#Dev & \#Test & $|V|$ & \#Intenții & \#Entități \\ 
 			\hline
-			ATIS & 4978 & - & 893 & 900 & 18 & 80 \\
+			ATIS & 4978 & - & 893 & 900 & 22 & 80 \\
 			\hline
 		\end{tabular}
 	\end{adjustbox}
@@ -114,23 +114,28 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 %%%%%%%%%%%%%%%%%%%%
 \subsection{Rezultate}
 \begin{center}
-	\begin{tabular}{ c c c } 
-		\hline
-		\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
-		\hline
-		Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
-		\hline
-		Seq2SeqX (general - attn) & 96.6 & 96,5 \\
-		\hline
-		Seq2SeqX (concat - attn) & 97.53 & - \\
-		\hline
-		Seq2SeqX (no - attn) & 97.8 & - \\
-		\hline
-		Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
-		\hline
-		Seq2SeqX (concat - intent attn) & 97.55 & 96.53 \\
-		\hline
-	\end{tabular}
+
+	\begin{table}
+		\caption{Comparație cu abordări anterioare. Antrenare independentă pentru detectarea intenției pe ATIS}
+		\label{atis_stats}
+		\begin{tabular}{ c c c } 
+			\hline
+			\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
+			\hline
+			Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
+			\hline
+			Seq2SeqX (general - attn) & 96.6 & 96,5 \\
+			\hline
+			Seq2SeqX (concat - attn) & 97.53 & - \\
+			\hline
+			Seq2SeqX (no - attn) & 97.8 & - \\
+			\hline
+			Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
+			\hline
+			Seq2SeqX (concat - intent attn) & 97.55 & 96.53 \\
+			\hline
+		\end{tabular}
+	\end{table}
 \end{center}
 
 \subsection{Analiza erorilor}
@@ -138,8 +143,14 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \section{Administrator de dialog}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{dm_dialog_system.png}
+	\caption{Administrator de dialog}
+	\label{fig:ds_proc}
+\end{figure}
 
-Într-un sistem de dialog au loc mai multe schimburi de informații între utilizator și agent. Acest flux de date nu poate exista fără context, limbaj comun, intenții, entități și nu în ultimul rând acțiuni de ambele părți. Partea care ne asigură de înțelegerea limbajului natural ne oferă un cadru semantic compus din intenție și entități la fiecare replică a utilizatorului. Administratorul de dialog este unitatea centrală care coordonează activitatea celorlalte componente, el se folosește de anumite politici pentru a știi ce acțiuni să facă mai departe știind contextul actual.
+Într-un sistem de dialog au loc mai multe schimburi de informații între utilizator și agent. Acest flux de date nu poate exista fără context, limbaj comun, intenții, entități și nu în ultimul rând acțiuni de ambele părți. Partea responsabilă de înțelegerea limbajului natural ne oferă un cadru semantic compus din intenție și entități la fiecare replică a utilizatorului. Administratorul de dialog este unitatea centrală care coordonează activitatea celorlalte componente, el se folosește de anumite politici pentru a știi ce acțiuni să facă mai departe știind contextul actual.
 
 Două procese importante au loc aici și anume reprezentarea contextului și inferența responsabilă de următoarea acțiune luată de agent.
 Ca urmare a acțiunilor sale putem avea interogări ale sistemelor externe, întrebări suplimentare sau notificări privind starea unui anumit obiectiv.
@@ -153,7 +164,7 @@ De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, major
 Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
 	
 \textbf{Cadru de informații - Frame based/Slot filling}\\
-Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară. Ea mai este întâlnită și sub denumirea de umplere de sloturi. Un slot este o entitate semantică văzută ca un argument ce va fi umplut de modulul de NLU, iar apoi când au fost umplute suficiente sloturi, are loc acțiunea din partea administratorului de dialog. Altfel spus un cadru de informație este compus din sloturi necesare și un obiectiv al utilizatorului. În mare parte această abordare captează strategia de bază al unui agent, scutind munca depusa pentru a același comportament descris într-un automat finit, ba mai mult dă o flexibilitate dezvoltării datorită structurii tabelare ce poate fi importată. Un alt avantaj este acela că inițiativa la discurs se găsește într-un echilibru, utilizatorul având posibilitatea să ofere mai multe sloturi în acceși replică. Faptul că suntem constrânși la un singur scenariu reprezintă un dezavantaj.
+Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară. Ea mai este întâlnită și sub denumirea de umplere de sloturi. Un slot este o entitate semantică văzută ca un argument ce va fi umplut de modulul de NLU, iar apoi când au fost umplute suficiente sloturi, are loc acțiunea din partea administratorului de dialog. Altfel spus un cadru de informație este compus din sloturi necesare și un obiectiv al utilizatorului. În mare parte această abordare captează strategia de bază al unui agent, scutind munca depusa pentru a același comportament descris într-un automat finit, ba mai mult dă o flexibilitate dezvoltării datorită structurii tabelare ce poate fi importată. Un alt avantaj este acela că inițiativa la discurs se găsește într-un echilibru, utilizatorul având posibilitatea să ofere mai multe sloturi în aceeași replică. Faptul că suntem constrânși la un singur scenariu reprezintă un dezavantaj.
 
 \textbf{Plan}\\
 Abordările bazate pe un plan tratează fiecare replică din dialog ca o acțiune din partea utilizatorului spre a-și atinge obiectivul. Agentul detectează intenția, apoi construiește un plan de comunicare pentru a-l ajuta pe interlocutor să își atingă scopul.
@@ -168,3 +179,34 @@ Avantajele acestor metode sunt legate de automatizarea dezvoltării unui adminis
 Puterea oferită de aceste abordări vine și cu costuri: mulțimi de antrenare mai mari - detaliate la nivel de conversație și antrenarea într-un mediu ce simulează utilizatorul final. Bineînțeles faza de învățare poate avea loc și online, dar iar ne vom lovim de lipsa datelor, mai presus de atât expunerea unui agent neantrenat, riscă să deranjeze majoritatea utilizatorilor care au sosit în sistem pentru o cu totul altă problemă.
 
 \subsection{Model propus}
+
+Scopul dezvoltării agenților conversaționali este de a îmbunătății interacțiunea dintre oameni și tehnologie. Prin caracterul său natural, această conexiune impune standarde ridicate în experiența utilizatorului și în eficiență de a rezolva cerințele acestuia. Luând în considerare fragilitatea unei conversații, dar și legătura dintre comportamentul agentului și experiența rezultată, de cele mai multe ori se recurge la implementări bazate pe reguli. Una dintre cela mai populare este cea bazată pe umplerea de sloturi (cadru de informații) care se caracterizează prin următoarele avantaje:
+\begin{itemize}
+	\item inițiativa la discurs se găsește într-un echilibru, astfel utilizatorul nu se mai simte ghidat ca într-un formular ci mai degrabă într-o discuție
+	\item utilizatorul are posibilitatea să ofere mai multe sloturi în aceeași replică, ceea ce crește semnificativ experiența cu agentul care de data aceasta recunoaște mai multe entități într-o propoziție, evitând pe viitor să mai întrebe despre ale
+	\item se vede ușor procesul de decizie, fiind un model bazat pe reguli ne dă posibilitatea să mergem pe fir înapoi și să identificăm ipotezele unor anumite acțiuni
+	\item comportament previzibil, o oarecare robustețe este impusă atunci când dorim să avem control asupra sarcinilor gestionate
+	\item ușor de importat scenarii noi
+	\item nu necesită mulțimi de antrenare la fel de bine construite precum modelele statistice, aici fiind nevoie doar de un expert în domeniu care să structureze scenariile de dialog
+\end{itemize}
+
+Dezavataje
+\begin{itemize}
+	\item complexitatea structurii de dialog este proporțională cu numărul de scenarii gestionate, lucru ce limitează această abordare la un număr rezonabil de sarcini
+	\item puterea de scalabilitate este legată de competența expertului în domeniu	
+\end{itemize}
+
+O îmbunătățire adusă metodei standard de umplere a sloturilor o reprezintă capacitatea de a trata obiective multiple.
+Pentru dezvoltarea administratorului de dialog, s-a folosit un model bazat pe cadre de informații (frame based/slot filling) ce poate trata mai multe obiective.
+Pentru a ține evidența intențiilor și entităților se folosește o bază de date care descrie aceste concepte, ea poartă numele de ontologie a domeniului și este folosită în comun de componentele de NLU și DM pentru a asigura consistența cerută în comunicarea celor două. Vezi anexa x
+
+Structura dialogului este o altă sursă de date care indică administratorului de dialog logica scenariilor posibile și obiectivele/sarcinile gestionate de către agent. În acest caz sarcină este sinonim cu obiectiv, deoarece ele se referă într-un final la același concept. Astfel un obiectiv al utilizatorului devine o sarcină a sistemului. Deci vorbind din perspectiva consumatorului, un obiectiv este o structură ce pune la o laltă intenția și entitățiile necesare pentru ca acel obiectiv să poată avea loc.
+
+Administratorul de dialog este format din două componente: 
+\begin{description}
+	\item[Gestionarea stării conversației (Dialog state tracking)] care ține istoria sesiunii de dialog grupată în intenții și entități menționate. Conform structurii de dialog această componentă reușește să mențină o evidența a obiectivelor pe parcursul întregii conversații.
+	\item[Politicile de decizie (Dialog policy)] sunt acele metode prin care agentul decide să facă anumite acțiuni, de exemplu să întrebe despre un slot lipsă sau să interogheze sistemul rezolvând o anumită sarcină.
+\end{description}
+
+
+
