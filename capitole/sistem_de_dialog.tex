@@ -4,7 +4,7 @@
 
 Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului britanic Alan Turing \ref{test-turing} a fost pană de curând un criteriu în această direcție.
 
-Au fost propuse diferite arhitecturi și moduri de a schița matematic o conversație, printre ele și ELIZA compus dintr-un set de reguli elaborate pe baza mai multor studii având la bază logica. Bineînțeles industria cere și abordări mai modulare, mai robuste dar care să nu iasă din tipare, în această speță făcându-și apariția prima arhitectură bazată pe umplerea de sloturi (GUS), adică pentru fiecare replică din dialog se extrag constituenți semantici specifici domeniului care mai apoi sunt completați într-o structură tabelară (frame) urmând să servească drept parametrii în interogările cu sistemul.
+Au fost propuse diferite arhitecturi și moduri de a schița matematic o conversație, printre ele și ELIZA compus dintr-un set de reguli elaborate pe baza mai multor studii având la bază logica. Bineînțeles industria cere și abordări mai modulare, mai robuste dar care să nu iasă din tipare, în această direcție făcându-și apariția prima arhitectură bazată pe umplerea de sloturi (GUS), adică pentru fiecare replică din dialog se extrag constituenți semantici specifici domeniului care mai apoi sunt completați într-o structură tabelară (frame) urmând să servească drept parametrii în interogările cu sistemul.
 
 Dacă privim la scopul final al unei conversații distingem două clase și anume: agenți orientați pe rezolvarea de cerințe și agenți orientați pe discuție la nivel general.
 
@@ -160,7 +160,7 @@ De asemenea tot el se ocupă cu situațiile neclare sau cu cazurile aflate în a
 
 De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul.
 
-\textbf{Automat finit determinist - Finite State}\\
+\textbf{Automat finit determinist - Finite State Automata}\\
 Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
 	
 \textbf{Cadru de informații - Frame based/Slot filling}\\
@@ -180,7 +180,7 @@ Puterea oferită de aceste abordări vine și cu costuri: mulțimi de antrenare 
 
 \subsection{Model propus}
 
-Scopul dezvoltării agenților conversaționali este de a îmbunătății interacțiunea dintre oameni și tehnologie. Prin caracterul său natural, această conexiune impune standarde ridicate în experiența utilizatorului și în eficiență de a rezolva cerințele acestuia. Luând în considerare fragilitatea unei conversații, dar și legătura dintre comportamentul agentului și experiența rezultată, de cele mai multe ori se recurge la implementări bazate pe reguli. Una dintre cela mai populare este cea bazată pe umplerea de sloturi (cadru de informații) care se caracterizează prin următoarele avantaje:
+Scopul dezvoltării agenților conversaționali este de a îmbunătății interacțiunea dintre oameni și tehnologie. Prin caracterul său natural, această conexiune impune standarde ridicate în experiența utilizatorului și în eficiența de a rezolva cerințele acestuia. Luând în considerare fragilitatea unui dialog, dar și legătura dintre comportamentul agentului și calitatea conversației, de cele mai multe ori se recurge la implementări bazate pe reguli. Una dintre cela mai populare este cea bazată pe umplerea de sloturi (cadru de informații) care se caracterizează prin următoarele avantaje:
 \begin{itemize}
 	\item inițiativa la discurs se găsește într-un echilibru, astfel utilizatorul nu se mai simte ghidat ca într-un formular ci mai degrabă într-o discuție
 	\item utilizatorul are posibilitatea să ofere mai multe sloturi în aceeași replică, ceea ce crește semnificativ experiența cu agentul care de data aceasta recunoaște mai multe entități într-o propoziție, evitând pe viitor să mai întrebe despre ale
@@ -205,7 +205,7 @@ Structura dialogului este o altă sursă de date care indică administratorului 
 Administratorul de dialog este format din două componente: 
 \begin{description}
 	\item[Gestionarea stării conversației (Dialog state tracking)] care ține istoria sesiunii de dialog grupată în intenții și entități menționate. Conform structurii de dialog această componentă reușește să mențină o evidența a obiectivelor pe parcursul întregii conversații.
-	\item[Politicile de decizie (Dialog policy)] sunt acele metode prin care agentul decide să facă anumite acțiuni, de exemplu să întrebe despre un slot lipsă sau să interogheze sistemul rezolvând o anumită sarcină.
+	\item[Politicile de decizie (Dialog policy)] sunt metode/regulile prin care agentul decide să facă anumite acțiuni, de exemplu să întrebe despre un slot lipsă sau să interogheze sistemul rezolvând o anumită sarcină.
 \end{description}
 
 
