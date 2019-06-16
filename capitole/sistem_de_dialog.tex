@@ -8,7 +8,7 @@ Au fost propuse diferite arhitecturi și moduri de a schița matematic o convers
 
 Dacă privim la scopul final al unei conversații distingem două clase și anume: agenți orientați pe rezolvarea de cerințe și agenți orientați pe discuție la nivel general.
 
-Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, rezolvarea cerințelor primează în funcționalitatea unei astfel de aplicații, așadar industria se concentrează pe arhitecturi modulare, care să necesite cât mai puține date de antrenare, RASA, SNIPS, WATSON, DialogFlow sunt platforme care pun la dispoziție instrumente pentru a crea genul acesta de agenți.
+Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, rezolvarea cerințelor primează în funcționalitatea unei astfel de aplicații, așadar industria se concentrează pe arhitecturi modulare care să necesite cât mai puține date de antrenare, RASA, SNIPS, WATSON, DialogFlow sunt platforme care pun la dispoziție instrumente pentru a crea genul acesta de agenți.
 
 Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, iar acum cele mai populare abordări se concentrează pe dezvoltarea unui singur model care să descopere strategii de a acționa în diferite situații, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru a reprezenta contextul conversației și a genera politici de decizie se folosește învățarea prin recompensă. \cite{rl-seq2seq}
 
@@ -19,7 +19,7 @@ Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, 
 	\centering
 	\includegraphics[scale=0.3]{nlu_dialog_system.png}
 	\caption{Administrator de dialog}
-	\label{fig:ds_proc}
+	\label{fig:nlu_ds_proc}
 \end{figure}
 NLU este un concept destul de vast, in terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural exprimat.
 Detecția intenției poate fi tratata ca o problema de clasificare a unei replici din punct de vedere semantic, iar recunoașterea entităților poate fi văzută ca o etichetare de secvențe.
@@ -115,15 +115,13 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 \end{table}
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%
 \subsection{Rezultate}
 \begin{center}
 
 	\begin{table}
 		\caption{Comparație cu abordări anterioare. Antrenare independentă pentru detectarea intenției pe ATIS}
-		\label{atis_stats}
+		\label{rezultate}
 		\begin{tabular}{ c c c } 
 			\hline
 			\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
@@ -153,7 +151,7 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 	\centering
 	\includegraphics[scale=0.3]{dm_dialog_system.png}
 	\caption{Administrator de dialog}
-	\label{fig:ds_proc}
+	\label{fig:dm_ds_proc}
 \end{figure}
 
 Într-un sistem de dialog au loc mai multe schimburi de informații între utilizator și agent. Acest flux de date nu poate exista fără context, limbaj comun, intenții, entități și nu în ultimul rând acțiuni de ambele părți. Partea responsabilă de înțelegerea limbajului natural ne oferă un cadru semantic compus din intenție și entități la fiecare replică a utilizatorului. Administratorul de dialog este unitatea centrală care coordonează activitatea celorlalte componente, el se folosește de anumite politici pentru a știi ce acțiuni să facă mai departe știind contextul actual.
