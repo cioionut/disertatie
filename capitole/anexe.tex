@@ -3,29 +3,11 @@
 \textbf{\Huge Anexe}\\ 
 \vspace{1.5cm}
 
-\lstset{
-	backgroundcolor=\color{white},   
-	commentstyle=\color{cgreen},
-	keywordstyle=\color{cblue},
-	numberstyle=\tiny\color{corange},
-	stringstyle=\color{cmagenta},
-	basicstyle=\footnotesize,
-	breakatwhitespace=false,         
-	breaklines=true,                 
-	captionpos=b,                    
-	keepspaces=true,                 
-	numbers=left,                    
-	numbersep=10pt,                  
-	showspaces=false,                
-	showstringspaces=false,
-	showtabs=false,                  
-	tabsize=4
-	}
+\pagenumbering{arabic} \setcounter{page}{1}
 
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[scale=0.6]{tb_2.png}
-%	\caption{O poza}
-%	\label{fig:tb_2}
-%\end{figure}
+\large{Ontologie pentru ATIS}
+\lstinputlisting[language=json, caption=Ontologie pentru ATIS]{cod/atis_ontology.json}
+
 \newpage
+\large{Structura dialogului pentru ATIS}
+\lstinputlisting[language=json, caption=Structura dialogului pentru ATIS]{cod/atis_dialog_knowledge.json}

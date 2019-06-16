@@ -1,0 +1,69 @@
+{
+  "domain": "flights_callcenter",
+  "fallback_confidence_score": 0.3,
+  "entities": {
+    "fromloc.city_name": {
+      "template_text": ["Where are you leaving from?", "What city are you leaving from?"]
+    },
+    "toloc.city_name": {
+      "template_text": ["What is the destination city?", "Where are you going?"]
+    },
+    "depart_date.month_name": {
+      "template_text": ["Please let me know the depart date", "When would you like to leave?"]
+    },
+    "depart_date.day_number": {
+      "template_text": ["When would you like to leave?", "Can your repeat the depart date and specify the day?"]
+    },
+    "depart_date.day_name": {
+      "template_text": ["Please specify the week day when you want to depart"]
+    },
+    "arrive_date.month_name": {
+      "template_text": ["Please let me know the arrival date", "When would you like to land?",  "When do you want to arrive?"]
+    },
+    "arrive_date.day_number": {
+      "template_text": ["When do you want to arrive?", "Can your repeat the arrival date and specify the day"]
+    },
+    "arrive_date.day_name": {
+      "template_text": ["Please specify the week day when you want to arrive"]
+    }
+  },
+  "intents": {
+    "welcome": {
+      "template_text": ["Hello! I am your flights assistant. How can I help you?"]
+    },
+    "fallback": {
+      "template_text": ["Sorry, I didn’t get that. Can you be more specific?"]
+    },
+    "atis_flight": {
+      "template_text": ["Done! That's your flights for {depart_date.month_name} {depart_date.day_number} flying from {fromloc.city_name} to {toloc.city_name} \n<system_call>"],
+      "entities": [
+        "fromloc.city_name",
+        "toloc.city_name",
+        "depart_date.month_name",
+        "depart_date.day_number",
+        "arrive_date.month_name",
+        "arrive_date.day_number"
+      ]
+    },
+    "atis_quantity": {
+      "template_text": ["Here is the quantity from {fromloc.city_name} to {toloc.city_name} \n<system_call>"],
+      "entities": [
+        "fromloc.city_name",
+        "toloc.city_name"
+      ]
+    },
+    "atis_distance": {
+      "template_text": ["Here is the distance from {fromloc.city_name} to {toloc.city_name} \n<system_call>"],
+      "entities": [
+        "fromloc.city_name",
+        "toloc.city_name"
+      ]
+    },
+    "atis_abbreviation": {
+      "template_text": ["This code {flight_number}. \n<system_call>"],
+      "entities": [
+        "flight_number"
+      ]
+    }
+  }
+}

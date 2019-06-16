@@ -27,6 +27,7 @@
 \graphicspath{ {imagini/} }
 
 \usepackage{color}   %May be necessary if you want to color links
+\usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true, %set true if you want colored links
@@ -84,7 +85,46 @@
 
 \lstset{style=mystyle}
 
-\renewcommand{\lstlistlistingname}{Lista porțiunilor de cod}
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
+\lstdefinelanguage{JSON}{
+	commentstyle=\color{cgreen},
+	keywordstyle=\color{cblue},
+	numberstyle=\tiny\color{corange},
+	stringstyle=\color{cmagenta},
+	basicstyle=\footnotesize\ttfamily,
+	tabsize=2,
+	numbers=left,
+	numberstyle=\scriptsize,
+	stepnumber=1,
+	numbersep=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	frame=lines,
+	backgroundcolor=\color{white},
+	literate=
+	*{0}{{{\color{numb}0}}}{1}
+	{1}{{{\color{numb}1}}}{1}
+	{2}{{{\color{numb}2}}}{1}
+	{3}{{{\color{numb}3}}}{1}
+	{4}{{{\color{numb}4}}}{1}
+	{5}{{{\color{numb}5}}}{1}
+	{6}{{{\color{numb}6}}}{1}
+	{7}{{{\color{numb}7}}}{1}
+	{8}{{{\color{numb}8}}}{1}
+	{9}{{{\color{numb}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delim}{\{}}}}{1}
+	{\}}{{{\color{delim}{\}}}}}{1}
+	{[}{{{\color{delim}{[}}}}{1}
+	{]}{{{\color{delim}{]}}}}{1},
+}
+
+\renewcommand{\lstlistlistingname}{Lista anexe}
 \begin{document}
 	\include{titlepage}
 	%\chapter*{Abstract}
