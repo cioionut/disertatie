@@ -15,7 +15,11 @@ Privind dincolo de utilitatea practică de a transmite informații, limbajul rep
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Progres precedent}
-Mergând pe acest drum, în literatura de specialitate întâlnim două abordări care tratează construcția unui sistem de dialog. Prima vorbește despre asistenți digitali care rezolvă diferite cerințe (taskbots), în general conversația nu este menită dă dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{joint_online_bing, att_joint_bing}. În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots), acest termen face referire la un agent orientat spre discuție la nivel general, servind mai degrabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
+Mergând pe acest drum, în literatura de specialitate întâlnim două abordări care tratează construcția unui sistem de dialog.
+
+Prima vorbește despre asistenți digitali care rezolvă diferite cerințe (taskbots). În general conversația nu este menită să dureze mult, iar rolul agentului este de a capta informații din conversația cu utilizatorul și de a-l ajuta să ducă la bun sfârșit o operație \cite{joint_online_bing, att_joint_bing}.
+
+În cea de-a doua direcție este vorba despre agenți conversaționali (chatbots). Acest termen face referire la un agent orientat spre discuție la nivel general, servind mai degrabă unui scop subiectiv decât unuia obiectiv soluțional. În această situație dialogul poate dura mai mult, existând și aplicații practice ale acestuia cum ar fi cea de a testa anumite teorii psihologice \cite{weizenbaum}
 
 Ghidat în mare parte de impactul asupra industriei am ales ca direcție de studiu sistemul de dialog orientat pe rezolvarea cerințelor (taskbots), unde accentul se pune în primul rând pe puterea de a simula determinismul cu care un agent uman ar răspunde. Din această cauză avem o suită de module: recunoaștere vocală (Automatic Speech Recognition - ASR sau Speech To Text - STT), înțelegerea limbajului natural (Natural Language Understanding - NLU), administrarea dialogului (Dialog Manager - DM), generarea de replici (Natural Language Generation) și într-un final conversia textului în voce (Text To Speech, TTS) toate acestea conectate într-un flux de informații ce are ca prim declanșator utilizatorul. La celălalt pol, în cercetare, întâlnim tot mai des abordări în care componente ([STT], NLU, DM, NLG, [TTS]) sunt văzute ca un singur model unde învățarea se realizează de la un capăt la altul (end-to-end)\cite{end-to-end-goal-oriented}, nemaifiind nevoie de antrenarea separată. Privind dintr-o perspectivă practică, aceste modele end-to-end duc lipsă de mulțimi de antrenare din cauza faptului că necesită o atenție mai sporită, iar în ceea ce privește antrenarea administratorului de dialog, avem nevoie de simularea unui mediu de utilizatori, cerință impusă de strategia de învățare prin recompensă (Reinforcement Learning). Totuși aceste abordări reușesc să surprindă în aplicațiile de tip conversație deschisă (chatbots) unde nu se pune accent mare pe contextul dialogului.
 
@@ -23,6 +27,7 @@ Revenind la sistemul de dialog orientat pe rezolvarea cerințelor, observăm că
 
 Componenta de înțelegerea limbajului natural se ocupă cu detectarea intenției și a entităților aflate într-o replică venită din partea utilizatorului. De multe ori cele două chestiuni sunt văzute separat: detecția intenției ca o problemă de clasificare, respectiv recunoașterea constituenților semantici ca o problemă de etichetare a unei secvențe.
 Pentru detectarea intenției se folosesc abordări precum \cite{id_classifiers}, iar pentru recunoașterea entităților sunt folosite tehnici de etichetare ca \cite{scipy_numpyeq_labeling}.
+
 Arhitectura de codificare-decodificare împreună cu rețelele neuronale recurente își aduc contribuția cu succes la un număr mare de probleme din procesarea limbajului natural. Rezultate promițătoare se remarcă în următoarele chestiuni: recunoașterea de entități, traducerea automată  \cite{luoung_bahdanau_maning}, recunoașterea vorbirii, generarea de limbaj, rezumarea de text. Acest tip de abordare o întâlnim tot mai des și în ipostaze hibride, unde se încearcă rezolvarea concomitentă a mai multor probleme. În esență se folosește capacitatea de a capta înțelesul unei secvențe de text cu ajutorul unui codificator iar apoi se folosesc diferite decodificatoare pentru a traduce înțelesul captat în etichete specifice.
 
 %%%%%%%%%%%%%%%%%%%%
@@ -30,7 +35,7 @@ Arhitectura de codificare-decodificare împreună cu rețelele neuronale recuren
 
 Privind comunicarea ca o nevoie de bază și limbajul ca un prim instrument al său, vedem de ce domenii științifice precum procesarea limbajului natural și lingvistica matematică reprezintă elemente cheie ale accesului nostru la informație, mai presus de atât curiozitatea stârnită aici ne poartă de la înțeles la autocunoaștere.
 
-Stilul nostru de viață se schimbă odată cu tehnologia, acest dinamism aduce cu el noi straturi de informații ce dau naștere unor probleme de căutare, structurare și reprezentare a informației. Dat fiind rapiditatea cu care aceste inovații intră în contact cu oamenii, nevoia de a comunica cu un astfel de sistem se dorește a fi cât mai naturală. Gradul de eficiență și acces la informație cerut de generațiile tinere este în continuă creștere, iar acest lucru nu face doar să sporească nevoia de înțelegere a limbajului natural și menținerea unui dialog cât mai firesc între om și mașină.
+Stilul nostru de viață se schimbă odată cu tehnologia, acest dinamism aduce cu el noi straturi de informații ce dau naștere unor probleme de căutare, structurare și reprezentare a informației. Dat fiind rapiditatea cu care aceste inovații intră în contact cu oamenii, nevoia de a comunica cu un astfel de sistem se dorește a fi cât mai naturală. Gradul de eficiență și acces la informație cerut de generațiile tinere este în continuă creștere, iar acest lucru sporește nevoia de înțelegere a limbajului natural și menținerea unui dialog cât mai firesc între om și mașină.
 
 Actualele modele de a structura informația se dovedesc a fi instrumente bune la stocarea și procesarea ei, pe când reprezentarea și inferența sunt două concepte aduse în prim plan de inteligența artificială care cere noi moduri de a rezona cu informațiile stocate.
 
@@ -51,7 +56,9 @@ Ideea de a cerceta un model pentru înțelegerea limbajului, vine în egală mă
 
 
 % todo: contribuția adusă, cum m-am gandit eu si experimentat (pe scurt)
-Pentru a înțelege limbajul natural s-a folosit o arhitectură de tip encode-decoder, unde codificarea este realizată de o rețea neuronală recurentă, iar decodificarea se realizează în două faze diferite pentru fiecare problemă. Detectarea intenției se realizează cu ajutorul unui decodificator bazat pe o rețea de tip feed forward, care primește ca intrare secvența codificată și scoate la ieșire o distribuție de probabilitate peste intențiile cunoscute. A doua fază de decodificare este realizată de o a doua rețea recurentă care la fiecare pas prezice eticheta corespunzătoare unei entități. În ajutorul acestei arhitecturi s-au experimentat mai multe modele de atenție așa cum sunt descrise și în \cite{trans_luong_manning}. Un plus adus în puterea de generalizare îl reprezintă însumarea celor două stări ascunse (înainte și înapoi) din codificator.
+Pentru a înțelege limbajul natural s-a folosit o arhitectură de tip encode-decoder, unde codificarea este realizată de o rețea neuronală recurentă, iar decodificarea se realizează în două faze diferite pentru fiecare problemă. Detectarea intenției se realizează cu ajutorul unui decodificator bazat pe o rețea de tip feed forward, care primește ca intrare secvența codificată și scoate la ieșire o distribuție de probabilitate peste intențiile cunoscute. A doua fază de decodificare este realizată de o a doua rețea recurentă care la fiecare pas prezice eticheta corespunzătoare unei entități. În ajutorul acestei arhitecturi s-au experimentat mai multe modele de atenție așa cum sunt descrise și în \cite{trans_luong_manning}.
+
+Un plus adus în puterea de generalizare îl reprezintă însumarea celor două stări ascunse (înainte și înapoi) din codificator. Spre deosebire de \cite{att_joint_bing} unde se folosește o concatenare a celor două. O altă îmbunătățire are loc atunci când eroarea de antrenare din decodificatorul de intenții nu se mai propagă în codificator. Astfel el clasificând doar pe baza reprezentărilor învățate din decodificatorul de entități și a modelului separat de atenție.
 
 % todo: baseline? rezultate pe scurt
 \# todo: baseline si rezultate pe scurt
@@ -67,7 +74,7 @@ Pentru a înțelege limbajul natural s-a folosit o arhitectură de tip encode-de
 	\item[Sistem de dialog] - 
 		Capitolul al treilea vorbește despre experimentele noastre și descrie abordările cu cele mai bune rezultate. Aici este prezentată mulțimea de antrenare împreună cu performanța obținută, dar și o analiză privind erorile modelului.
 	\item[Noțiuni teoretice] -
-		In capitolul al treilea vor fi explicate modelele matematice care stau în spatele modelelor decizionale.
+		In al patrulea capitol vor fi detaliate modelele matematice care stau în spatele modelelor decizionale.
 	\item[Expunera tehnologiei] - 
 		Atunci când se rostește "progres" am în minte o  spirală a cunoștințelor care se bazează unele pe altele. Precum această imagine implementarea unui sistem de dialog impune un anumit progres precedent, așa că aici se vor prezenta instrumentele care fac posibilă aceasta tehnologie.
 	\item[Concluzii] -

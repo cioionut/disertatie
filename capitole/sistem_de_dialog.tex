@@ -2,7 +2,7 @@
 
 % todo: citari de servicii si lucrari
 
-Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului britanic Alan Turing \ref{test-turing} a fost pană de curând un criteriu în această direcție.
+Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului Alan Turing \ref{test-turing} a fost până de curând un criteriu în această direcție.
 
 Au fost propuse diferite arhitecturi și moduri de a schița matematic o conversație, printre ele și ELIZA compus dintr-un set de reguli elaborate pe baza mai multor studii având la bază logica. Bineînțeles industria cere și abordări mai modulare, mai robuste dar care să nu iasă din tipare, în această direcție făcându-și apariția prima arhitectură bazată pe umplerea de sloturi (GUS), adică pentru fiecare replică din dialog se extrag constituenți semantici specifici domeniului care mai apoi sunt completați într-o structură tabelară (frame) urmând să servească drept parametrii în interogările cu sistemul.
 
@@ -21,7 +21,7 @@ Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, 
 	\caption{Administrator de dialog}
 	\label{fig:nlu_ds_proc}
 \end{figure}
-NLU este un concept destul de vast, in terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural exprimat.
+Înțelegerea limbajului natural (NLU) este un concept destul de vast. În terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural.
 Detecția intenției poate fi tratata ca o problema de clasificare a unei replici din punct de vedere semantic, iar recunoașterea entităților poate fi văzută ca o etichetare de secvențe.
 \subsection{Abordări anterioare}
 
@@ -36,7 +36,7 @@ Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se conc
 
 \subsection{Model propus}
 
-Rețelele neuronale recurente (RNN) sunt unele dintre cele mai populare modele matematice folosite în procesarea limbajului natural, avantajul pe care acestea îl oferă se datorează într-o mare măsură formelor sale LSTM, GRU, dar și prin caracterul lor de a învăța din date cu caracter secvențial. Aceste tipuri de rețele sunt folosite adesea ca structuri de bază pentru a crea alte modele de calcul, un exemplu este rețeaua de codificare-decodificare (seq2seq), formată din două rețele recurente, una pentru captarea (codarea) înțelesului unei secvențe iar cealaltă pentru operația de decodificare într-o secvență de ieșire.
+Rețelele neuronale recurente (RNN) sunt unele dintre cele mai populare modele matematice folosite în procesarea limbajului natural. Avantajul pe care acestea îl oferă se datorează într-o mare măsură formelor sale LSTM, GRU, dar și naturii lor de a învăța din date cu caracter secvențial. Aceste tipuri de rețele sunt folosite adesea ca structuri de bază pentru a crea alte modele de calcul, un exemplu este rețeaua de codificare-decodificare (seq2seq), formată din două rețele recurente, una pentru captarea (codificarea) înțelesului unei secvențe iar cealaltă pentru operația de decodificare într-o secvență de ieșire.
 
 Modelul propus pentru înțelegere a limbajului rezolvă ambele probleme simultan folosind un codificator pentru reprezentarea înțelesului unei propoziții și două decodificatoare câte unul pentru fiecare chestiune. Figura \ref{fig:seq2seq_x} sintetizează procesele implicate în acest model.
 
@@ -47,7 +47,9 @@ Modelul propus pentru înțelegere a limbajului rezolvă ambele probleme simulta
 	\label{fig:seq2seq_x}
 \end{figure}
 
-Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cuvinte $ x= (x_1, ..., x_T)$ într-o altă secvență de nume de entități corespunzătoare $ y=(y_1, ..., y_T) $. Operația de codificare se realizează prin citirea întregii secvențe de către o rețea recurentă bidirecțională, înțelesul secvenței de intrare este reprezentat de suma celor două stări ascunse finale, adică pentru citirea de la stânga la dreapta obținem stările ascunse $(fh_1, ..., fh_T)$ și invers $(bh_T, ..., bh_1)$, apoi suma celor două $h_i = [fh_i + bh_i]$ este folosită drept codificare a înțelesului secvenței de intrare. Alte lucrări \cite{joint_online_bing} folosesc ca stare ascunsă finală $h_i$ o concatenare a celor două stări. Alegerea de a aduna cele două reprezentări în schimbul concatenării, ține de faptul că dimensiunea reprezentării finale crește în cazul concatenării, fiind mai dificil de antrenat, dublând în acest caz și jumătate din parametrii rețelei. Figura \ref{fig:enc_module} descrie procesul de codificare.
+Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cuvinte $ x= (x_1, ..., x_T)$ într-o altă secvență de nume de entități corespunzătoare $ y=(y_1, ..., y_T) $.
+
+Operația de codificare se realizează prin citirea întregii secvențe de către o rețea recurentă bidirecțională. Înțelesul secvenței de intrare este reprezentat de suma celor două stări ascunse finale, adică pentru citirea de la stânga la dreapta obținem stările ascunse $(fh_1, ..., fh_T)$ și invers $(bh_T, ..., bh_1)$, apoi suma celor două $h_i = [fh_i + bh_i]$ este folosită drept codificare a înțelesului secvenței de intrare. Alte lucrări \cite{joint_online_bing} folosesc ca stare ascunsă finală $h_i$ o concatenare a celor două stări. Alegerea de a aduna cele două reprezentări în schimbul concatenării, ține de faptul că dimensiunea reprezentării finale crește în cazul concatenării, fiind mai dificil de antrenat, dublând în acest caz și jumătate din parametrii rețelei. Figura \ref{fig:enc_module} descrie procesul de codificare.
 
 \begin{figure}[h]
 	\centering
@@ -57,6 +59,7 @@ Pentru recunoașterea entităților se dorește etichetarea unei secvențe de cu
 \end{figure}
 
 Vom folosi reprezentarea captată de codificator pentru a inițializa operația de decodificare, aceasta este produsă de către o rețea recurentă unidirecțională, văzută ca o funcție $s_i=f(s_{i-1}, y_{i-1}, h_i, c_i)$ care la fiecare pas $i$, calculează o nouă stare $s_i$, bazată pe: starea anterioară a decodificatorului $s_{i-1}$, eticheta anterior prezisă, $y_{i-1}$, starea ascunsă din codificator corespunzătoare pasului curent, $h_i$ și un vector de context $c_i$, calculat ca o sumă ponderată peste stările ascunse din codificator.
+
 Inspirat din \cite{trans_luong_manning} am experimentat mai multe modele de atenție.
 $$ c_i = \sum_{j=1}^{T} \alpha_{i,j} h_j$$
 $$ \alpha_{i,j} = \frac{\exp(score_{i, j})}{\sum_{k=1}^{T} \exp(score_{i, k})}$$
@@ -69,7 +72,9 @@ v_a^\top \tanh(W_a [s_{i-1};h_k])	&	\quad \text{concat}\\
 \end{cases}
 \]
 
-Modelul de atenție poate fi văzut ca o rețea de tip feed-forward $g(s_{i-1}, h_k)$, care la fiecare pas din operația de decodare calculează ponderile pentru stările ascunse ale codificatorului, folosindu-se de ultima stare ascunsă din decodor, $s_{i-1}$ și stările ascunse $(h_1, ..., h_T)$. Mai jos în figura \ref{fig:dec_bah} este descris întreg fluxul de date și operații realizate de decodorul responsabil de etichetarea entităților.
+Modelul de atenție poate fi văzut ca o rețea de tip feed-forward $g(s_{i-1}, h_k)$, care la fiecare pas din operația de decodare calculează ponderile pentru stările ascunse ale codificatorului, folosindu-se de ultima stare ascunsă din decodificator, $s_{i-1}$ și stările ascunse $(h_1, ..., h_T)$.
+
+Mai jos în figura \ref{fig:dec_bah} este descris întreg fluxul de date și operații realizate de decodificatorul responsabil de etichetarea entităților.
 
 \begin{figure}[h]
 	\centering
@@ -80,7 +85,7 @@ Modelul de atenție poate fi văzut ca o rețea de tip feed-forward $g(s_{i-1}, 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Mulțimea de antrenare}
-ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri venite din partea clienților referitor la zborurile aeriene de la începutul anilor 90. DARPA este instituția americana ce s-a ocupat de colectarea acestor date. Mulțimea de antrenare conține un număr de aproape 5000 de propoziții etichetate cu intenții si entități. Formatul de etichetare utilizat este IOB (Inside–outside–beginning), care ajuta la etichetarea entitatilor formate din mai multe cuvinte, astfel încât fiecare etichetă este precedata de B-<nume-eticheta> pentru început, iar cu I-<nume-eticheta> pentru următoarele cuvinte care fac parte din entitate. Exemplele sunt date în limba engleză, iar lungimea medie a unei prepoziții este de 15 cuvinte.
+ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri venite din partea clienților referitor la zborurile aeriene de la începutul anilor 90. DARPA este instituția americana ce s-a ocupat de colectarea acestor date. Mulțimea de antrenare conține un număr de aproape 5000 de propoziții etichetate cu intenții si entități. Formatul de etichetare utilizat este IOB (Inside–outside–beginning), care ajuta la etichetarea entitatilor formate din mai multe cuvinte, astfel încât fiecare etichetă este precedata de B-<nume-eticheta> pentru început, iar cu I-<nume-eticheta> pentru următoarele cuvinte care fac parte din entitate. Exemplele sunt date în limba engleză, iar lungimea medie a unei propoziții este de 15 cuvinte.
 
 \begin{table}
 	\centering
@@ -158,17 +163,19 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 		\hline
 		\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
 		\hline
-		Seq2SeqX (luong - dot - attn) & 97,10 & 96,6 \\ % ok
+		Seq2SeqX (luong - dot - attn) & 97,10 & 96,60 \\ % ok
 		\hline
-		Seq2SeqX (general - attn) & 96.6 & 96,5 \\
+		Seq2SeqX (luong general - attn) & 97.0 & 96,67 \\ % ok
 		\hline
-		Seq2SeqX (concat - attn) & 97.53 & - \\
+		Seq2SeqX (luong concat - attn) & 97.14 & 96.41 \\ % ok
 		\hline
 		Seq2SeqX (no - attn) & 97.14 & 96.41 \\ % ok
 		\hline
-		Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
+		Seq2SeqX (bahdanau - dot - attn) & 96.73 & 96.90 \\ % ok
 		\hline
-		Seq2SeqX (concat - intent attn) & 97.55 & 96.53 \\
+		Seq2SeqX (bahdanau - general - attn) & 96.86 & 96.08 \\ % ok 
+		\hline
+		Seq2SeqX (bahdanau concat - attn) & 97.21 & 96.73 \\ % ok
 		\hline
 	\end{tabular}
 \end{table}
@@ -193,7 +200,7 @@ De asemenea tot el se ocupă cu situațiile neclare sau cu cazurile aflate în a
 
 \subsection{Abordări anterioare}
 
-De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul.
+De-a lungul timpului s-au propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul.
 
 \textbf{Automat finit determinist - Finite State Automata}\\
 Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
