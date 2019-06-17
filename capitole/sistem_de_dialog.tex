@@ -158,7 +158,7 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 		\hline
 		\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
 		\hline
-		Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
+		Seq2SeqX (luong - dot - attn) & 97,10 & 96,6 \\ % ok
 		\hline
 		Seq2SeqX (general - attn) & 96.6 & 96,5 \\
 		\hline
@@ -245,8 +245,12 @@ Administratorul de dialog este format din două componente:
 
 Pentru a valida această abordare am construit o ontologie (anexa \ref{lst:ontologie-atis}) bazată pe mulțimea de antrenare folosită la modulul de NLU și am creat o structură de dialog (anexa \ref{lst:dialog-str-atis}) specifică domeniul de zboruri în care se încadrează datele.
 
-%%%%%%%%%%%%%%%
-\begin{table}[htp]
+Pe baza dialogului din \ref{rezultat-dialog} vom putea analiza procesul de decizie din spatele administratorului de dialog.
+Utilizatorul formulează o cerere către sistem: "I need a flight from Denver to Philadelphia". În acest moment gestionarea dialogului este inițializată de cadrul semantic venit de la NLU în forma <intenție>(entități).
+
+Conform structurii de dialog (anexa \ref{lst:dialog-str-atis}) avem următorul tabel \ref{flight-frame}. După prima replică el este completat parțial, iar următoarele acțiuni vor veni în sprijinul umplerii sloturilor necesare, așadar se va alege la întâmplare o entitate nemenționată și se va întreba despre ea (în \ref{lst:dialog-str-atis}). În cazul în care se specifică mai multe entități ele se completează în tabel fără a mai întreba în viitor de ele, iar când toate informațiile necesare devin disponibile agentul răspunde cererii utilizatorului. De menționat aici că replicile agentului sunt descrise într-o formă de șablon, de exemplu {\ttfamily "Done! That's your flights for \{depart\_date.month\_name\} \{depart\_date.day\_number\} flying from \newline \{fromloc.city\_name\} to \{toloc.city\_name\}"}, permițând răspunsuri bazate pe datele cunoscute.
+
+\begin{table}[h]
 	\small
 	\centering
 	\begin{tabular}{ r p{6cm} p{6cm} } 
@@ -272,13 +276,7 @@ Pentru a valida această abordare am construit o ontologie (anexa \ref{lst:ontol
 	\label{rezultat-dialog}
 \end{table}
 
-Pe baza dialogului din \ref{rezultat-dialog} vom putea analiza procesul de decizie din spatele administratorului de dialog.
-Utilizatorul formulează o cerere către sistem: "I need a flight from Denver to Philadelphia". În acest moment gestionarea dialogului este inițializată de cadrul semantic venit de la NLU în forma <intenție>(entități).
-
-Conform structurii de dialog (anexa \ref{lst:dialog-str-atis}) avem următorul tabel \ref{flight-frame}. După prima replică el este completat parțial, iar următoarele acțiuni vor veni în sprijinul umplerii sloturilor necesare, așadar se va alege la întâmplare o entitate nemenționată și se va întreba despre ea (în \ref{lst:dialog-str-atis}). În cazul în care se specifică mai multe entități ele se completează în tabel fără a mai întreba în viitor de ele. Iar când toate informațiile necesare sunt adăugate, agentul răspunde cererii utilizatorului. De menționat aici că replicile agentului sunt descrise într-o formă de șablon, de exemplu \ttfamily{"Done! That's your flights for \{depart\_date.month\_name\} \{depart\_date.day\_number\} flying from} \newline \ttfamily{ \{fromloc.city\_name\} to \{toloc.city\_name\}"}, permițând răspunsuri bazate pe datele cunoscute.
-
-%%%%%%%%%%%%%%%
-\begin{table}[htp]
+\begin{table}[h]
 	\small
 	\centering
 	\begin{tabular}{ c p{7cm} } 
@@ -293,8 +291,8 @@ Conform structurii de dialog (anexa \ref{lst:dialog-str-atis}) avem următorul t
 			arrive\_date.month\_name=None
 			arrive\_date.day\_number=None} \\
 		\hline
-		
 	\end{tabular}
 	\caption{Cadru de informații pentru obiectivul atis\_flight}
 	\label{flight-frame}
 \end{table}
+
