@@ -32,8 +32,8 @@ Descrierea parametrilor din rețea:
 	
 	\begin{itemize}
 		\item $ x_t \in {\rm I\!R}^d $ vectorul cuvântului $t$
-		\item $ W^{hx} \in {\rm I\!R}^{D_h \times d} $ matricea proderilor utilizată la condiționarea vectorului de intrare, $x_t$
-		\item $ W^{hh} \in {\rm I\!R}^{D_h \times D_h} $ matricea proderilor utilizată la condiționarea ieșirii de la pasul anterior, $h_{t-1}$
+		\item $ W^{hx} \in {\rm I\!R}^{D_h \times d} $ matricea ponderilor utilizată la condiționarea vectorului de intrare, $x_t$
+		\item $ W^{hh} \in {\rm I\!R}^{D_h \times D_h} $ matricea ponderilor utilizată la condiționarea ieșirii de la pasul anterior, $h_{t-1}$
 		\item $ h_{t-1} \in  {\rm I\!R}^{D_h} $ ieșirea funcției nonlineare de la pasul anterior, $t-1$, iar $h_0 \in  {\rm I\!R}^{D_h}$ este vectorul de inițializare pentru stratul ascuns, la pasul $t=0$
 		\item $ \sigma() $ funcția nonlineară  (sigmoid in acest exemplu)
 	\end{itemize}
@@ -114,7 +114,7 @@ Termenul $(\beta_w\beta_h)^{t-k}$ poate foarte ușor să devină foarte mic sau 
 
 În timpul experimentelor s-a observat că odată ce valoare gradientului crește foarte mult, poate cauză erori de memorie (valoarea nu încape în tipul de date specificat) ceea ce rezultă în valori nedefinite (exemplu NaN (not a number)), lucru ușor detectabil la timpul rulării. Această problemă poartă denumirea de exagerarea valorilor gradientului.
 
-Iar cea de-a doua chestiune, cea a diminuării valorii gradientului, privește cazul în care valorile pentru gradient devin apropiate de zero, de multe ori acest comportament trece nedetectat, rezultând astfel o calitate mai slabă a învățării cuvintelor îndepărtate.
+Referitor la problema diminuării gradientului, ea privește cazul în care valorile pentru gradient devin apropiate de zero, de multe ori acest comportament trece nedetectat, rezultând astfel o calitate mai slabă a învățării cuvintelor îndepărtate.
 
 \subsection{Soluții pentru dispariția/exagerarea gradientului}
 

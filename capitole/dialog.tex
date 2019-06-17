@@ -30,7 +30,7 @@ Pentru stabilirea intenției, actul de vorbire joacă un rol foarte important, i
 %todo: Exemplu de intenții si cum sunt ele văzute in administratorul de dialog.
 
 \section{Sistem de dialog}
-Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ciclu de informații ce se mulează pe nevoile exprimate de către vorbitor. În continuare sunt prezentate componente care fac posibilă această conexiune.
+Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ciclu de informații ce se mulează pe intențiile vorbitorului. În continuare sunt prezentate componente care fac posibilă această conexiune.
 % todo: de descris fiecare modl ]n parte
 \subsection{Componente}
 \begin{figure}[h]
@@ -47,7 +47,7 @@ Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ci
 	\item[Administrator de dialog - Dialog Manager (DM)] - 
 	Este modulul ce gestionează dialogul, având ca funcții principale reprezentarea contextului și inferența pe baza acestuia
 	\item[Generarea de limbaj natural - Natural Language Generation (NLG)] -
-	După ce administratorul de dialog decide ce acțiune să execute, el o pasează mai departe componentei de generare a limbajului care transformă dintr-o reprezentare internă simplificată într-o replică de dialog
+	Este modulul care se ocupă cu transformarea stării interne într-o replică de dialog
 	\item[Din text în voce - Text To Speech] - 
 	Ultima procesare este produsă de componenta care generează semnale vocale pe baza textului primit de la NLG
 \end{description}

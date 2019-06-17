@@ -1,6 +1,6 @@
 \chapter{Sistem de dialog}
 
-% todo: citari de sericii si lucrari
+% todo: citari de servicii si lucrari
 
 Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului britanic Alan Turing \ref{test-turing} a fost pană de curând un criteriu în această direcție.
 
@@ -8,7 +8,7 @@ Au fost propuse diferite arhitecturi și moduri de a schița matematic o convers
 
 Dacă privim la scopul final al unei conversații distingem două clase și anume: agenți orientați pe rezolvarea de cerințe și agenți orientați pe discuție la nivel general.
 
-Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, rezolvarea cerințelor primează în funcționalitatea unei astfel de aplicații, așadar industria se concentrează pe arhitecturi modulare care să necesite cât mai puține date de antrenare, RASA, SNIPS, WATSON, DialogFlow sunt platforme care pun la dispoziție instrumente pentru a crea genul acesta de agenți.
+Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, rezolvarea cerințelor primează în funcționalitatea unei astfel de aplicații, așadar industria se concentrează pe arhitecturi modulare care să necesite cât mai puține date de antrenare. Servicii precum RASA, SNIPS, WATSON, DialogFlow, Wit.ai pun la dispoziție instrumente pentru a crea acest gen de agenți.
 
 Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, iar acum cele mai populare abordări se concentrează pe dezvoltarea unui singur model care să descopere strategii de a acționa în diferite situații, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru a reprezenta contextul conversației și a genera politici de decizie se folosește învățarea prin recompensă. \cite{rl-seq2seq}
 
@@ -117,30 +117,61 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 
 %%%%%%%%%%%%%%%%%%%%
 \subsection{Rezultate}
-\begin{center}
+Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritatea lucrărilor ce abordează aceleași probleme ne oferă avantajul de a compara rezultatele experimentelor noastre.
 
-	\begin{table}
-		\caption{Comparație cu abordări anterioare. Antrenare independentă pentru detectarea intenției pe ATIS}
-		\label{rezultate}
-		\begin{tabular}{ c c c } 
-			\hline
-			\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
-			\hline
-			Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
-			\hline
-			Seq2SeqX (general - attn) & 96.6 & 96,5 \\
-			\hline
-			Seq2SeqX (concat - attn) & 97.53 & - \\
-			\hline
-			Seq2SeqX (no - attn) & 97.8 & - \\
-			\hline
-			Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
-			\hline
-			Seq2SeqX (concat - intent attn) & 97.55 & 96.53 \\
-			\hline
-		\end{tabular}
-	\end{table}
-\end{center}
+\begin{table}[htp]
+	\caption{Antrenare independentă pentru detectarea intenției}
+	\label{rezultate1}
+	\centering
+	\begin{tabular}{ c c }
+		
+		\hline
+		\textbf{Model} 		 & \textbf{Error Rate (1 - F1)}\\
+		\hline
+		Seq2SeqX (dot - attn) & 97,5 \\
+		\hline
+	\end{tabular}
+	\bigskip
+	
+	%%%%%%%%%%%
+	\caption{Antrenare independentă pentru recunoașterea entităților}
+	\label{rezultate2}
+	\centering
+	\begin{tabular}{ c c } 
+		\hline
+		\textbf{Model}	& \textbf{Scor F1 (entități)} \\
+		\hline
+		Seq2SeqX (dot - attn) & 97,5 \\
+		\hline
+		Seq2SeqX (general - attn) & 96.6 \\
+		\hline
+		Seq2SeqX (concat - attn) & 97.53 \\
+		\hline
+	\end{tabular}
+	\bigskip
+	
+	%%%%%%%%%%%%%%%
+	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților}
+	\label{rezultate3}
+	\centering
+	\begin{tabular}{ c c c } 
+		\hline
+		\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
+		\hline
+		Seq2SeqX (dot - attn) & 97,5 & 96,5 \\
+		\hline
+		Seq2SeqX (general - attn) & 96.6 & 96,5 \\
+		\hline
+		Seq2SeqX (concat - attn) & 97.53 & - \\
+		\hline
+		Seq2SeqX (no - attn) & 97.8 & - \\
+		\hline
+		Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
+		\hline
+		Seq2SeqX (concat - intent attn) & 97.55 & 96.53 \\
+		\hline
+	\end{tabular}
+\end{table}
 
 \subsection{Analiza erorilor}
 
@@ -168,7 +199,7 @@ De-a lungul timpului s-a propus diferite abordări de a gestiona dialogul, major
 Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
 	
 \textbf{Cadru de informații - Frame based/Slot filling}\\
-Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară. Ea mai este întâlnită și sub denumirea de umplere de sloturi. Un slot este o entitate semantică văzută ca un argument ce va fi umplut de modulul de NLU, iar apoi când au fost umplute suficiente sloturi, are loc acțiunea din partea administratorului de dialog. Altfel spus un cadru de informație este compus din sloturi necesare și un obiectiv al utilizatorului. În mare parte această abordare captează strategia de bază al unui agent, scutind munca depusa pentru a același comportament descris într-un automat finit, ba mai mult dă o flexibilitate dezvoltării datorită structurii tabelare ce poate fi importată. Un alt avantaj este acela că inițiativa la discurs se găsește într-un echilibru, utilizatorul având posibilitatea să ofere mai multe sloturi în aceeași replică. Faptul că suntem constrânși la un singur scenariu reprezintă un dezavantaj.
+Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară. Ea mai este întâlnită și sub denumirea de umplere de sloturi. Un slot este o entitate semantică văzută ca un argument ce va fi umplut de modulul de NLU, iar apoi când au fost umplute suficiente sloturi, are loc acțiunea din partea administratorului de dialog. Altfel spus un cadru de informație este compus din sloturi necesare și un obiectiv al utilizatorului. În mare parte această abordare captează strategia de bază al unui agent, scutind munca depusa pentru același comportament descris într-un automat finit, ba mai mult dă o flexibilitate dezvoltării datorită structurii tabelare ce poate fi importată. Un alt avantaj este acela că inițiativa la discurs se găsește într-un echilibru, utilizatorul având posibilitatea să ofere mai multe sloturi în aceeași replică. Faptul că suntem constrânși la un singur scenariu reprezintă un dezavantaj.
 
 \textbf{Plan}\\
 Abordările bazate pe un plan tratează fiecare replică din dialog ca o acțiune din partea utilizatorului spre a-și atinge obiectivul. Agentul detectează intenția, apoi construiește un plan de comunicare pentru a-l ajuta pe interlocutor să își atingă scopul.
@@ -180,14 +211,14 @@ Datorită recentelor descoperiri în procesarea limbajului natural \cite{metode-
 
 Avantajele acestor metode sunt legate de automatizarea dezvoltării unui administrator de dialog. Învățarea politicilor de decizie se realizează doar pe baza interacțiunilor anterioare dintre utilizatori și agent. Îmbunătățiri se observă și în calitatea conversației, deoarece antrenarea recompensează conversațiile încheiate cu succes și care durează mai puțin (ca număr de replici). Un plus este adus și în gestionarea situațiilor neprevăzute, ceea ce nu găsim la metodele deterministe descrise anterior.
 
-Puterea oferită de aceste abordări vine și cu costuri: mulțimi de antrenare mai mari - detaliate la nivel de conversație și antrenarea într-un mediu ce simulează utilizatorul final. Bineînțeles faza de învățare poate avea loc și online, dar iar ne vom lovim de lipsa datelor, mai presus de atât expunerea unui agent neantrenat, riscă să deranjeze majoritatea utilizatorilor care au sosit în sistem pentru o cu totul altă problemă.
+Puterea oferită de aceste abordări vine și cu costuri: mulțimi de antrenare mai mari - detaliate la nivel de conversație și antrenarea într-un mediu ce simulează utilizatorul final. Bineînțeles faza de învățare poate avea loc și online, dar iar ne vom lovim de lipsa datelor, mai presus de atât, expunerea unui agent neantrenat riscă să deranjeze majoritatea utilizatorilor care au sosit în sistem pentru o cu totul altă problemă.
 
 \subsection{Model propus}
 
-Scopul dezvoltării agenților conversaționali este de a îmbunătății interacțiunea dintre oameni și tehnologie. Prin caracterul său natural, această conexiune impune standarde ridicate în experiența utilizatorului și în eficiența de a rezolva cerințele acestuia. Luând în considerare fragilitatea unui dialog, dar și legătura dintre comportamentul agentului și calitatea conversației, de cele mai multe ori se recurge la implementări bazate pe reguli. Una dintre cela mai populare este cea bazată pe umplerea de sloturi (cadru de informații) care se caracterizează prin următoarele avantaje:
+Scopul dezvoltării agenților conversaționali este de a îmbunătății interacțiunea dintre oameni și tehnologie. Prin caracterul său natural această conexiune impune standarde ridicate în experiența utilizatorului și în eficiența de a rezolva cerințele acestuia. Luând în considerare fragilitatea unui dialog, dar și legătura dintre comportamentul agentului și calitatea conversației, de cele mai multe ori se recurge la implementări bazate pe reguli. Una dintre cela mai populare este cea bazată pe umplerea de sloturi (cadru de informații) care se caracterizează prin următoarele avantaje:
 \begin{itemize}
 	\item inițiativa la discurs se găsește într-un echilibru, astfel utilizatorul nu se mai simte ghidat ca într-un formular ci mai degrabă într-o discuție
-	\item utilizatorul are posibilitatea să ofere mai multe sloturi în aceeași replică, ceea ce crește semnificativ experiența cu agentul care de data aceasta recunoaște mai multe entități într-o propoziție, evitând pe viitor să mai întrebe despre ale
+	\item utilizatorul are posibilitatea să ofere mai multe sloturi în aceeași replică, ceea ce crește semnificativ experiența cu agentul care de data aceasta recunoaște mai multe entități într-o propoziție, evitând pe viitor să mai întrebe despre ele
 	\item se vede ușor procesul de decizie, fiind un model bazat pe reguli ne dă posibilitatea să mergem pe fir înapoi și să identificăm ipotezele unor anumite acțiuni
 	\item comportament previzibil, o oarecare robustețe este impusă atunci când dorim să avem control asupra sarcinilor gestionate
 	\item ușor de importat scenarii noi
@@ -202,7 +233,7 @@ Dezavataje
 
 O îmbunătățire adusă metodei standard de umplere a sloturilor o reprezintă capacitatea de a trata obiective multiple.
 Pentru dezvoltarea administratorului de dialog, s-a folosit un model bazat pe cadre de informații (frame based/slot filling) ce poate trata mai multe obiective.
-Pentru a ține evidența intențiilor și entităților se folosește o bază de date care descrie aceste concepte, ea poartă numele de ontologie a domeniului și este folosită în comun de componentele de NLU și DM pentru a asigura consistența cerută în comunicarea celor două. Vezi anexa x
+Pentru a ține evidența intențiilor și entităților se folosește o bază de date care descrie aceste concepte. Ea poartă numele de ontologie a domeniului și este folosită în comun de componentele de NLU și DM pentru a asigura consistența cerută în comunicarea celor două. Vezi anexa x
 
 Structura dialogului este o altă sursă de date care indică administratorului de dialog logica scenariilor posibile și obiectivele/sarcinile gestionate de către agent. În acest caz sarcină este sinonim cu obiectiv, deoarece ele se referă într-un final la același concept. Astfel un obiectiv al utilizatorului devine o sarcină a sistemului. Deci vorbind din perspectiva consumatorului, un obiectiv este o structură ce pune la o laltă intenția și entitățiile necesare pentru ca acel obiectiv să poată avea loc.
 
