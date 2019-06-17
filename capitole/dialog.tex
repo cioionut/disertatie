@@ -27,11 +27,9 @@ De-a lungul timpului s-au propus numeroase moduri de a grupa acte de vorbire, ia
 
 Pentru stabilirea intenției, actul de vorbire joacă un rol foarte important, iar sistemele de dialog extind aceste clasificări în intenții specifice domeniului cu scopul de a caracteriza cât mai bine conversația.
 
-%todo: Exemplu de intenții si cum sunt ele văzute in administratorul de dialog.
-
+%%%%%%%%%%%%%%%%%%%%
 \section{Sistem de dialog}
 Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ciclu de informații ce se mulează pe intențiile vorbitorului. În continuare sunt prezentate componente care fac posibilă această conexiune.
-% todo: de descris fiecare modl ]n parte
 \subsection{Componente}
 \begin{figure}[h]
 	\centering
@@ -54,4 +52,35 @@ Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ci
 
 Întregul proces este descris de diagrama din figura \ref{fig:ds_proc}. Totul începe cu utilizatorul care formulează o cerere către sistem, vocea acestuia este procesată de către modulul de recunoaștere vocală care întoarce textul rostit de către vorbitor. Cererea în format text este apoi trimisă la modulul de înțelegere a limbajului care detectează la rându-i, intenția utilizatorului dar și entitățile menționate. Acest cadru semantic extras este apoi trimis modulului care ține firul dialogului și în funcție de definiția sarcinii pe care utilizatorul o dorește a fi îndeplinită se iau acțiunile în consecință și se trimite răspunsul către utilizator.
 
-Doar componenta de înțelegere a limbajului și cea de administrare a dialogului vor fi analizate în cele ce urmează, întrunindu-se astfel minimul necesar unei conversații scrise.
+În tabelul \ref{ex-dialog} avem un exemplu de dialog între om și robot. Aici este prezentat rezultatul componentei de NLU care ne indică diferite stagii ale dialogului.
+% În cadrele semantice se observă o combinație de acte de dialog (inform = act asertiv, request = act directiv) cu intenții (flight). 
+
+\bigskip
+%%%%%%%%%%%%%%%
+\begin{table}[htp]
+	\small
+	\centering
+	\begin{tabular}{ r p{6cm} p{6cm} } 
+		\hline
+		& \textbf{Replică} & \textbf{Cadru semantic}\\
+		\hline
+		Sistem:	& Hello! I am your flights assistant. How can I help you? & \ttfamily{welcome()} \\
+		\hline
+		Utilizator:	   & I want to go from Boston to Atlanta on monday & \ttfamily{flight(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		\hline
+		Sistem:	   & Please let me know the arrival date & \ttfamily{request(arrival\_date)} \\
+		\hline
+		Utilizator:	& arrive on june 5 at 5 am	& \ttfamily{inform(arrive\_date.month\_name=june, arrive\_date.day\_number=5, arrive\_time.time=5 am)} \\
+		\hline
+		Sistem:	& Done! That's your flights for monday flying from boston to atlanta <system\_call>	& \ttfamily{inform(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		\hline
+		Utilizator:	& Great, thank you	& \ttfamily{acknowledgement()} \\
+		\hline
+		Sistem:	& Can I help you with other things?	& \ttfamily{request(intent)} \\
+		\hline
+		Utilizator:	& No, goodbye	& \ttfamily{bye()} \\
+		\hline
+	\end{tabular}
+	\caption{Exemplu de dialog}
+	\label{ex-dialog}
+\end{table}

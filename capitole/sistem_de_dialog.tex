@@ -228,20 +228,50 @@ Scopul dezvoltării agenților conversaționali este de a îmbunătății intera
 Dezavataje
 \begin{itemize}
 	\item complexitatea structurii de dialog este proporțională cu numărul de scenarii gestionate, lucru ce limitează această abordare la un număr rezonabil de sarcini
-	\item puterea de scalabilitate este legată de competența expertului în domeniu	
+	\item puterea de scalabilitate la domenii diferite este limitată de lipsa și calitatea datelor de antrenare
 \end{itemize}
 
 O îmbunătățire adusă metodei standard de umplere a sloturilor o reprezintă capacitatea de a trata obiective multiple.
 Pentru dezvoltarea administratorului de dialog, s-a folosit un model bazat pe cadre de informații (frame based/slot filling) ce poate trata mai multe obiective.
-Pentru a ține evidența intențiilor și entităților se folosește o bază de date care descrie aceste concepte. Ea poartă numele de ontologie a domeniului și este folosită în comun de componentele de NLU și DM pentru a asigura consistența cerută în comunicarea celor două. Vezi anexa x
+Pentru a ține evidența intențiilor și entităților se folosește o bază de date care descrie aceste concepte. Ea poartă numele de ontologie a domeniului și este folosită în comun de componentele de NLU și DM pentru a asigura consistența cerută în comunicarea celor două.
 
 Structura dialogului este o altă sursă de date care indică administratorului de dialog logica scenariilor posibile și obiectivele/sarcinile gestionate de către agent. În acest caz sarcină este sinonim cu obiectiv, deoarece ele se referă într-un final la același concept. Astfel un obiectiv al utilizatorului devine o sarcină a sistemului. Deci vorbind din perspectiva consumatorului, un obiectiv este o structură ce pune la o laltă intenția și entitățiile necesare pentru ca acel obiectiv să poată avea loc.
 
 Administratorul de dialog este format din două componente: 
 \begin{description}
 	\item[Gestionarea stării conversației (Dialog state tracking)] care ține istoria sesiunii de dialog grupată în intenții și entități menționate. Conform structurii de dialog această componentă reușește să mențină o evidența a obiectivelor pe parcursul întregii conversații.
-	\item[Politicile de decizie (Dialog policy)] sunt metode/regulile prin care agentul decide să facă anumite acțiuni, de exemplu să întrebe despre un slot lipsă sau să interogheze sistemul rezolvând o anumită sarcină.
+	\item[Politicile de decizie (Dialog policy)] sunt metode/reguli prin care agentul decide să facă anumite acțiuni, de exemplu să întrebe despre un slot lipsă sau să interogheze sistemul rezolvând o anumită sarcină.
 \end{description}
 
+Pentru a valida această abordare am construit o ontologie (anexa \ref{lst:ontologie-atis}) bazată pe mulțimea de antrenare folosită la modulul de NLU și am creat o structură de dialog (anexa \ref{lst:dialog-str-atis}) specifică domeniul de zboruri în care se încadrează datele.
 
+\bigskip
+%%%%%%%%%%%%%%%
+\begin{table}[htp]
+	\small
+	\centering
+	\begin{tabular}{ r p{6cm} p{6cm} } 
+		\hline
+		& \textbf{Replică} & \textbf{Cadru semantic}\\
+		\hline
+		Sistem:	& Hello! I am your flights assistant. How can I help you? & \ttfamily{welcome()} \\
+		\hline
+		Utilizator:	   & I want to go from Boston to Atlanta on monday & \ttfamily{flight(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		\hline
+		Sistem:	   & Please let me know the arrival date & \ttfamily{request(arrival\_date)} \\
+		\hline
+		Utilizator:	& arrive on june 5 at 5 am	& \ttfamily{inform(arrive\_date.month\_name=june, arrive\_date.day\_number=5, arrive\_time.time=5 am)} \\
+		\hline
+		Sistem:	& Done! That's your flights for monday flying from boston to atlanta <system\_call>	& \ttfamily{inform(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		\hline
+		Utilizator:	& Great, thank you	& \ttfamily{acknowledgement()} \\
+		\hline
+		Sistem:	& Can I help you with other things?	& \ttfamily{request(intent)} \\
+		\hline
+		Utilizator:	& No, goodbye	& \ttfamily{bye()} \\
+		\hline
+	\end{tabular}
+	\caption{Conversație cu agentul rezultat}
+	\label{rezultat-dialog}
+\end{table}
 
