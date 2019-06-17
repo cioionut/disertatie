@@ -62,11 +62,11 @@ Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ci
 	\centering
 	\begin{tabular}{ r p{6cm} p{6cm} } 
 		\hline
-		& \textbf{Replică} & \textbf{Cadru semantic}\\
+		& \textbf{Replică} & \textbf{Cadru semantic (acte de vorbire + entități/sloturi)}\\
 		\hline
 		Sistem:	& Hello! I am your flights assistant. How can I help you? & \ttfamily{welcome()} \\
 		\hline
-		Utilizator:	   & I want to go from Boston to Atlanta on monday & \ttfamily{flight(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		Utilizator:	   & I want to go from Boston to Atlanta on monday & \ttfamily{inform(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
 		\hline
 		Sistem:	   & Please let me know the arrival date & \ttfamily{request(arrival\_date)} \\
 		\hline
@@ -81,6 +81,6 @@ Conversația cu un robot presupune o înlănțuire de servicii văzută ca un ci
 		Utilizator:	& No, goodbye	& \ttfamily{bye()} \\
 		\hline
 	\end{tabular}
-	\caption{Exemplu de dialog}
+	\caption{Conversație între un sistem de dialog și un utilizator}
 	\label{ex-dialog}
 \end{table}

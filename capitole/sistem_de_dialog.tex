@@ -164,7 +164,7 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 		\hline
 		Seq2SeqX (concat - attn) & 97.53 & - \\
 		\hline
-		Seq2SeqX (no - attn) & 97.8 & - \\
+		Seq2SeqX (no - attn) & 97.14 & 96.41 \\ % ok
 		\hline
 		Seq2SeqX (no - attn, concat - attn) & 97.4 & 96.0 \\
 		\hline
@@ -245,7 +245,6 @@ Administratorul de dialog este format din două componente:
 
 Pentru a valida această abordare am construit o ontologie (anexa \ref{lst:ontologie-atis}) bazată pe mulțimea de antrenare folosită la modulul de NLU și am creat o structură de dialog (anexa \ref{lst:dialog-str-atis}) specifică domeniul de zboruri în care se încadrează datele.
 
-\bigskip
 %%%%%%%%%%%%%%%
 \begin{table}[htp]
 	\small
@@ -256,22 +255,46 @@ Pentru a valida această abordare am construit o ontologie (anexa \ref{lst:ontol
 		\hline
 		Sistem:	& Hello! I am your flights assistant. How can I help you? & \ttfamily{welcome()} \\
 		\hline
-		Utilizator:	   & I want to go from Boston to Atlanta on monday & \ttfamily{flight(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		Utilizator:	   & I need a flight from Denver to Philadelphia & \ttfamily{flight(fromloc.city\_name=Denver, toloc.city\_name=Philadelphia)} \\
 		\hline
-		Sistem:	   & Please let me know the arrival date & \ttfamily{request(arrival\_date)} \\
+		Sistem:	   & When do you want to arrive? & \ttfamily{request(arrival\_date)} \\
 		\hline
-		Utilizator:	& arrive on june 5 at 5 am	& \ttfamily{inform(arrive\_date.month\_name=june, arrive\_date.day\_number=5, arrive\_time.time=5 am)} \\
+		Utilizator:	& arrive on monday, june fifth	& \ttfamily{flight(arrive\_date.day\_name=monday, arrive\_date.month\_name=june, arrive\_date.day\_number=fifth)} \\
 		\hline
-		Sistem:	& Done! That's your flights for monday flying from boston to atlanta <system\_call>	& \ttfamily{inform(fromloc.city\_name=Boston, toloc.city\_name=Atlanta, depart\_date.day\_name=monday)} \\
+		Sistem:	& When would you like to leave?	& \ttfamily{request(depart\_date)} \\
 		\hline
-		Utilizator:	& Great, thank you	& \ttfamily{acknowledgement()} \\
+		Utilizator:	& on june first in the evening	& \ttfamily{flight(depart\_date.month\_name=june, depart\_date.day\_number=first, depart\_time.period\_of\_day=evening)} \\
 		\hline
-		Sistem:	& Can I help you with other things?	& \ttfamily{request(intent)} \\
-		\hline
-		Utilizator:	& No, goodbye	& \ttfamily{bye()} \\
+		Sistem:	& Done! That's your flights for \textbf{june first} flying from \textbf{Denver} to \textbf{Philadelphia} <system\_call>	& \ttfamily{inform(fromloc.city\_name=Denver, toloc.city\_name=Philadelphia, depart\_date.month\_name=june, depart\_date.day\_number=first)} \\
 		\hline
 	\end{tabular}
 	\caption{Conversație cu agentul rezultat}
 	\label{rezultat-dialog}
 \end{table}
 
+Pe baza dialogului din \ref{rezultat-dialog} vom putea analiza procesul de decizie din spatele administratorului de dialog.
+Utilizatorul formulează o cerere către sistem: "I need a flight from Denver to Philadelphia". În acest moment gestionarea dialogului este inițializată de cadrul semantic venit de la NLU în forma <intenție>(entități).
+
+Conform structurii de dialog (anexa \ref{lst:dialog-str-atis}) avem următorul tabel \ref{flight-frame}. După prima replică el este completat parțial, iar următoarele acțiuni vor veni în sprijinul umplerii sloturilor necesare, așadar se va alege la întâmplare o entitate nemenționată și se va întreba despre ea (în \ref{lst:dialog-str-atis}). În cazul în care se specifică mai multe entități ele se completează în tabel fără a mai întreba în viitor de ele. Iar când toate informațiile necesare sunt adăugate, agentul răspunde cererii utilizatorului. De menționat aici că replicile agentului sunt descrise într-o formă de șablon, de exemplu \ttfamily{"Done! That's your flights for \{depart\_date.month\_name\} \{depart\_date.day\_number\} flying from} \newline \ttfamily{ \{fromloc.city\_name\} to \{toloc.city\_name\}"}, permițând răspunsuri bazate pe datele cunoscute.
+
+%%%%%%%%%%%%%%%
+\begin{table}[htp]
+	\small
+	\centering
+	\begin{tabular}{ c p{7cm} } 
+		\hline
+		\textbf{Intenție} & \textbf{Entități necesare}\\
+		\hline
+		\ttfamily{flight}	&  \ttfamily{
+			fromloc.city\_name=Denver
+			toloc.city\_name=Philadelphia
+			depart\_date.month\_name=None
+			depart\_date.day\_number=None
+			arrive\_date.month\_name=None
+			arrive\_date.day\_number=None} \\
+		\hline
+		
+	\end{tabular}
+	\caption{Cadru de informații pentru obiectivul atis\_flight}
+	\label{flight-frame}
+\end{table}
