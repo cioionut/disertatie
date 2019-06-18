@@ -182,6 +182,23 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 
 \subsection{Analiza erorilor}
 
+Modelul folosit ia decizii în principal pe modul cum cuvintele apar într-o propoziție. Aici avem erori în cazurile în care întâlnim în locuri neașteptate cuvinte care nu se află în dicționar. Bineînțeles ele sunt înlocuite cu un token  <unknown> dar asta nu e de ajuns deoarece în mulțimea de antrenare acest token apare în text în alte ipostaze.
+Pentru propoziția {\ttfamily fly to Bucharest on march tenth and arriving on march 12} avem figura \ref{fig:test_u0} ce ilustrează eroare apărută în momentul în care folosim un cuvânt care nu aparține dicționarului.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{test_u0.png}
+	\caption{Rezultat eronat}
+	\label{fig:test_u0}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{test_u1.png}
+	\caption{Rezultat corect}
+	\label{fig:test_u1}
+\end{figure}
+Dacă folosim {\ttfamily New York} în loc de {\ttfamily Bucharest} modelul etichetează cum trebuie. Figura \ref{fig:test_u1}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \section{Administrator de dialog}
