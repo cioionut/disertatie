@@ -37,7 +37,7 @@
 	address   = "Reading, Massachusetts"
 }
 
-@book{speach__lang_processing,
+@book{speech-lang-processing,
 	author    = "Dan Jurafsky and James H. Martin",
 	title     = "Speech and Language Processing",
 	year      = "2018"
@@ -66,14 +66,15 @@
 	note = {[Online, accesat la: 27.03.2019]}
 }
 
-@misc{deep_tutorial,
-	author =    {Andrew Ng, Jiquan Ngiam, Chuan Yu Foo, Yifan Mai, Caroline Suen, Adam Coates, Andrew Maas, Awni Hannun, Brody Huval, Tao Wang, Sameep Tandon},
-	title =     {Stanford UFLDL	wiki},
-	year =      {2016},
-	url = "http://ufldl.stanford.edu/tutorial/",
-	note = {[Online, accesat la: 12.06.2016]}
+@article{atis,
+	author = {C. T. Hemphill, J. J. Godfrey, and G. R. Doddington},
+	title = {The atis spoken language systems pilot corpus},
+	journal={Proceedings, DARPA speech and natural language workshop},
+	year = {1990},
+	pages={96--101}
 }
 
+% joint
 @misc{joint_online_bing,
 	Author = {Bing Liu and Ian Lane},
 	Title = {Joint Online Spoken Language Understanding and Language Modeling with Recurrent Neural Networks},
@@ -95,10 +96,153 @@
 	Eprint = {arXiv:1508.04025},
 }
 
-@article{atis,
-	author = {C. T. Hemphill, J. J. Godfrey, and G. R. Doddington},
-	title = {The atis spoken language systems pilot corpus},
-	journal={Proceedings, DARPA speech and natural language workshop},
-	year = {1990},
-	pages={96--101}
+% intent
+@misc{recursive-nn-intent,
+	Author = {D. Guo, G. Tur, W.-t. Yih, and G. Zweig},
+	Title = {Joint semantic utterance classification and slot filling with recursive neural networks},
+	Year = {2014},
+	journal={Spoken Language Technology Workshop (SLT), 2014 IEEE}
+}
+
+@article{boosting-intent,
+	Author = {G. Tur, D. Hakkani-Tur, and L. Heck},
+	Title = {What is left to be understood in atis?},
+	Year = {2010},
+	journal={Spoken Language Technology Workshop (SLT),	2010 IEEE. },
+	pages={19–24}
+}
+
+@article{boostingplus-intent,
+	Author = {G. Tur, D. Hakkani-Tur, L. Heck, and S. Parthasarathy},
+	Title = {Sentence simplification for spoken language understanding},
+	Year = {2011},
+	journal={Acoustics, Speech and Signal Processing (ICASSP)},
+	pages={5628–5631}
+}
+
+% entity
+@article{sarika-cnn-crf,
+	Author = {P. Xu and R. Sarikaya},
+	Title = {Convolutional neural network based triangular crf for joint intent detection and slot filling},
+	Year = {2013},
+	journal={Automatic Speech Recognition and Understanding (ASRU), 2013 IEEE Workshop on.},
+	pages={78–83}
+}
+
+@misc{rnn-label-samp,
+	Author = {Bing Liu and Ian Lane},
+	Title = {Recurrent neural network structured output prediction for spoken language understanding},
+	Year = {2015},
+	journal={Proc. NIPS Workshop on Machine Learning for Spoken Language Understanding and Interactions}
+}
+
+@article{mesnil-rnn-crf,
+	Author = {G. Mesnil, Y. Dauphin, K. Yao, Y. Bengio, L. Deng, D. HakkaniTur, X. He, L. Heck, G. Tur, D. Yu et al.},
+	Title = {Using recurrent neural networks for slot filling in spoken language understanding},
+	Year = {2015},
+	journal={Audio, Speech, and Language Processing, IEEE/ACM Transactions on, vol. 23, no. 3,},
+	pages={530–539}
+}
+
+@article{deep-lstm,
+	Author = {K. Yao, B. Peng, Y. Zhang, D. Yu, G. Zweig, and Y. Shi},
+	Title = {Spoken language understanding using long short-term memory neural networks},
+	Year = {2014},
+	journal={Spoken Language Technology Workshop (SLT), 2014 IEEE.},
+	pages={189–194}
+}
+
+@article{rnn-em,
+	Author = { B. Peng and K. Yao},
+	Title = {Recurrent neural networks with external memory for language understanding},
+	Year = {2015},
+	Eprint = {arXiv:1506.00195},
+}
+
+@misc{ecn-deep-lstm,
+	Author = {Gakuto Kurata and Bing Xiang and Bowen Zhou and Mo Yu},
+	Title = {Leveraging Sentence-level Information with Encoder LSTM for Semantic Slot Filling},
+	Year = {2016},
+	Eprint = {arXiv:1601.01530},
+}
+
+@misc{joint-bert,
+	Author = {Qian Chen and Zhu Zhuo and Wen Wang},
+	Title = {BERT for Joint Intent Classification and Slot Filling},
+	Year = {2019},
+	Eprint = {arXiv:1902.10909},
+}
+
+@misc{bi-model,
+	Author = {Yu Wang and Yilin Shen and Hongxia Jin},
+	Title = {A Bi-model based RNN Semantic Frame Parsing Model for Intent Detection and Slot Filling},
+	Year = {2018},
+	Eprint = {arXiv:1812.10235},
+}
+
+% end-to-end
+@misc{e2e-1,
+	Author = {Bing Liu and Ian Lane},
+	Title = {Adversarial Learning of Task-Oriented Neural Dialog Models},
+	Year = {2018},
+	Eprint = {arXiv:1805.11762},
+}
+@misc{e2e-2,
+	Author = {Tsung-Hsien Wen and David Vandyke and Nikola Mrksic and Milica Gasic and Lina M. Rojas-Barahona and Pei-Hao Su and Stefan Ultes and Steve Young},
+	Title = {A Network-based End-to-End Trainable Task-oriented Dialogue System},
+	Year = {2016},
+	Eprint = {arXiv:1604.04562},
+}
+@misc{e2e-3,
+	Author = {Xuesong Yang and Yun-Nung Chen and Dilek Hakkani-Tur and Paul Crook and Xiujun Li and Jianfeng Gao and Li Deng},
+	Title = {End-to-End Joint Learning of Natural Language Understanding and Dialogue Manager},
+	Year = {2016},
+	Eprint = {arXiv:1612.00913},
+}
+@misc{kv-manning,
+	Author = {Mihail Eric and Christopher D. Manning},
+	Title = {Key-Value Retrieval Networks for Task-Oriented Dialogue},
+	Year = {2017},
+	Eprint = {arXiv:1705.05414},
+}
+
+% dm
+@misc{test-turing,
+	Author = {A. M. Turing},
+	Title = {COMPUTING MACHINERY AND INTELLIGENCE},
+	Year = {1950},
+}
+
+@article{gus,
+	Author = {Bobrow, D. G., Kaplan, R. M., Kay, M., Norman, D. A., Thompson, H., and Winograd, T.},
+	Title = {GUS, A frame driven dialog system},
+	Year = {1950},
+	journal={Artificial Intelligence, 8},
+	pages={155–173}
+}
+
+@misc{aniklasson,
+	Author = {Andre Niklasson},
+	Title = {Dialogue Systems Using Web-based Language Tools},
+	Year = {2017}
+}
+
+@misc{dm-framework,
+	Author = {Youngmin Park, Sangwoo Kang, Jungyun Seo1},
+	Title = {An Efficient Framework for Development of Task-Oriented Dialog Systems in a Smart Home Environment},
+	Year = {2018}
+}
+
+@article{acte-dialog,
+	Author = {Alina Pătrunjel},
+	Title = {Aspecte privind clasificarea actelor de vorbire din limba română},
+	Year = {2015},
+	journal={Buletin de Lingvistică},
+	pages={15-16}
+}
+
+@article{pytorch,
+	title={Automatic differentiation in PyTorch},
+	author={Paszke, Adam and Gross, Sam and Chintala, Soumith and Chanan, Gregory and Yang, Edward and DeVito, Zachary and Lin, Zeming and Desmaison, Alban and Antiga, Luca and Lerer, Adam},
+	year={2017}
 }

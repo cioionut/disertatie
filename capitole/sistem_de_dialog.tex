@@ -1,16 +1,14 @@
 \chapter{Sistem de dialog}
 
-% todo: citari de servicii si lucrari
+Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului A. M. Turing \cite{test-turing} a fost până de curând un criteriu în această direcție.
 
-Construcția unui agent virtual menit să întrețină cursul unei conversații a fost întotdeauna un etalon al performanței de cercetare, de aceea testul ce poartă numele cercetătorului Alan Turing \ref{test-turing} a fost până de curând un criteriu în această direcție.
-
-Au fost propuse diferite arhitecturi și moduri de a schița matematic o conversație, printre ele și ELIZA compus dintr-un set de reguli elaborate pe baza mai multor studii având la bază logica. Bineînțeles industria cere și abordări mai modulare, mai robuste dar care să nu iasă din tipare, în această direcție făcându-și apariția prima arhitectură bazată pe umplerea de sloturi (GUS), adică pentru fiecare replică din dialog se extrag constituenți semantici specifici domeniului care mai apoi sunt completați într-o structură tabelară (frame) urmând să servească drept parametrii în interogările cu sistemul.
+Au fost propuse diferite arhitecturi și moduri de a schița matematic o conversație, printre ele și ELIZA \cite{weizenbaum} compus dintr-un set de reguli elaborate pe baza mai multor studii având la bază logica. Bineînțeles industria cere și abordări mai modulare, mai robuste dar care să nu iasă din tipare, în această direcție făcându-și apariția prima arhitectură bazată pe umplerea de sloturi (GUS \cite{gus}), adică pentru fiecare replică din dialog se extrag constituenți semantici specifici domeniului care mai apoi sunt completați într-o structură tabelară (frame) urmând să servească drept parametrii în interogările cu sistemul.
 
 Dacă privim la scopul final al unei conversații distingem două clase și anume: agenți orientați pe rezolvarea de cerințe și agenți orientați pe discuție la nivel general.
 
 Cum majoritatea asistenților virtuali sunt dezvoltați în scopuri comerciale, rezolvarea cerințelor primează în funcționalitatea unei astfel de aplicații, așadar industria se concentrează pe arhitecturi modulare care să necesite cât mai puține date de antrenare. Servicii precum RASA, SNIPS, WATSON, DialogFlow, Wit.ai pun la dispoziție instrumente pentru a crea acest gen de agenți.
 
-Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, iar acum cele mai populare abordări se concentrează pe dezvoltarea unui singur model care să descopere strategii de a acționa în diferite situații, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru a reprezenta contextul conversației și a genera politici de decizie se folosește învățarea prin recompensă. \cite{rl-seq2seq}
+Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, iar acum cele mai populare abordări se concentrează pe dezvoltarea unui singur model care să descopere strategii de a acționa în diferite situații, mai exact se folosesc rețele neurale recurente pentru a capta contextul unei replici și pentru a genera răspunsuri, iar pentru a reprezenta contextul conversației și a genera politici de decizie se folosește învățarea prin recompensă. \cite{e2e-1, e2e-2, e2e-3, kv-manning}
 
 În cadrul studiului curent accentul este pus pe structura ce îmbină mai multe modele, drept pentru care vor fi detaliate experimentele ce au condus la alegerea unui model care să înțeleagă textul (NLU).
 
@@ -25,13 +23,11 @@ Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, 
 Detecția intenției poate fi tratata ca o problema de clasificare a unei replici din punct de vedere semantic, iar recunoașterea entităților poate fi văzută ca o etichetare de secvențe.
 \subsection{Abordări anterioare}
 
-% todo: de citat lucrarile
+Pentru detectarea intenției se pot folosi tehnici standard de clasificare a unui text precum \cite{recursive-nn-intent, boosting-intent, boostingplus-intent, att_joint_bing}, chiar si rețele neurale convoluționale (CNNs) \cite{sarika-cnn-crf} întâlnite adesea în procesarea imaginilor.
 
-Pentru detectarea intenției se pot folosi tehnici standard de clasificare a unui text si anume SVM (Haffner et al., 2003), dar si rețele neurale convoluționale (CNNs) (Xu and Sarikaya, 2013) întâlnite adesea în procesarea imaginilor.
+Pentru recunoașterea entităților se folosesc abordări precum (MEMMs) (McCallum et al., 2000), conditional random fields (CRFs) (Raymond and Riccardi, 2007), și rețele neurale recurente (RNNs) \cite{mesnil-rnn-crf, rnn-em, deep-lstm}.
 
-Pentru recunoașterea entităților se folosesc abordări precum (MEMMs) (McCallum et al., 2000), conditional random fields (CRFs) (Raymond and Riccardi, 2007), și rețele neurale recurente (RNNs) (Yao et al., 2014; Mesnil et al., 2015)
-
-Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se concentrează pe rezolvarea concomitenta a acestor doua probleme, întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{joint models-attention models}
+Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se concentrează pe rezolvarea concomitenta a acestor doua probleme, întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{recursive-nn-intent, att_joint_bing, joint_online_bing, bi-model}
 
 
 \subsection{Model propus}
@@ -85,7 +81,7 @@ Mai jos în figura \ref{fig:dec_bah} este descris întreg fluxul de date și ope
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Mulțimea de antrenare}
-ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri venite din partea clienților referitor la zborurile aeriene de la începutul anilor 90. DARPA este instituția americana ce s-a ocupat de colectarea acestor date. Mulțimea de antrenare conține un număr de aproape 5000 de propoziții etichetate cu intenții si entități. Formatul de etichetare utilizat este IOB (Inside–outside–beginning), care ajuta la etichetarea entitatilor formate din mai multe cuvinte, astfel încât fiecare etichetă este precedata de B-<nume-eticheta> pentru început, iar cu I-<nume-eticheta> pentru următoarele cuvinte care fac parte din entitate. Exemplele sunt date în limba engleză, iar lungimea medie a unei propoziții este de 15 cuvinte.
+ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri venite din partea clienților referitor la zborurile aeriene de la începutul anilor 90. DARPA este instituția americana ce s-a ocupat de colectarea acestor date. Mulțimea de antrenare conține un număr de aproape 5000 de propoziții etichetate cu intenții si entități. Formatul de etichetare utilizat este IOB (Inside–outside–beginning), care ajuta la etichetarea entitatilor formate din mai multe cuvinte, astfel încât fiecare etichetă este precedata de B-<nume-eticheta> pentru început, iar cu I-<nume-eticheta> pentru următoarele cuvinte care fac parte din entitate. Exemplele sunt date în limba engleză, iar lungimea medie a unei propoziții este de 11 cuvinte.
 
 \begin{table}
 	\centering
@@ -113,7 +109,7 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 			\hline
 			\textbf{Multime de antrenare} & \#Train & \#Dev & \#Test & $|V|$ & \#Intenții & \#Entități \\ 
 			\hline
-			ATIS & 4978 & - & 893 & 900 & 22 & 80 \\
+			ATIS & 4978 & 500 & 893 & 722 & 21 & 120 \\
 			\hline
 		\end{tabular}
 	\end{adjustbox}
@@ -125,59 +121,88 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritatea lucrărilor ce abordează aceleași probleme ne oferă avantajul de a compara rezultatele experimentelor noastre.
 
 \begin{table}[htp]
-	\caption{Antrenare independentă pentru detectarea intenției}
-	\label{rezultate1}
+	\small
 	\centering
 	\begin{tabular}{ c c }
-		
 		\hline
-		\textbf{Model} 		 & \textbf{Error Rate (1 - F1)}\\
+		\textbf{Model} 		 & \textbf{Eroarea de misclasare}\\
 		\hline
-		Seq2SeqX (dot - attn) & 97,5 \\
+		Recursive NN \cite{recursive-nn-intent} & 4.60 \\
+		Boosting \cite{boosting-intent} & 4.38 \\
+		Boosting + Simplified sentences \cite{boostingplus-intent} & 3.02 \\
+		Attn Enc-Dec NN \cite{att_joint_bing} & 2.02 \\
+		Attn BiRNN \cite{att_joint_bing} & 2.35 \\
+		\hline
+		Seq2SeqX (concat - attn) & 4.11 \\
 		\hline
 	\end{tabular}
-	\bigskip
-	
-	%%%%%%%%%%%
-	\caption{Antrenare independentă pentru recunoașterea entităților}
-	\label{rezultate2}
+	\caption{Antrenare independentă pentru detectarea intenției. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
+	\label{rezultate1}
+\end{table}
+
+\bigskip
+%%%%%%%%%%%
+\begin{table}[htp]
+	\small
 	\centering
 	\begin{tabular}{ c c } 
 		\hline
-		\textbf{Model}	& \textbf{Scor F1 (entități)} \\
+		\textbf{Model}	& \textbf{Entități(F1)} \\
+		\hline
+		CNN-CRF \cite{sarika-cnn-crf} & 94.35 \\
+		RNN with Label Sampling \cite{rnn-label-samp} & 94.89 \\
+		Hybrid RNN \cite{mesnil-rnn-crf} & 95.06 \\
+		Deep LSTM \cite{deep-lstm} & 95.08 \\
+		RNN-EM \cite{rnn-em} & 95.25 \\
+		Encoder-labeler Deep LSTM \cite{ecn-deep-lstm} & 95.66 \\
+		Attn Enc-Dec NN \cite{att_joint_bing} & 95.78 \\
+		Attn BiRNN \cite{att_joint_bing} & 95.75 \\
 		\hline
 		Seq2SeqX (dot - attn) & 97,5 \\
-		\hline
 		Seq2SeqX (general - attn) & 96.6 \\
-		\hline
 		Seq2SeqX (concat - attn) & 97.53 \\
 		\hline
 	\end{tabular}
-	\bigskip
-	
-	%%%%%%%%%%%%%%%
-	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților}
-	\label{rezultate3}
+	\caption{Antrenare independentă pentru recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
+	\label{rezultate2}
+\end{table}
+
+
+\bigskip
+%%%%%%%%%%%%%%%
+\begin{table}[htp]
+	\small
 	\centering
-	\begin{tabular}{ c c c } 
+	\begin{tabular}{ c c c c} 
 		\hline
-		\textbf{Model} 		 & \textbf{Scor F1 (entități)} & \textbf{Scor F1 (intenții)}\\
+		\textbf{Model} 		 & \textbf{Scor F1 (e)} & \textbf{Scor F1 (i)} & \textbf{Rata de eroare (i)} \\
 		\hline
-		Seq2SeqX (luong - dot - attn) & 97,10 & 96,60 \\ % ok
+		RecNN \cite{recursive-nn-intent} & 93.22 & - & 4.60 \\
+		RecNN+Viterbi \cite{recursive-nn-intent} & 93.96 & - & 4.60 \\
+		Attn Enc-Dec NN \cite{att_joint_bing} & 95.87 & - & 1.57 \\
+		Attn BiRNN \cite{att_joint_bing} & 95.98 & - & 1.79 \\
+		Joint BERT + CRF \cite{joint-bert} & 96.1 & 97.9 & - \\
+		Bi-model \cite{bi-model} & 96.89 & - & 1,01 \\
 		\hline
-		Seq2SeqX (luong general - attn) & 97.0 & 96,67 \\ % ok
+		Seq2SeqX (luong - dot - attn) & 97,10 & 96,60 & - \\ % ok
+		Seq2SeqX (luong general - attn) & 97.0 & 96,67 & - \\ % ok
+		Seq2SeqX (luong concat - attn) & 97.14 & 96.41 & - \\ % ok
 		\hline
-		Seq2SeqX (luong concat - attn) & 97.14 & 96.41 \\ % ok
+		Seq2SeqX (no - attn) & 97.14 & 96.41 & 3.24 \\ % ok
+		Seq2SeqX (no - attn) & 97.34 & 96.14 & 3.47 \\ % ok
+		Seq2SeqX (no - attn) & 97.34 & 96.73 & 2.91 \\ % ok
+		Seq2SeqX (no - attn) & 97.39 & 96.64 & 3.02 \\ % ok
 		\hline
-		Seq2SeqX (no - attn) & 97.14 & 96.41 \\ % ok
+		Seq2SeqX (bahdanau - dot - attn) & 96.73 & 96.90 & - \\ % ok
+		Seq2SeqX (bahdanau - dot - attn) & 96.96 & 96.88 & 2.78 \\ % ok
 		\hline
-		Seq2SeqX (bahdanau - dot - attn) & 96.73 & 96.90 \\ % ok
+		Seq2SeqX (bahdanau - general - attn) & 96.86 & 96.08 & - \\ % ok 
 		\hline
-		Seq2SeqX (bahdanau - general - attn) & 96.86 & 96.08 \\ % ok 
-		\hline
-		Seq2SeqX (bahdanau concat - attn) & 97.21 & 96.73 \\ % ok
+		Seq2SeqX (bahdanau concat - attn) & 97.21 & 96.73 & - \\ % ok
 		\hline
 	\end{tabular}
+	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
+	\label{rezultate3}
 \end{table}
 
 \subsection{Analiza erorilor}
@@ -217,7 +242,7 @@ De asemenea tot el se ocupă cu situațiile neclare sau cu cazurile aflate în a
 
 \subsection{Abordări anterioare}
 
-De-a lungul timpului s-au propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul.
+De-a lungul timpului s-au propus diferite abordări de a gestiona dialogul, majoritatea reprezintă contextul conversației ca o stare a dialogului ce persistă într-o structură de date și utilizează diferite mecanisme de decizie pentru a selecta acțiunea corectă. În continuare se vor prezenta pe scurt unele dintre cele mai folosite abordări de a gestiona dialogul \cite{aniklasson, dm-framework}.
 
 \textbf{Automat finit determinist - Finite State Automata}\\
 Această metodă este ce mai simpla și cea mai întâlnită, ea presupune ca stările unui dialog să fie chiar stările unui automat finit, iar tranzițiile să se realizeze pe baza unor condiții stabilite. Avantajul acestei metode il reprezintă în sine determinismul dat de automat, pentru că în majoritatea cazurilor practice se dorește un comportament stabil, a cărui fir de decizie să fie ușor de despicat. Dezavantajul este acela că agentul va avea întotdeauna inițiativa dialogului, lucru ce descrie o conversație nu în tocmai naturală.
@@ -229,7 +254,7 @@ Metoda impune schematizarea unui scenariu de dialog într-o structură tabelară
 Abordările bazate pe un plan tratează fiecare replică din dialog ca o acțiune din partea utilizatorului spre a-și atinge obiectivul. Agentul detectează intenția, apoi construiește un plan de comunicare pentru a-l ajuta pe interlocutor să își atingă scopul.
 
 \textbf{Învățare de strategii}\\
-Datorită recentelor descoperiri în procesarea limbajului natural \cite{metode-de-reprezentare} și a progreselor din învățarea automată \cite{rnn}, reprezentarea informației și inferența au devenit din ce în ce mai performante. Ceea ce coincide cu necesitățile unui sistem de dialog unde știm ca avem nevoie de o metodă care să poată reprezenta contextul și încă una de a rezona pe baza acestuia. De aici și numărul mare de lucrări științifice în această direcție.
+Datorită recentelor descoperiri în procesarea limbajului natural \cite{mikolov2013} și a progreselor din învățarea automată \cite{adam2015}, reprezentarea informației și inferența au devenit din ce în ce mai performante. Ceea ce coincide cu necesitățile unui sistem de dialog unde știm ca avem nevoie de o metodă care să poată reprezenta contextul și încă una de a rezona pe baza acestuia. De aici și numărul mare de lucrări științifice în această direcție.
 
 În abordările de acest gen se pleacă de la aceleași principii și anume o mulțime de stări ale conversației și o altă mulțime de acțiuni pe care agentul le poate efectua. Privind conversația ca un proces parțial observat putem atașa un model statistic (partially observable Markov decision process - POMDP), care să ne permită o tranziție din starea A în starea B pe baza unei probabilități.
 
