@@ -23,9 +23,11 @@ Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, 
 Detecția intenției poate fi tratata ca o problema de clasificare a unei replici din punct de vedere semantic, iar recunoașterea entităților poate fi văzută ca o etichetare de secvențe.
 \subsection{Abordări anterioare}
 
-Pentru detectarea intenției se pot folosi tehnici standard de clasificare a unui text precum \cite{recursive-nn-intent, boosting-intent, boostingplus-intent, att_joint_bing}, chiar si rețele neurale convoluționale (CNNs) \cite{sarika-cnn-crf} întâlnite adesea în procesarea imaginilor.
+% todo: de modificat
 
-Pentru recunoașterea entităților se folosesc abordări precum (MEMMs) (McCallum et al., 2000), conditional random fields (CRFs) (Raymond and Riccardi, 2007), și rețele neurale recurente (RNNs) \cite{mesnil-rnn-crf, rnn-em, deep-lstm}.
+Pentru detectarea intenției se pot folosi tehnici standard de clasificare a unui text precum \cite{recursive-nn-intent, boosting-intent, boostingplus-intent, att_joint_bing}, chiar si rețele neurale convoluționale (CNNs) \cite{sarika-cnn-crf} întâlnite adesea în procesarea imaginilor. 
+
+În recunoașterea entităților se folosesc abordări precum (MEMMs) (McCallum et al., 2000), conditional random fields (CRFs) (Raymond and Riccardi, 2007), și rețele neurale recurente (RNNs) \cite{mesnil-rnn-crf, rnn-em, deep-lstm}.
 
 Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se concentrează pe rezolvarea concomitenta a acestor doua probleme, întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{recursive-nn-intent, att_joint_bing, joint_online_bing, bi-model}
 
@@ -120,53 +122,14 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 \subsection{Rezultate}
 Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritatea lucrărilor ce abordează aceleași probleme ne oferă avantajul de a compara rezultatele experimentelor noastre.
 
-\begin{table}[htp]
-	\small
-	\centering
-	\begin{tabular}{ c c }
-		\hline
-		\textbf{Model} 		 & \textbf{Eroarea de misclasare}\\
-		\hline
-		Recursive NN \cite{recursive-nn-intent} & 4.60 \\
-		Boosting \cite{boosting-intent} & 4.38 \\
-		Boosting + Simplified sentences \cite{boostingplus-intent} & 3.02 \\
-		Attn Enc-Dec NN \cite{att_joint_bing} & 2.02 \\
-		Attn BiRNN \cite{att_joint_bing} & 2.35 \\
-		\hline
-		Seq2SeqX (concat - attn) & 4.11 \\
-		\hline
-	\end{tabular}
-	\caption{Antrenare independentă pentru detectarea intenției. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
-	\label{rezultate1}
-\end{table}
+\textbf{Metode de evaluare}
 
-\bigskip
-%%%%%%%%%%%
-\begin{table}[htp]
-	\small
-	\centering
-	\begin{tabular}{ c c } 
-		\hline
-		\textbf{Model}	& \textbf{Entități(F1)} \\
-		\hline
-		CNN-CRF \cite{sarika-cnn-crf} & 94.35 \\
-		RNN with Label Sampling \cite{rnn-label-samp} & 94.89 \\
-		Hybrid RNN \cite{mesnil-rnn-crf} & 95.06 \\
-		Deep LSTM \cite{deep-lstm} & 95.08 \\
-		RNN-EM \cite{rnn-em} & 95.25 \\
-		Encoder-labeler Deep LSTM \cite{ecn-deep-lstm} & 95.66 \\
-		Attn Enc-Dec NN \cite{att_joint_bing} & 95.78 \\
-		Attn BiRNN \cite{att_joint_bing} & 95.75 \\
-		\hline
-		Seq2SeqX (dot - attn) & 97,5 \\
-		Seq2SeqX (general - attn) & 96.6 \\
-		Seq2SeqX (concat - attn) & 97.53 \\
-		\hline
-	\end{tabular}
-	\caption{Antrenare independentă pentru recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
-	\label{rezultate2}
-\end{table}
-
+Evaluarea a avut loc pe două metrici: F1 și eroarea de misclasare (Err).
+$$ F1 = 2 * \frac{precision * recall}{precision + recall} $$
+$$ Err = 1 - accuracy $$
+$$ Precision = \frac{TP}{TP+FP} = \frac{TP}{Total Predicted Positive} $$
+$$ Precision = \frac{TP}{TP+FN} = \frac{TP}{Total Actual Positive} $$
+$$ Accuracy = \frac{TP+TN}{TP + TN + FP + FN} $$
 
 \bigskip
 %%%%%%%%%%%%%%%
@@ -175,14 +138,51 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 	\centering
 	\begin{tabular}{ c c c c} 
 		\hline
-		\textbf{Model} 		 & \textbf{Scor F1 (e)} & \textbf{Scor F1 (i)} & \textbf{Rata de eroare (i)} \\
+		\textbf{Model} 		 & \textbf{Entități(F1)} & \textbf{Intenții(F1)} & \textbf{Intenții(Err)} \\
+		\hline
+		\hline
+		Recursive NN \cite{recursive-nn-intent} & - & - & 4.60 \\
+		Boosting \cite{boosting-intent} & - & - & 4.38 \\
+		Boosting + Simplified sentences \cite{boostingplus-intent} & - & - & 3.02 \\
+		Attn Enc-Dec NN \cite{att_joint_bing} & - & - & 2.02 \\
+		Attn BiRNN \cite{att_joint_bing} & - & - & 2.35 \\
+		\hline
+		\hline
+		CNN-CRF \cite{sarika-cnn-crf} & 94.35 & - & - \\
+		RNN with Label Sampling \cite{rnn-label-samp} & 94.89 & - & - \\
+		Hybrid RNN \cite{mesnil-rnn-crf} & 95.06 & - & - \\
+		Deep LSTM \cite{deep-lstm} & 95.08 & - & - \\
+		RNN-EM \cite{rnn-em} & 95.25 & - & - \\
+		Encoder-labeler Deep LSTM \cite{ecn-deep-lstm} & 95.66 & - & - \\
+		Attn Enc-Dec NN \cite{att_joint_bing} & 95.78 & - & - \\
+		Attn BiRNN \cite{att_joint_bing} & 95.75 & - & - \\
+		\hline
 		\hline
 		RecNN \cite{recursive-nn-intent} & 93.22 & - & 4.60 \\
 		RecNN+Viterbi \cite{recursive-nn-intent} & 93.96 & - & 4.60 \\
 		Attn Enc-Dec NN \cite{att_joint_bing} & 95.87 & - & 1.57 \\
 		Attn BiRNN \cite{att_joint_bing} & 95.98 & - & 1.79 \\
 		Joint BERT + CRF \cite{joint-bert} & 96.1 & 97.9 & - \\
-		Bi-model \cite{bi-model} & 96.89 & - & 1,01 \\
+		Bi-model \cite{bi-model} & 96.89 & - & \textbf{1,01} \\
+		\hline
+		Seq2SeqX (no - attn) & \textbf{97.20} & 96.51 & 3.01 \\ % ok
+		Seq2SeqX (dot - attn) & 97.01 & \textbf{96.90} & \textbf{2.78} \\ % ok
+		Seq2SeqX (general - attn) & 96.97 & 96.31 & 3.35 \\ % ok
+		Seq2SeqX (concat - attn) & 97.18 & 96.44 & 3.24 \\ % ok
+		\hline
+	\end{tabular}
+	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
+	\label{rezultate1}
+\end{table}
+
+\bigskip
+%%%%%%%%%%%%%%%
+\begin{table}[htp]
+	\small
+	\centering
+	\begin{tabular}{ c c c c} 
+		\hline
+		\textbf{Model} 		 & \textbf{Entități(F1)} & \textbf{Intenții(F1)} & \textbf{Intenții(Err)} \\
 		\hline
 		Seq2SeqX (luong - dot - attn) & 97,10 & 96,60 & - \\ % ok
 		Seq2SeqX (luong general - attn) & 97.0 & 96,67 & - \\ % ok
@@ -196,13 +196,15 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 		Seq2SeqX (bahdanau - dot - attn) & 96.73 & 96.90 & - \\ % ok
 		Seq2SeqX (bahdanau - dot - attn) & 96.96 & 96.88 & 2.78 \\ % ok
 		\hline
-		Seq2SeqX (bahdanau - general - attn) & 96.86 & 96.08 & - \\ % ok 
+		Seq2SeqX (bahdanau - general - attn) & 96.86 & 96.08 & - \\ % ok
+		Seq2SeqX (bahdanau - general - attn) & 96.97 & 96.31 & 3.35 \\ % ok 
 		\hline
 		Seq2SeqX (bahdanau concat - attn) & 97.21 & 96.73 & - \\ % ok
+		Seq2SeqX (bahdanau concat - attn) & 97.18 & 96.44 & 3.24 \\ % ok
 		\hline
 	\end{tabular}
 	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
-	\label{rezultate3}
+	\label{rezultate2}
 \end{table}
 
 \subsection{Analiza erorilor}
