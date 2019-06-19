@@ -28,7 +28,7 @@ De cele mai multe ori detectarea intenției este văzută ca o problemă de clas
 
 La umplerea sloturilor avem abordări specializate în etichetarea secvențelor. Se folosesc RNN \cite{mesnil-rnn-crf, rnn-em, deep-lstm} sau chiar CNN \cite{sarika-cnn-crf} pentru a capta înțelesul cuvintelor în funcție de context și CRF(conditional random fields) pentru a prezice etichete secvenței.
 
-Arhitectura de codificare-decodificare s-a dovedit a fi un canditat promițător în etichetarea datelor cu caracter secvențial. Mai ales după rezultatele spectaculoase obținute în domenii precum traducerea automată \cite{bahdanau, trans_luong_manning}. Cele mai recente lucrări arată cum abordări de acest gen duc la rezolvarea concomitenta a celor două probleme (intenții și entăți), întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{recursive-nn-intent, att_joint_bing, joint_online_bing, bi-model}
+Arhitectura de codificare-decodificare s-a dovedit a fi un canditat promițător în etichetarea datelor cu caracter secvențial, mai ales după rezultatele spectaculoase obținute în domenii precum traducerea automată \cite{bahdanau, trans_luong_manning}. Cele mai recente lucrări arată cum abordări de acest gen duc la rezolvarea concomitenta a celor două probleme (intenții și entăți), întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{recursive-nn-intent, att_joint_bing, joint_online_bing, bi-model}
 
 Tot mai multe lucrări încep să se uite din nou la aceste probleme prin prisma generalității limbajului. O revoluție în această direcție considerăm că a început în 2013 când Mikolov prezintă rezultatele pentru word2vec \cite{mikolov2013}. Acum se folosesc abordări precum BERT (Bidirectional Encoder Representations from Transformers) \cite{joint-bert} pentru a surprinde aceste relații între cuvinte la modul general și apoi specializând pe o problemă concretă.
 
@@ -137,14 +137,14 @@ $TP$ = True positive; $FP$ = False positive; $TN$ = True negative; $FN$ = False 
 
 \textbf{Observații referitoare la performanță}
 
-În tabelul \ref{rezultate-comp} se face o comparație cu alte abordări. Modelul nostru are patru variante, una în care nu este folosită atenția și încă trei ce folosesc diferite variații ale modelului de atenție descris la \ref{attn-types}.
+În tabelul \ref{rezultate-comp} se face o comparație cu alte abordări. Modelul nostru are patru variante: una în care nu este folosită atenția și încă trei ce folosesc diferite variații ale modelului de atenție descris la \ref{attn-types}.
 
 Faptul că avem dimensiuni egale între secvențele de intrare și ieșire ne dă posibilitatea să folosim la decodificarea entităților chiar stările ascunse din codificator de la fiecare pas $t$. Observăm în acest caz că atenția nu mai joacă un rol așa de important în decizia de a prezice eticheta unui slot, lucru vizibil și în rezultate.
 
-Pe de altă parte, atenția este folosită cu succes în predicția intenției. Deoarece avem nevoie de informații suplimentare privind particularități ale conținutului. În acest caz atenția oferind indicii cu privire la cuvintele cheie.
+Pe de altă parte, atenția este folosită cu succes în predicția intenției, deoarece avem nevoie de informații suplimentare privind particularități ale conținutului. În acest caz atenția oferă indicii cu privire la cuvintele cheie.
 
 Observăm că modelul propus depășește cu puțin performanța obținută de Chen et. al. 2019 \cite{joint-bert} în predicția entităților. Pentru intenții nu avem o diferență notabilă.
-
+%\newpage
 %%%%%%%%%%%%%%%
 \begin{table}[htp]
 	\small
@@ -188,61 +188,45 @@ Observăm că modelul propus depășește cu puțin performanța obținută de C
 	\label{rezultate-comp}
 \end{table}
 
-\bigskip
-%%%%%%%%%%%%%%%
-\begin{table}[htp]
-	\small
-	\centering
-	\begin{tabular}{ c c c c} 
-		\hline
-		\textbf{Model} 		 & \textbf{Entități(F1)} & \textbf{Intenții(F1)} & \textbf{Intenții(Err)} \\
-		\hline
-		Seq2SeqX (luong - dot - attn) & 97,10 & 96,60 & - \\ % ok
-		Seq2SeqX (luong general - attn) & 97.0 & 96,67 & - \\ % ok
-		Seq2SeqX (luong concat - attn) & 97.14 & 96.41 & - \\ % ok
-		\hline
-		Seq2SeqX (no - attn) & 97.14 & 96.41 & 3.24 \\ % ok
-		Seq2SeqX (no - attn) & 97.34 & 96.14 & 3.47 \\ % ok
-		Seq2SeqX (no - attn) & 97.34 & 96.73 & 2.91 \\ % ok
-		Seq2SeqX (no - attn) & 97.39 & 96.64 & 3.02 \\ % ok
-		\hline
-		Seq2SeqX (bahdanau - dot - attn) & 96.73 & 96.90 & - \\ % ok
-		Seq2SeqX (bahdanau - dot - attn) & 96.96 & 96.88 & 2.78 \\ % ok
-		\hline
-		Seq2SeqX (bahdanau - general - attn) & 96.86 & 96.08 & - \\ % ok
-		Seq2SeqX (bahdanau - general - attn) & 96.97 & 96.31 & 3.35 \\ % ok 
-		\hline
-		Seq2SeqX (bahdanau concat - attn) & 97.21 & 96.73 & - \\ % ok
-		Seq2SeqX (bahdanau concat - attn) & 97.18 & 96.44 & 3.24 \\ % ok
-		Seq2SeqX (bahdanau concat - attn) & 97.00 & 96.71 & 2.91 \\ % ok
-		Seq2SeqX (bahdanau concat - attn) & 97.28 & 96.59 & 3.13 \\ % ok
-		
-		\hline
-	\end{tabular}
-	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
-	\label{rezultate2}
-\end{table}
+\newpage
 
 \subsection{Analiza erorilor}
 
-Modelul folosit ia decizii în principal pe modul cum cuvintele apar într-o propoziție. Aici avem erori în cazurile în care întâlnim în locuri neașteptate cuvinte care nu se află în dicționar. Bineînțeles ele sunt înlocuite cu un token  <unknown> dar asta nu e de ajuns deoarece în mulțimea de antrenare acest token apare în text în alte ipostaze.
-Pentru propoziția {\ttfamily fly to Bucharest on march tenth and arriving on march 12} avem figura \ref{fig:test_u0} ce ilustrează eroare apărută în momentul în care folosim un cuvânt care nu aparține dicționarului.
+Deciziile modelului sunt în principal bazate pe poziția cuvintelor într-un anumit context. Aici avem erori în cazurile în care întâlnim în locuri neașteptate cuvinte care nu se află în dicționar. Bineînțeles pentru ele se învață un token special {\ttfamily <unknown>} dar el nu poate reprezenta un înțeles universal, ci unul de incertitudine. Pentru propoziția {\ttfamily fly to Bucharest on sunday morning} avem tabelul \ref{ex1} ce ilustrează eroare apărută în momentul în care folosim un cuvânt care nu aparține dicționarului. Eticheta prezisă este {\ttfamily B-airline\_name}, aceasta ne indică faptul că decizia a fost luată mai mult pe baza contextului decât pe însemnătatea cuvântului, el în sine fiind necunoscut.
+
+În figura \ref{fig:test_u0} observăm un alt caz de eroare. Uitându-ne la atenție abservăm că decizia de a prezice {\ttfamily B-airport\_name} pentru cuvântul {\ttfamily closest} se bazează pe cuvântul {\ttfamily airport}, așadar aici observăm necesitatea unor contra exemple în mulțimea de antrenare.
+
+
+
+\begin{table}[h]
+	\centering
+	\caption{Modelul nu detectează corect}
+	\label{ex1}
+	\begin{adjustbox}{max width=\textwidth}
+		\begin{tabular}{ |c|c|c|c|c|c|c| } 
+			\hline
+			\textbf{Propoziție} & fly  & to & Bucharest & on & sunday & morning \\ 
+			\hline
+			\textbf{Entitate adevărată} & O & O & B-toloc.city\_name & O & B-depart\_date.day\_name & B-depart\_time.period\_of\_day \\
+			\hline
+			\textbf{Entitate prezisă} & O & O & B-airline\_name & O & B-depart\_date.day\_name & B-depart\_time.period\_of\_day \\
+			\hline
+			\textbf{Intenție adevărată} & \multicolumn{5}{c}{flight} &  \\ 
+			\hline
+			\textbf{Intenție prezisă} & \multicolumn{5}{c}{flight} & \\ 
+			\hline
+		\end{tabular}
+	\end{adjustbox}
+\end{table}
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{test_u0.png}
-	\caption{Rezultat eronat}
+	\includegraphics[scale=0.55]{test_u0.png}
+	\caption{Rezultat eronat. Observăm că atenția este și ea îndreptată către cuvintele etichetate ca airport\_name}
 	\label{fig:test_u0}
 \end{figure}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.5]{test_u1.png}
-	\caption{Rezultat corect}
-	\label{fig:test_u1}
-\end{figure}
-Dacă folosim {\ttfamily New York} în loc de {\ttfamily Bucharest} modelul etichetează cum trebuie. Figura \ref{fig:test_u1}
-
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \section{Administrator de dialog}
 \begin{figure}[h]

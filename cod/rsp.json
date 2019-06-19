@@ -1,0 +1,44 @@
+{
+    "entities": [
+        {
+            "confidence_score": 0.3701092004776001,
+            "end": null,
+            "entity_type": "meal",
+            "entity_value": "meals",
+            "start": null
+        },
+        {
+            "confidence_score": 0.9618079662322998,
+            "end": null,
+            "entity_type": "airline_code",
+            "entity_value": "dl",
+            "start": null
+        },
+        {
+            "confidence_score": 0.9671922326087952,
+            "end": null,
+            "entity_type": "flight_number",
+            "entity_value": "468",
+            "start": null
+        },
+        {
+            "confidence_score": 0.9998370409011841,
+            "end": null,
+            "entity_type": "toloc.city_name",
+            "entity_value": "san francisco",
+            "start": null
+        },
+        {
+            "confidence_score": 0.9994850158691406,
+            "end": null,
+            "entity_type": "arrive_time.time",
+            "entity_value": "950 am",
+            "start": null
+        }
+    ],
+    "intent": {
+        "confidence_score": "0.979431688785553",
+        "intent_type": "atis_meal"
+    },
+    "text": "what meals are available on dl 468 which al arrives in san francisco at 950 am"
+}

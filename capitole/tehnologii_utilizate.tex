@@ -1,14 +1,12 @@
 \chapter{Expunerea tehnologiei}
 
 \section{Serviciul NLU}
-% todo
 Urmărind scopul practic al acestei lucrări se conturează nevoia de a avea tehnologia de NLU expusă la nivel de serviciu web.
-în concordanță cu paradigma de SaaS (software as a service) am mai dezvoltat încă un strat de abstractizare peste modelul de NLU.
-Serverul este scris cu ajutorul frameworkului de dezvoltare web, flask. Cu ajutorul său implementarea modelului de nlu este expusa în rețea sub forma unei resurse
-web ce poate fi interogată trimițând textul dorit.
-Răspunsul serviciului este unul detaliat ce ne oferă și încrederea cu care modelul de nlu a prezis.
+În concordanță cu paradigma de SaaS (software as a service) am mai dezvoltat încă un strat de abstractizare peste modelul de NLU (figura \ref{fig:nlu_arch}).
+Serverul este scris cu ajutorul frameworkului de dezvoltare web, flask. Cu ajutorul său implementarea modelului de NLU este expusa în rețea sub forma unei resurse web ce poate fi interogată trimițând textul dorit.
+Răspunsul serviciului (anexa \ref{lst:rsp}) este unul detaliat ce ne oferă și încrederea cu care modelul a prezis.
 \begin{figure}[h]
-	%\centering
+	\centering
 	\includegraphics[scale=0.4]{nlu_architecture.png}
 	\caption{Arhitectura serviciului de NLU}
 	\label{fig:nlu_arch}
@@ -16,7 +14,7 @@ Răspunsul serviciului este unul detaliat ce ne oferă și încrederea cu care m
 
 \section{Tehnologii folosite}
 
-Desemnarea tehnologiilor open source folosite ca dependințe poate fi văzută la prima vedere o alegere ușoară, însă este nevoie de o analiză mult mai amănunțită în ceea ce privește specificul proiectului.
+Desemnarea tehnologiilor open source folosite ca dependențe poate fi văzută la prima vedere o alegere ușoară, însă este nevoie de o analiză mult mai amănunțită în ceea ce privește specificul proiectului.
 Pentru această lucrare am luat în considerare următorii factori: complexitatea de a descrie o rețea neuronală, modul de expunere (la nivel de API) al proceselor matematice din spate și flexibilitatea de a putea jongla cu diferite arhitecturi de rețele. De asemenea eficiența și posibilitatea de a rula pe diferite unități de calcul (CPU/GPU).
 
 \subsection{Python}
