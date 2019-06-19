@@ -19,18 +19,18 @@ Prin natura sa lumea academică explorează noi metode de a gestiona un dialog, 
 	\caption{Administrator de dialog}
 	\label{fig:nlu_ds_proc}
 \end{figure}
+
 Înțelegerea limbajului natural (NLU) este un concept destul de vast. În terminologia sistemelor de dialog acesta joacă rolul componentei care detectează intenția vorbitorului si extrage constituenți semantici din limbajul natural.
-Detecția intenției poate fi tratata ca o problema de clasificare a unei replici din punct de vedere semantic, iar recunoașterea entităților poate fi văzută ca o etichetare de secvențe.
+
 \subsection{Abordări anterioare}
 
-% todo: de modificat
+De cele mai multe ori detectarea intenției este văzută ca o problemă de clasificare a textului. Maturitatea acestui domeniu ne oferă o varietate de metode, de la SVM până la rețele neuronale. În ultimii ani au devenit populare abordările ce folosesc rețelele neuronale \cite{recursive-nn-intent, boosting-intent, boostingplus-intent, att_joint_bing},  în principal avantajul lor se bazează pe puterea de a capta înțelesul cuvintelor.
 
-Pentru detectarea intenției se pot folosi tehnici standard de clasificare a unui text precum \cite{recursive-nn-intent, boosting-intent, boostingplus-intent, att_joint_bing}, chiar si rețele neurale convoluționale (CNNs) \cite{sarika-cnn-crf} întâlnite adesea în procesarea imaginilor. 
+La umplerea sloturilor avem abordări specializate în etichetarea secvențelor. Se folosesc RNN \cite{mesnil-rnn-crf, rnn-em, deep-lstm} sau chiar CNN \cite{sarika-cnn-crf} pentru a capta înțelesul cuvintelor în funcție de context și CRF(conditional random fields) pentru a prezice etichete secvenței.
 
-În recunoașterea entităților se folosesc abordări precum (MEMMs) (McCallum et al., 2000), conditional random fields (CRFs) (Raymond and Riccardi, 2007), și rețele neurale recurente (RNNs) \cite{mesnil-rnn-crf, rnn-em, deep-lstm}.
+Arhitectura de codificare-decodificare s-a dovedit a fi un canditat promițător în etichetarea datelor cu caracter secvențial. Mai ales după rezultatele spectaculoase obținute în domenii precum traducerea automată \cite{bahdanau, trans_luong_manning}. Cele mai recente lucrări arată cum abordări de acest gen duc la rezolvarea concomitenta a celor două probleme (intenții și entăți), întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{recursive-nn-intent, att_joint_bing, joint_online_bing, bi-model}
 
-Având la baza înțelegerea limbajului, majoritatea lucrărilor actuale se concentrează pe rezolvarea concomitenta a acestor doua probleme, întrucât combinarea celor doua modele ajuta la învățarea unei reprezentări cat mai precise a textului. \cite{recursive-nn-intent, att_joint_bing, joint_online_bing, bi-model}
-
+Tot mai multe lucrări încep să se uite din nou la aceste probleme prin prisma generalității limbajului. O revoluție în această direcție considerăm că a început în 2013 când Mikolov prezintă rezultatele pentru word2vec \cite{mikolov2013}. Acum se folosesc abordări precum BERT (Bidirectional Encoder Representations from Transformers) \cite{joint-bert} pentru a surprinde aceste relații între cuvinte la modul general și apoi specializând pe o problemă concretă.
 
 \subsection{Model propus}
 

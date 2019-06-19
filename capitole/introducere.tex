@@ -60,9 +60,8 @@ Pentru a înțelege limbajul natural s-a folosit o arhitectură de tip encode-de
 
 Un plus adus în puterea de generalizare îl reprezintă însumarea celor două stări ascunse (înainte și înapoi) din codificator. Spre deosebire de \cite{att_joint_bing} unde se folosește o concatenare a celor două. O altă îmbunătățire a performanței se datorează ideii de a nu mai propaga eroarea din decodificatorul de intenții în codificator. Făcând astfel ca predicțiile de intenții să se realizeze pe baza reprezentărilor din codificator învățate din entități. Acest lucru simplifică procesul de învățare și ajută ambele decodificatoare să obțină rezultate mai bune.
 
-
-% todo: baseline? rezultate pe scurt
-
+% baseline rezultate pe scurt
+O referință în domeniul recunoașterii entităților o reprezintă modelul propus de Mesnil et al. 2015 \cite{mesnil-rnn-crf}, el atingând o performanță de 95.25\% F1. Abordarea noastră reușește să depășească acest prag cu 2.3\%. În detectarea intenției referința este dată de  D. Guo et al., 2014 \cite{recursive-nn-intent}, a cărei performanță de 4.6\% în eroarea de misclasare este micșorată cu 2\% de modelul propus.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rezumatul capitolelor}

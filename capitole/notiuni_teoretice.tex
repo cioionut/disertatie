@@ -100,7 +100,7 @@ Din \ref{chain_rule_E}, \ref{chain_rule_prod}, \ref{jac_mat} avem următoarea re
 Inecuația \ref{norm_ineq1} arată norma matricei Jacobian, unde $\beta_w$ și $\beta_h$ reprezintă limitele superioare ale celor doua norme ale matricelor. Norma gradientului de la fiecare pas $t$ este calculată în funcție de inecuația de mai jos.
 
 \begin{equation}
-	|| \frac{\partial h_j}{\partial h_{j-1}}|| \leq || W^T || || diag[f'(h_{j-1})]|| \leq \beta_w\beta_h
+	|| \frac{\partial h_j}{\partial h_{j-1}}|| \leq || W^T || \cdot || diag[f'(h_{j-1})]|| \leq \beta_w\beta_h
 	\label{norm_ineq1}
 \end{equation}
 
@@ -225,7 +225,7 @@ Long-Short-Term-Memories este un alt timp de celulă recurentă, care folosește
 	\item Generarea unei noi memorii: ecuația \ref{new_memory_cell} captează noi aspecte introduse de intrarea $x_t$
 	\item Poarta de intrare: se asigură că intrarea de la pasul $t$ merită să fie luată în calcul pentru calculul memoriei curente: ecuația \ref{input_gate}
 	\item Poarta de uitare: această poartă este similară cu cea de intrare, diferența este că ea determină utilitatea memoriei precedente în calculul celei curente.
-	\item Generarea memoriei finale: acest pas este descris de ecuația \ref{final_memory} care agregă sub semnul operației de adunare deciziile celor doua porți, de uitare și de intrare cu privire la memoria precedentă $c_{t-1}r$, respectiv noua memorie $\widetilde{c_t}$.
+	\item Generarea memoriei finale: acest pas este descris de ecuația \ref{final_memory} care agregă sub semnul operației de adunare deciziile celor doua porți, de uitare și de intrare cu privire la memoria precedentă $c_{t-1}$, respectiv noua memorie $\widetilde{c_t}$.
 	\item Poarta de ieșire/expunere: ecuațiile \ref{output_gate}, \ref{hidden_state_lstml}. Rolul acestei porți este de a separa memoria finală $c_{t}$ de starea ascunsă, $h_{t}$. $c_{t}$ conține informații care nu sunt neapărat esențiale pentru calculul stării ascunse. Semnalul produs de această poartă, $o_t$ este folosit la ponderarea utilizării memoriei finale în calculul stării, $h_t$.
 \end{enumerate}
 

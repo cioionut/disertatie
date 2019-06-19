@@ -1,6 +1,12 @@
 \chapter{Expunerea tehnologiei}
 
 \section{Serviciul NLU}
+% todo
+Urmărind scopul practic al acestei lucrări se conturează nevoia de a avea tehnologia de NLU expusă la nivel de serviciu web.
+în concordanță cu paradigma de SaaS (software as a service) am mai dezvoltat încă un strat de abstractizare peste modelul de NLU.
+Serverul este scris cu ajutorul frameworkului de dezvoltare web, flask. Cu ajutorul său implementarea modelului de nlu este expusa în rețea sub forma unei resurse
+web ce poate fi interogată trimițând textul dorit.
+Răspunsul serviciului este unul detaliat ce ne oferă și încrederea cu care modelul de nlu a prezis.
 \begin{figure}[h]
 	%\centering
 	\includegraphics[scale=0.4]{nlu_architecture.png}
@@ -21,11 +27,11 @@ Python a fost creat la începutul anilor 1990 de Guido van Rossum la Stichting M
 
 \subsection{Numpy}
 
-Pentru lucrul cu matrice și alte operații ce impun operații algebrice vectoriale se folosește de obicei Numpy. El este un acronim pentru "Numeric Python" sau "Numerical Python". Este un pachet fundamental pentru calculul științific in Python, ce furnizează funcții precompilate care se execută rapid cu scopul de a efectua operațiile matematice de rutină.  Mai mult decât atât, NumPy îmbogățește limbajul de programare cu structuri puternice de date pentru calculul eficient de vectori si matrice, implementarea sa suportând chiar și dimensiuni uriașe.
+Pentru lucrul cu matrice și alte structuri ce impun operații algebrice vectoriale se folosește de obicei Numpy. El este un acronim pentru "Numeric Python" sau "Numerical Python". Este un pachet fundamental pentru calculul științific in Python, ce furnizează funcții precompilate care se execută rapid cu scopul de a efectua operațiile matematice de rutină.
 
 \subsection{PyTorch}
 
-PyTorch \cite{pytorch} este o bibliotecă software ce oferă un cadru de lucru cu algoritmi de invățare automată. Se prezintă ca o variantă de Numpy care poate rula pe placa video, având tot odată și capacitatea de autodiferențiere atunci când este nevoie să antrenăm, spre exemplu folosind metoda gradientului descendent.
+PyTorch \cite{pytorch} este o bibliotecă software ce oferă un cadru de lucru cu algoritmi de învățare automată. Se prezintă ca o variantă de Numpy care poate rula pe placa video, având totodată și capacitatea de autodiferențiere atunci când este nevoie să antrenăm, spre exemplu folosind metoda gradientului descendent.
 
 \textbf{Diferențiere Automată}
 
