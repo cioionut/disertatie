@@ -62,6 +62,7 @@ Inspirat din \cite{trans_luong_manning} am experimentat mai multe modele de aten
 $$ c_i = \sum_{j=1}^{T} \alpha_{i,j} h_j$$
 $$ \alpha_{i,j} = \frac{\exp(score_{i, j})}{\sum_{k=1}^{T} \exp(score_{i, k})}$$
 
+\label{attn-types}
 \[ score(i, k) = g(s_{i-1}, h_k) =
 \begin{cases}
 s_{i-1}^\top h_k			&	\quad \text{dot}\\
@@ -71,6 +72,8 @@ v_a^\top \tanh(W_a [s_{i-1};h_k])	&	\quad \text{concat}\\
 \]
 
 Modelul de atenție poate fi văzut ca o rețea de tip feed-forward $g(s_{i-1}, h_k)$, care la fiecare pas din operația de decodare calculează ponderile pentru stările ascunse ale codificatorului, folosindu-se de ultima stare ascunsă din decodificator, $s_{i-1}$ și stările ascunse $(h_1, ..., h_T)$.
+
+Decodificatorul de intenții este o rețea de tip feed-forward ce primește la intrare ultima stare ascunsă din codificator, $h_T$ și stările ascunse $(h_1, ..., h_T)$. Cu ajutorul acestora calculează o atenție de tip $concat$, apoi folosind $h_T$ și vectorul de context $c$ calculat anterior, se folosește un singur strat pentru a prezice intențiile.
 
 Mai jos în figura \ref{fig:dec_bah} este descris întreg fluxul de date și operații realizate de decodificatorul responsabil de etichetarea entităților.
 
@@ -85,7 +88,7 @@ Mai jos în figura \ref{fig:dec_bah} este descris întreg fluxul de date și ope
 \subsection{Mulțimea de antrenare}
 ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri venite din partea clienților referitor la zborurile aeriene de la începutul anilor 90. DARPA este instituția americana ce s-a ocupat de colectarea acestor date. Mulțimea de antrenare conține un număr de aproape 5000 de propoziții etichetate cu intenții si entități. Formatul de etichetare utilizat este IOB (Inside–outside–beginning), care ajuta la etichetarea entitatilor formate din mai multe cuvinte, astfel încât fiecare etichetă este precedata de B-<nume-eticheta> pentru început, iar cu I-<nume-eticheta> pentru următoarele cuvinte care fac parte din entitate. Exemplele sunt date în limba engleză, iar lungimea medie a unei propoziții este de 11 cuvinte.
 
-\begin{table}
+\begin{table}[h]
 	\centering
 	\caption{Exemplu din mulțimea de antrenare}
 	\label{atis_example}
@@ -102,7 +105,7 @@ ATIS (Airline Travel Information Systems) \cite{atis} este o colecție de cereri
 	\end{adjustbox}
 \end{table}
 
-\begin{table}
+\begin{table}[h]
 	\centering
 	\caption{Statistici ATIS}
 	\label{atis_stats}
@@ -124,14 +127,18 @@ Faptul că mulțimea de antrenare descrisă mai sus este folosită în majoritat
 
 \textbf{Metode de evaluare}
 
-Evaluarea a avut loc pe două metrici: F1 și eroarea de misclasare (Err).
-$$ F1 = 2 * \frac{precision * recall}{precision + recall} $$
-$$ Err = 1 - accuracy $$
+Evaluarea a avut loc pe două metrici: $F1$ și eroarea de misclasare ($Err$).
+$$ F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall} $$
+$$ Err = 1 - Accuracy $$
 $$ Precision = \frac{TP}{TP+FP} = \frac{TP}{Total Predicted Positive} $$
 $$ Precision = \frac{TP}{TP+FN} = \frac{TP}{Total Actual Positive} $$
 $$ Accuracy = \frac{TP+TN}{TP + TN + FP + FN} $$
+$TP$ = True positive; $FP$ = False positive; $TN$ = True negative; $FN$ = False negative
 
-\bigskip
+În tabelul \ref{rezultate-comp} se face o comparație cu alte abordări. Modelul nostru are patru variante, una în care nu este folosită atenția și încă trei ce folosesc diferite variații ale modelului de atenție descris la \ref{attn-types}.
+
+Observăm re
+
 %%%%%%%%%%%%%%%
 \begin{table}[htp]
 	\small
@@ -172,7 +179,7 @@ $$ Accuracy = \frac{TP+TN}{TP + TN + FP + FN} $$
 		\hline
 	\end{tabular}
 	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
-	\label{rezultate1}
+	\label{rezultate-comp}
 \end{table}
 
 \bigskip
@@ -201,6 +208,7 @@ $$ Accuracy = \frac{TP+TN}{TP + TN + FP + FN} $$
 		\hline
 		Seq2SeqX (bahdanau concat - attn) & 97.21 & 96.73 & - \\ % ok
 		Seq2SeqX (bahdanau concat - attn) & 97.18 & 96.44 & 3.24 \\ % ok
+		Seq2SeqX (bahdanau concat - attn) & 97.00 & 96.71 & 2.91 \\ % ok
 		\hline
 	\end{tabular}
 	\caption{Antrenare simultană pentru detectarea intenției și recunoașterea entităților. Rezultatele pentru abordările anterioare sunt citate din \cite{att_joint_bing}}
